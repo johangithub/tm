@@ -1,0 +1,366 @@
+name,parent
+Squadrons,null
+Bomber,Squadrons
+Fighter,Squadrons
+Tanker,Squadrons
+CSAR,Squadrons
+C2ISR/EW,Squadrons
+Mobility,Squadrons
+SOF,Squadrons
+RPA,Squadrons
+White Jets,Squadrons
+A-10,Fighter
+F-15,Fighter
+F-16,Fighter
+F-22,Fighter
+F-35,Fighter
+Other,Fighter
+Active Associate,Fighter
+B-1,Bomber
+B-2,Bomber
+B-52,Bomber
+KC-10,Tanker
+KC-46,Tanker
+KC-135,Tanker
+HC-130,CSAR
+HH-60,CSAR
+UH-1,CSAR
+E-3,C2ISR/EW
+E-4,C2ISR/EW
+E-8,C2ISR/EW
+EC-130,C2ISR/EW
+RC-135,C2ISR/EW
+U-2,C2ISR/EW
+EA-18,C2ISR/EW
+C-5,Mobility
+C-17,Mobility
+C-130,Mobility
+DV Transport,Mobility
+AC-130,SOF
+C-145,SOF
+CV-22,SOF
+MC-130,SOF
+U-28,SOF
+SOFRPA,SOF
+MQ-1,RPA
+MQ-9,RPA
+RQ-4,RPA
+RQ-170,RPA
+T-6,White Jets
+T-38,White Jets
+T-1,White Jets
+Other (White Jets),White Jets
+11 BS (Barksdale),B-52
+20 BS (Barksdale),B-52
+96 BS (Barksdale),B-52
+23 BS (Minot),B-52
+69 BS (Minot),B-52
+9 BS (Dyess),B-1
+28 BS (Dyess),B-1
+34 BS (Ellsworth),B-1
+37 BS (Ellsworth),B-1
+13 BS (Whiteman),B-2
+393 BS (Whiteman),B-2
+394 CTS (Whiteman),B-2
+25 FS (Osan),A-10
+74 FS (Moody),A-10
+75 FS (Moody),A-10
+354 FS (Davis-Monthan),A-10
+357 FS (Davis-Monthan),A-10
+333 FS (Seymour-Johnson),F-15
+334 FS (Seymour-Johnson),F-15
+335 FS (Seymour-Johnson),F-15
+336 FS (Seymour-Johnson),F-15
+4 TRS (Seymour-Johnson),F-15
+492 FS (Lakenheath),F-15
+493 FS (Lakenheath),F-15
+494 FS (Lakenheath),F-15
+389 FS (Mountain Home),F-15
+391 FS (Mountain Home),F-15
+428 FS (Mountain Home),F-15
+44 FS (Kadena),F-15
+67 FS (Kadena),F-15
+19 FS (Hickam),F-22
+27 FS (Langley),F-22
+94 FS (Langley),F-22
+43 FS (Tyndall),F-22
+95 FS (Tyndall),F-22
+90 FS (Elmendorf),F-22
+525 FS (Elmendorf),F-22
+34 FS (Hill),F-35
+56 TRS (Luke),F-35
+58 FS (Eglin),F-35
+61 FS (Luke),F-35
+62 FS (Luke),F-35
+63 FS (Luke),F-35
+510 FS (Aviano),F-16
+555 FS (Aviano),F-16
+311 FS (Holloman),F-16
+314 FS (Holloman),F-16
+35 FS (Kunsan),F-16
+80 FS (Kunsan),F-16
+309 FS (Luke),F-16
+310 FS (Luke),F-16
+21 FS (Luke),F-16
+425 FS (Luke),F-16
+13 FS (Misawa),F-16
+14 FS (Misawa),F-16
+36 FS (Osan),F-16
+55 FS (Shaw),F-16
+77 FS (Shaw),F-16
+79 FS (Shaw),F-16
+480 FS (Spangdahlem),F-16
+18 AGRS (Eielson),F-16
+64 AGRS (Nellis),F-16
+81 FS A-29 (Moody),Other
+2 FTS T-38 (Tyndall),Other
+71 FTS T-38 (Langley),Other
+315 FS (Burlington VT),Active Associate
+315 FS OL A (Atlantic City NJ),Active Associate
+315 FS OL B (Andrews AFB MD),Active Associate
+315 FS OL C (Barnes MA),Active Associate
+316 FS (McEntire SC),Active Associate
+355 FS (Fort Worth TX),Active Associate
+355 FS OL A (Tulsa OK),Active Associate
+358 FS (Whiteman MO),Active Associate
+358 FS OL A (Selfridge MI),Active Associate
+358 FS OL B (Fort Wayne IN),Active Associate
+358 FS OL C (Martin State MD),Active Associate
+358 FS OL D (Boise ID),Active Associate
+367 FS (Homestead FL),Active Associate
+367 FS OL A(Jacksonville FL),Active Associate
+377 FS (Montgomery AL),Active Associate
+377 FS OL A (New Orleans LA),Active Associate
+378 FS (Madison WI),Active Associate
+378 FS OL A (Duluth MN),Active Associate
+378 FS OL B (Sioux Falls SD),Active Associate
+378 FS OL C (Portland OR),Active Associate
+378 FS OL D (Fresno CA),Active Associate
+378 FS OL E (Buckley CO),Active Associate
+378 FS OL F (Toledo OH),Active Associate
+379 FS (Sioux Falls SD),Active Associate
+383 FS (Buckley CO),Active Associate
+384 FS (Duluth MN),Active Associate
+6 ARS (Travis),KC-10
+9 ARS (Travis),KC-10
+2 ARS (McGuire),KC-10
+32 ARS (McGuire),KC-10
+54 ARS (Altus),KC-135
+99 ARS (Birmingham),KC-135
+91 ARS (Macdill),KC-135
+92 ARS (Fairchild),KC-135
+93 ARS (Fairchild),KC-135
+384 ARS (Fairchild),KC-135
+909 ARS (Kadena),KC-135
+912 ARS (March),KC-135
+344 ARS (McConnell),KC-135
+349 ARS (McConnell),KC-135
+350 ARS (McConnell),KC-135
+351 ARS (Mildenhall),KC-135
+64 ARS (Pease),KC-135
+906 ARS (Scott),KC-135
+911 ARS (Seymour-Johnson),KC-135
+56 ARS (Altus),KC-46
+33 RQS (Kadena),HH-60
+41 RQS (Moody),HH-60
+55 RQS (Davis-Monthan),HH-60
+56 RQS (Lakenheath),HH-60
+66 RQS (Nellis),HH-60
+512 RQS (Kirtland),HH-60
+1 HS (Andrews),UH-1
+54 HS (Minot),UH-1
+512 RQS (Kirtland),UH-1
+36 RQS (Fairchild),UH-1
+23 FTS (Ft Rucker),UH-1
+37 HS (FE Warren),UH-1
+40 HS (Malmstrom),UH-1
+459 AS (Yokota),UH-1
+71 RQS (Moody),HC-130
+79 RQS (Davis-Monthan),HC-130
+415 SOS (Kirtland),HC-130
+960 AACS (Tinker),E-3
+961 AACS (Kadena),E-3
+962 AACS (Elmendorf),E-3
+963 AACS (Tinker),E-3
+964 AACS (Tinker),E-3
+965 AACS (Tinker),E-3
+966 AACS (Tinker),E-3
+1 NAOS (Geilenkirchen),E-3
+1 ACCS (Offutt),E-4
+12 ACCS (Robins),E-8
+16 ACCS (Robins),E-8
+330 CTS (Robins),E-8
+41 ECS (Davis-Monthan),EC-130
+42 ECS (Davis-Monthan),EC-130
+43 ECS (Davis-Monthan),EC-130
+38 RS (Offutt),RC-135
+45 RS (Offutt),RC-135
+95 RS (Mildenhall),RC-135
+343 RS (Offutt),RC-135
+338 CTS (Offutt),RC-135
+645 AESG (Greenville),RC-135
+1 RS (Beale),U-2
+99 RS (Beale),U-2
+5 RS (Osan),U-2
+9 OG (Akrotiri),U-2
+17 ATKS (Creech),MQ-9
+18 ATKS (Creech),MQ-9
+22 ATKS (Creech),MQ-9
+42 ATKS (Creech),MQ-9
+489 ATKS (Creech),MQ-9
+867 ATKS (Creech),MQ-9
+9 ATKS (Holloman),MQ-9
+29 ATKS (Holloman),MQ-9
+89 ATKS (Ellsworth),MQ-9
+11 ATKS (Creech),MQ-1
+15 ATKS (Creech),MQ-1
+489 ATKS (Creech),MQ-1
+867 ATKS (Creech),MQ-1
+6 ATKS (Holloman),MQ-1
+9 ATKS (Holloman),MQ-1
+20 ATKS (Whiteman),MQ-1
+12 RS (Beale),RQ-4
+7 RS (Sigonella),RQ-4
+348 RS (Grand Forks),RQ-4
+30 RS (Creech),RQ-170
+44 RS(Creech),RQ-170
+390 ECS (Whiting Field),EA-18
+9 AS (Dover),C-5
+22 AS (Travis),C-5
+36 AS(Yokota),C-130
+37 AS(Ramstein),C-130
+39 AS(Dyess),C-130
+40 AS(Dyess),C-130
+41 AS(Little Rock),C-130
+61 AS(Little Rock),C-130
+62 AS(Little Rock),C-130
+3 AS (Dover),C-17
+4 AS (McChord),C-17
+6 AS (McGuire),C-17
+7 AS (McChord),C-17
+8 AS (McChord),C-17
+14 AS (Charleston),C-17
+15 AS (Charleston),C-17
+16 AS (Charleston),C-17
+21 AS (Travis),C-17
+58 AS (Altus),C-17
+535 AS (Hickam),C-17
+517 AS (Elmendorf),C-17
+1 AS (Andrews),DV Transport
+99 AS (Andrews),DV Transport
+457 AS (Andrews),DV Transport
+76 AS (Ramstein),DV Transport
+458 AS (Scott),DV Transport
+310 AS (Macdill),DV Transport
+65 AS (Hickam),DV Transport
+34 SOS (Hurlburt Field),U-28
+319 SOS (Hurlburt Field),U-28
+318 SOS (Cannon),U-28
+6 SOS (Duke Field),C-145
+524 SOS Det 1(Duke Field),C-145
+524 SOS (Cannon),C-145
+1 SOS (Kadena),MC-130
+17 SOS (Kadena),MC-130
+9 SOS (Cannon),MC-130
+415 SOS (Kirtland),MC-130
+67 SOS (Mildenhall),MC-130
+15 SOS (Hurlburt Field),MC-130
+4 SOS (Hurlburt Field),AC-130
+16 SOS (Cannon),AC-130
+7 SOS (Mildenhall),CV-22
+8 SOS (Hurlburt Field),CV-22
+20 SOS (Cannon),CV-22
+71 SOS (Kirtland),CV-22
+3 SOS (Cannon),SOFRPA
+12 SOS (Cannon),SOFRPA
+33 SOS (Cannon),SOFRPA
+37 FTS (Columbus),T-6
+41 FTS (Columbus),T-6
+559 FTS (Randolph),T-6
+85 FTS (Laughlin),T-6
+434 FTS (Laughlin),T-6
+455 FTS (Pensacola),T-6
+Joint FTS (Pensacola),T-6
+89 FTS (Sheppard),T-6
+459 FTS (Sheppard),T-6
+33 FTS (Vance),T-6
+8 FTS (Vance),T-6
+49 Fighter Training Squadron (Columbus),T-38
+50 FTS (Columbus),T-38
+435 Fighter Training Squadron (Randolph),T-38
+560 FTS (Randolph),T-38
+87 FTS (Laughlin),T-38
+88 Fighter Training Squadron (Sheppard),T-38
+90 FTS (Sheppard),T-38
+469 FTS (Sheppard),T-38
+25 FTS (Vance),T-38
+3 FTS (Vance),T-1
+48 FTS (Columbus),T-1
+86 FTS (Laughlin),T-1
+99 FTS (Randolph),T-1
+451 FTS (Pensacola),T-1
+1 FTS (Pueblo),Other (White Jets)
+94 FTS (USAFA),Other (White Jets)
+98 FTS (USAFA),Other (White Jets)
+557 FTS (USAFA),Other (White Jets)
+23 FTS (Ft Rucker),Other (White Jets)
+Staff,Squadrons
+ACC,Staff
+AETC,Staff
+AFELM,Staff
+AFOTEC,Staff
+AFPC,Staff
+AFSOC,Staff
+AMC,Staff
+AU,Staff
+HAF,Staff
+IAS,Staff
+PACAF,Staff
+USAFA,Staff
+USAFE,Staff
+AFRICOM,Staff
+CENTCOM,Staff
+EUCOM,Staff
+JSOC,Staff
+JT Staff,Staff
+NATO,Staff
+NORAD,Staff
+NORTHCOM,Staff
+OSD,Staff
+PACOM,Staff
+SOCOM,Staff
+SOUTHCOM,Staff
+STRATCOM,Staff
+TRANSCOM,Staff
+Other (Staff),Staff
+AFDW,Other (Staff)
+AFIMSC,Other (Staff)
+AFRC,Other (Staff)
+AFRC ADV,Other (Staff)
+ANG,Other (Staff)
+ANG ADV,Other (Staff)
+AFSC,Other (Staff)
+AFSPC,Other (Staff)
+DCMA,Other (Staff)
+DIA,Other (Staff)
+DTRA,Other (Staff)
+NDU,Other (Staff)
+NGA,Other (Staff)
+NGB,Other (Staff)
+Test,Squadrons
+ACC,Test
+AFMC,Test
+AFOTEC,Test
+AFSOC,Test
+AMC,Test
+DCMA,Test
+C2,Squadrons
+601 AOC (Tyndall),C2
+603 AOC (Ramstein),C2
+607 AOC (Osan),C2
+608 AOC (Barksdale),C2
+609 AOC (Al Udeid),C2
+611 AOC (Elmendorf),C2
+612 AOC (Davis-Monthan),C2
+613 AOC (Hickam),C2
+618 AOC (Scott),C2
