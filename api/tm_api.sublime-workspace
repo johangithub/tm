@@ -1,0 +1,335 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"header",
+				"headerList"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app.py",
+			"settings":
+			{
+				"buffer_size": 1552,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Anaconda Python Builder",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Anaconda Python Builder",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Anaconda Python Builder",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 372.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 774.0,
+		"history":
+		[
+			"ls",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/jh/tm/api/tm_api.sublime-workspace",
+		"/home/jh/Downloads/ship/tree.html",
+		"/home/jh/tm/src/components/temp.css",
+		"/home/jh/tm/build/webpack.dev.conf.js",
+		"/home/jh/tm/build/webpack.base.conf.js",
+		"/home/jh/tm/src/assets/js/d3.v3.min.js",
+		"/home/jh/tm/static/js/d3.v3.min.js",
+		"/home/jh/tm/src/components/flare.json",
+		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/node_modules/d3/index.js",
+		"/home/jh/tm/src/assets/fakebillets.js",
+		"/home/jh/tm/src/components/About.vue",
+		"/home/jh/tm/src/App.vue",
+		"/home/jh/tm/src/components/Home.vue",
+		"/home/jh/tm/src/components/Login.vue",
+		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/static/fake_billet.js",
+		"/home/jh/tm/package.json",
+		"/home/jh/tm/src/components/Profile.vue",
+		"/home/jh/tm/src/components/Billet.vue",
+		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
+		"/home/jh/tm/src/components/Hello.vue",
+		"/home/jh/tm/src/components/FindOfficer.vue",
+		"/home/jh/lunar/src/App.vue",
+		"/home/jh/tm/build/dev-server.js",
+		"/home/jh/tm/build/build.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"(\\w) (\\.\\d+)",
+			"body",
+			"svg",
+			"body",
+			"svg",
+			";",
+			"path",
+			"find_billets",
+			"Profile",
+			"i.",
+			"p",
+			"4",
+			"p",
+			"/h4>",
+			"</h4>",
+			"ol",
+			"li",
+			"button",
+			"main-login-form",
+			"<li>",
+			"li",
+			"About",
+			"find_officers",
+			"billet",
+			"Billet",
+			"Home",
+			"home",
+			"hello",
+			"submodule",
+			"Hello",
+			"FindBillet",
+			"Hello",
+			"Billet",
+			"Hello",
+			"sidebar"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 \\},",
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 ]},",
+			"\\{letter\\: \\\"\\1\\\"\\, frequency\\: \\2 ]}",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1552,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								324,
+								324
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 292.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "tm_api.sublime-workspace",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 234.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
