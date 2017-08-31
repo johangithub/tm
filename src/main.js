@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 
 //require('../node_modules/bootstrap/dist/css/bootstrap.css')
 
+import ('../node_modules/animate.css/animate.min.css')
 import ('../node_modules/vuetify/dist/vuetify.min.css')
 Vue.use(Vuetify)
 

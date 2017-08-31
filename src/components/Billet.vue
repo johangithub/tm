@@ -1,10 +1,10 @@
 <template>
-  <div id="billet">
+  <v-container id="billet">
     <h1>{{ title }}</h1>
     <ul id="sortable">
       <li class="ui-state-default noselect" v-for="billet in billets">{{billet.base}}/{{billet.unit}}</li>
     </ul>
-  </div>
+  </v-container>
 </template>
 
 <script>

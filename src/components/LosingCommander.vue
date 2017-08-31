@@ -1,6 +1,6 @@
 <template>
   <v-container id="losing-commander">
-  <h4>Col Thorson, Commander of 35 OG, son of Thor</h4>
+  <h4>Col Thorson, Commander of 35 OG</h4>
   <v-layout row wrap>
   <v-flex xs8>
   <h6>FGO</h6>

@@ -40,9 +40,10 @@ export default new Router({
       component: FindOfficers
     },
     {
-      path: '/profile',
+      path: '/profile/:id',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      props: true
     },
     {
       path: '/squadrons',

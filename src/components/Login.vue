@@ -1,7 +1,7 @@
 <template>
 <v-container id="login">
-<v-layout row wrap>
-<v-flex xs6 offset-xs3>
+<v-layout row >
+<v-flex xs6 offset-xs3 elevation-2 class="pa-4" v-if="agreed == false">
 <h4>Notice and Consent Statement</h4>
 <p>You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: </p>
 <ol>
@@ -21,11 +21,13 @@
   Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. 
 </li>
 </ol>
+<v-btn primary @click="agreed = true">I Agree</v-btn>
 </v-flex>
 </v-layout>
 <v-layout row wrap>
 <v-flex xs4 offset-xs4>
-<v-card>
+<transition name="fade">
+<v-card v-if="agreed" class="py-5 px-3">
 <v-card-text>
   <v-text-field
     name="input-username"
@@ -43,8 +45,9 @@
       counter
     ></v-text-field>
 </v-card-text>
-<v-btn primary @click.native="snackbar_login = true">Login</v-btn>
+<v-btn primary @click.native="logged_in">Login</v-btn>
 </v-card>
+</transition>
 </v-flex>
 </v-layout>
   <v-snackbar
@@ -53,17 +56,19 @@
     v-model="snackbar_login"
   >Welcome!<v-btn flat class="blue--text" @click.native="snackbar_login = false">Close</v-btn></v-snackbar>
 </v-layout>
-</v-container>
 
+</v-container>
 </template>
 
 <script>
+import axios from 'axios'
 export default{
   name: 'Login',
   data(){
     return {
       snackbar_login: false,
       show_password: false,
+      agreed: false,
       username: '',
       password: ''
     }
@@ -71,12 +76,15 @@ export default{
   methods:{
     showPassword: function(){
       this.show_password = !this.show_password  
+    },
+    logged_in: function(){
+      this.snackbar_login = true
     } 
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #login {
     margin-top: 20px;
 }
@@ -85,5 +93,13 @@ export default{
     padding: 15px;
     outline: 2px solid #ccc;
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0
+}
+
 </style>
 

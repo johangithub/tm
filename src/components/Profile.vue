@@ -1,8 +1,19 @@
 <template>
-    <v-container id="profile">
-    <h4>Greetings, {{grade}} {{name}}</h4>
+    <v-container fluid id="profile">
+    <h4>Greetings, Maj FirstName LastName / ID: {{id}}</h4>
     <v-layout row>
     <v-flex xs8>
+    <v-expansion-panel class="mt-3" expand>
+      <v-expansion-panel-content>
+        <div slot="header">Test Data</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+            <div>{{apiData}}</div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
     <v-expansion-panel class="mt-3">
       <v-expansion-panel-content>
         <div slot="header">Personal</div>
@@ -196,7 +207,6 @@
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-
     </v-flex>
     </v-layout>
     
@@ -204,7 +214,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+const BASE_URL = 'http://localhost:5002'
+function getAxios(){
+  const url = BASE_URL + '/officers/'
+  console.log(url)
+}
 export default {
+  props: ['id'],
   data(){
     return {
       grade: 'Maj',
@@ -303,8 +320,32 @@ export default {
         total_hours: 2086,
         gate_months: 187,
     },
-      menu: false
+      menu: false,
+      apiData: '',
+      errors: []
     }
-  }
+  },
+  watch: {
+    '$route': function(to, from){
+      axios.get('http://localhost:5002/officers/'+this.id)
+      .then((response)=>{
+        this.apiData = response.data.data[0]
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+    }
+  },
+  methods: {
+  },
+  created(){
+    axios.get('http://localhost:5002/officers/'+this.id)
+      .then((response)=>{
+        this.apiData = response.data.data[0]
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  },
 }
 </script>
