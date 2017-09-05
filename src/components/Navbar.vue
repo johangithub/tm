@@ -2,10 +2,11 @@
 <v-container fluid>
 <v-toolbar dark class="primary">
     <v-toolbar-title class="white--text" style="user-select: none">AF Talent Marketplace</v-toolbar-title>
-    <v-btn class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
-    <my-about></my-about>
+    <v-btn v-if="isLoggedIn" class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
+    <my-about v-if="isLoggedIn"></my-about>
     <v-spacer></v-spacer>
-    <v-btn class="white--text" flat to="/login" router>{{ login_text }}</v-btn>
+    <v-btn v-if="!isLoggedIn" class="white--text" flat to="/login" router>LOG IN</v-btn>
+    <v-btn v-if="isLoggedIn" class="white--text" flat @click="logout">LOG OUT</v-btn>
 </v-toolbar>
 </v-container>
 </template>
@@ -23,16 +24,22 @@ export default{
         {name: "Find Officers", link: "find_officers"},
         {name: "Losing Commander", link: "losing_commander"},
         {name: "Squadrons", link: "squadrons"},
-      ],
-      isLoggedIn: false
+      ]
     }
   },
   components:{
     'my-about': About,
   },
+  methods: {
+    logout(){
+      this.$store.dispatch('logout').then(()=>{
+        this.$router.push("/login")
+      })
+    }
+  },
   computed: {
-    login_text: function(){
-      return this.isLoggedIn ? 'Log Out' : 'Log In'
+    isLoggedIn(){
+      return this.$store.getters.isLoggedIn
     }
   }
 }

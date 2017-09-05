@@ -1,7 +1,7 @@
 <template>
 <v-container id="login">
 <v-layout row >
-<v-flex xs6 offset-xs3 elevation-2 class="pa-4" v-if="agreed == false">
+<v-flex xs6 offset-xs3 elevation-2 class="pa-4" v-if="!agreed">
 <h4>Notice and Consent Statement</h4>
 <p>You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: </p>
 <ol>
@@ -26,14 +26,17 @@
 </v-layout>
 <v-layout row wrap>
 <v-flex xs4 offset-xs4>
-<transition name="fade">
-<v-card v-if="agreed" class="py-5 px-3">
+<transition name="fade" mode="out-in">
+<v-card v-if="agreed && !pending" class="py-5 px-3">
 <v-card-text>
   <v-text-field
-    name="input-username"
-    label="username"
-    v-model="username"
-    :type="'text'"
+    name="input-email"
+    label="email"
+    v-model="email"
+    suffix="@us.af.mil"
+    :rules="[
+    () => /[A-Za-z]+\.[A-Za-z]\.\d{1,2}/.test(email) || 'Invalid email']"
+    ref="email"
   ></v-text-field>
     <v-text-field
       name="input-password"
@@ -45,8 +48,9 @@
       counter
     ></v-text-field>
 </v-card-text>
-<v-btn primary @click.native="logged_in">Login</v-btn>
+<v-btn primary @click.native="login">Login</v-btn>
 </v-card>
+<clip-spinner color="#1976d2" style="margin-top: 150px" v-if="pending"></clip-spinner>
 </transition>
 </v-flex>
 </v-layout>
@@ -55,21 +59,23 @@
     :top="true"
     v-model="snackbar_login"
   >Welcome!<v-btn flat class="blue--text" @click.native="snackbar_login = false">Close</v-btn></v-snackbar>
-</v-layout>
-
 </v-container>
 </template>
 
 <script>
 import axios from 'axios'
+import ClipSpinner from './ClipSpinner'
 export default{
   name: 'Login',
+  components:{
+    'clip-spinner': ClipSpinner
+  },
   data(){
     return {
       snackbar_login: false,
       show_password: false,
       agreed: false,
-      username: '',
+      email: '',
       password: ''
     }
   },
@@ -77,9 +83,19 @@ export default{
     showPassword: function(){
       this.show_password = !this.show_password  
     },
-    logged_in: function(){
-      this.snackbar_login = true
-    } 
+    login: function(){
+      this.$store.dispatch("login", {
+              email: this.email,
+              password: this.password
+            }).then(() => {
+          this.$router.push("/")
+          }) 
+    }
+  },
+  computed: {
+    pending(){
+      return this.$store.getters.isPending
+    }
   }
 }
 </script>
