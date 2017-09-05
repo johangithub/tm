@@ -38,7 +38,7 @@ export const store = new Vuex.Store({
           localStorage.setItem("token", "JWT")
           commit(LOGIN_SUCCESS)
           resolve()
-        }, 3000)
+        }, 5000)
       })
     },
     logout ({ commit }) {

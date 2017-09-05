@@ -27,6 +27,7 @@
 <v-layout row wrap>
 <v-flex xs4 offset-xs4>
 <transition name="fade" mode="out-in">
+<v-progress-linear v-if="pending" :indeterminate="true"></v-progress-linear>
 <v-card v-if="agreed && !pending" class="py-5 px-3">
 <v-card-text>
   <v-text-field
@@ -34,9 +35,6 @@
     label="email"
     v-model="email"
     suffix="@us.af.mil"
-    :rules="[
-    () => /[A-Za-z]+\.[A-Za-z]\.\d{1,2}/.test(email) || 'Invalid email']"
-    ref="email"
   ></v-text-field>
     <v-text-field
       name="input-password"
@@ -50,7 +48,6 @@
 </v-card-text>
 <v-btn primary @click.native="login">Login</v-btn>
 </v-card>
-<clip-spinner color="#1976d2" style="margin-top: 150px" v-if="pending"></clip-spinner>
 </transition>
 </v-flex>
 </v-layout>
@@ -58,7 +55,7 @@
     :timeout="3000"
     :top="true"
     v-model="snackbar_login"
-  >Welcome!<v-btn flat class="blue--text" @click.native="snackbar_login = false">Close</v-btn></v-snackbar>
+  >Wrong Email<v-btn flat class="blue--text" @click.native="snackbar_login = false">Close</v-btn></v-snackbar>
 </v-container>
 </template>
 
@@ -75,6 +72,7 @@ export default{
       snackbar_login: false,
       show_password: false,
       agreed: false,
+      validate_email: false,
       email: '',
       password: ''
     }
@@ -84,17 +82,25 @@ export default{
       this.show_password = !this.show_password  
     },
     login: function(){
+      if (this.email_valid){ 
       this.$store.dispatch("login", {
               email: this.email,
               password: this.password
             }).then(() => {
           this.$router.push("/")
-          }) 
+          })
+      }
+      else{
+        this.snackbar_login = true
+      } 
     }
   },
   computed: {
     pending(){
       return this.$store.getters.isPending
+    },
+    email_valid(){
+      return /[A-Za-z]+\.[A-Za-z]+\.\d{1,2}/.test(this.email)
     }
   }
 }
@@ -111,7 +117,7 @@ export default{
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s
+  transition: opacity .5s
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0
