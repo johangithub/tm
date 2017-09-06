@@ -9,27 +9,19 @@
   "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     }
   ],
   "comment_commander": "", 
@@ -45,27 +37,19 @@
   "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     }
   ],
   "comment_commander": "", 
@@ -81,27 +65,19 @@
  "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     }
   ],
   "comment_commander": "", 
@@ -117,27 +93,19 @@
   "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]
     }
   ],
   "comment_commander": "", 
