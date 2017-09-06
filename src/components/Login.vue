@@ -29,12 +29,13 @@
 <transition name="fade" mode="out-in">
 <v-progress-linear v-if="pending" :indeterminate="true"></v-progress-linear>
 <v-card v-if="agreed && !pending" class="py-5 px-3">
-<v-card-text>
+<v-card-text @keyup.enter="login">
   <v-text-field
     name="input-email"
     label="email"
     v-model="email"
     suffix="@us.af.mil"
+    autofocus
   ></v-text-field>
     <v-text-field
       name="input-password"
@@ -54,8 +55,8 @@
   <v-snackbar
     :timeout="3000"
     :top="true"
-    v-model="snackbar_login"
-  >Wrong Email<v-btn flat class="blue--text" @click.native="snackbar_login = false">Close</v-btn></v-snackbar>
+    v-model="show_snackbar"
+  >{{ snackbar_text }}<v-btn flat class="blue--text" @click.native="show_snackbar = false">Close</v-btn></v-snackbar>
 </v-container>
 </template>
 
@@ -69,12 +70,14 @@ export default{
   },
   data(){
     return {
-      snackbar_login: false,
+      show_snackbar: false,
+      snackbar_text: '',
       show_password: false,
       agreed: false,
       validate_email: false,
       email: '',
-      password: ''
+      password: '',
+      autofocus: false
     }
   },
   methods:{
@@ -87,12 +90,21 @@ export default{
               email: this.email,
               password: this.password
             }).then(() => {
-          this.$router.push("/")
+            this.$router.push("/")
+          }).catch(()=>{
+            //handle server side login rejection
+            this.$store.dispatch("logout")
+            this.snackbar('Wrong Password')
           })
       }
       else{
-        this.snackbar_login = true
+        //Client side email validation
+        this.snackbar('Wrong Email')
       } 
+    },
+    snackbar(text){
+      this.snackbar_text = text
+      this.show_snackbar = true
     }
   },
   computed: {
@@ -102,10 +114,18 @@ export default{
     email_valid(){
       return /[A-Za-z]+\.[A-Za-z]+\.\d{1,2}/.test(this.email)
     }
+  },
+  watch: {
+    autofocus(val){
+      if(!val){
+        return requestAnimationFrame(() => {
+          this.$refs.focus.focus()
+        })
+      }
+    }
   }
 }
 </script>
-
 <style lang="scss">
 #login {
     margin-top: 20px;
