@@ -1,13 +1,35 @@
 <template>
 <v-container fluid>
 <v-toolbar dark class="primary">
-    <v-toolbar-title class="white--text" style="user-select: none">AF Talent Marketplace</v-toolbar-title>
-    <v-btn v-if="isLoggedIn" class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
-    <my-about v-if="isLoggedIn"></my-about>
+    <v-toolbar-title class="white--text">
+        <router-link to='/' tag="span" style="cursor: pointer">AF Talent Marketplace</router-link></v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn v-if="!isLoggedIn" class="white--text" flat to="/login" router>LOG IN</v-btn>
-    <v-btn v-if="isLoggedIn" class="white--text" flat @click="logout">LOG OUT</v-btn>
+    <v-toolbar-items v-if="isLoggedIn" class="hidden-sm-and-down">
+        <v-btn class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
+        <v-btn class="white--text" flat @click="dialog = true">About</v-btn><my-about v-model="dialog"></my-about>
+        <v-btn class="white--text" flat @click="logout">LOG OUT</v-btn>
+    </v-toolbar-items>
+    <v-toolbar-items v-if="!isLoggedIn" class="hidden-sm-and-down">
+        <v-btn class="white--text" flat to="/login" router right>LOG IN</v-btn>
+    </v-toolbar-items>
+    <span @click="sideNav = !sideNav"
+          class="hidden-md-and-up"><v-toolbar-side-icon 
+          ></v-toolbar-side-icon></span>
 </v-toolbar>
+<v-navigation-drawer temporary dark right v-model="sideNav" class="hidden-md-and-up">
+  <v-list>
+      <v-list-tile 
+          v-for="item in headerList" 
+          :key="item.name"
+          router
+          :to="'/'+item.link">
+          <v-list-tile-content>{{item.name}}</v-list-tile-content>
+      </v-list-tile>
+      <v-list-tile @click="showAboutSide">About<my-about v-model="dialog"></my-about></v-list-tile>
+      <v-list-tile v-if="isLoggedIn" @click="logout">LOG OUT</v-list-tile>
+      <v-list-tile v-if="!isLoggedIn" router to="/login"></v-list-tile>
+  </v-list> 
+</v-navigation-drawer>
 </v-container>
 </template>
 
@@ -17,14 +39,17 @@ export default{
   data() {
     return {
       headerList: [
-        {name: "Home", link: "/"},
+        // Home link captured in title
+        //{name: "Home", link: "/"},
         {name: "My Profile", link: "profile/1"},
         {name: "Rank Billets", link: "billet"},
         {name: "Find Billets", link: "find_billets"},
         {name: "Find Officers", link: "find_officers"},
         {name: "Losing Commander", link: "losing_commander"},
         {name: "Squadrons", link: "squadrons"},
-      ]
+      ],
+      dialog: false,
+      sideNav: false
     }
   },
   components:{
@@ -35,11 +60,16 @@ export default{
       this.$store.dispatch('logout').then(()=>{
         this.$router.push("/login")
       })
+    },
+    showAboutSide () {
+        this.dialog = true
+        this.sideNav = false
     }
   },
   computed: {
     isLoggedIn(){
-      return this.$store.getters.isLoggedIn
+      //return this.$store.getters.isLoggedIn
+      return true 
     }
   }
 }
