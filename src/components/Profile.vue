@@ -152,11 +152,45 @@
           <v-card-text class="grey lighten-3">
           <v-layout row>
           <v-flex xs3>
+          <div>Desired Departure Date</div>
+          <v-menu
+                    lazy
+                    :close-on-content-click="false"
+                    v-model="showDDD"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    :nudge-left="40"
+                    max-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      label="Select a date"
+                      v-model="desiredDepartureDate"
+                      prepend-icon="event"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker 
+                    v-model="desiredDepartureDate"
+                    no-title
+                    scrollable
+                    actions
+                    :allowed-dates="allowedDepartureDates">
+                      <template scope="{ save, cancel }">
+                        <v-card-actions>
+                          <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                          <v-btn flat primary @click.native="save()">Save</v-btn>
+                        </v-card-actions>
+                      </template>
+                    </v-date-picker>
+          </v-menu>
+          </v-flex>
+          <v-flex xs3>
           <div>Desired RNLTD</div>
           <v-menu
                     lazy
                     :close-on-content-click="false"
-                    v-model="menu"
+                    v-model="showRNLTD"
                     transition="scale-transition"
                     offset-y
                     full-width
@@ -185,12 +219,23 @@
                     </v-date-picker>
           </v-menu>
           </v-flex>
-          <v-flex xs6 offset-xs2>
-          <div>Qualifications</div>
+          <v-flex xs3>
+          <div>Quals</div>
           <v-select
             :items="qualList"
             v-model="qualifications"
             label="Qualifications"
+            multiple
+            single-line
+            bottom
+          ></v-select>
+          </v-flex>
+          <v-flex xs3>
+          <div>Interest</div>
+          <v-select
+            :items="interestList"
+            v-model="interests"
+            label="Interests"
             multiple
             single-line
             bottom
@@ -210,7 +255,12 @@
     </v-expansion-panel>
     </v-flex>
     </v-layout>
-    
+    <v-btn primary @click.native="snackbar = true">Submit</v-btn>
+    <v-snackbar
+      :timeout="3000"
+      :top="true"
+      v-model="snackbar"
+    >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
     </v-container>
 </template>
 
@@ -221,10 +271,10 @@ export default {
   props: ['id'],
   data(){
     return {
-      grade: 'Maj',
-      name: 'Jonathan Smith',
+      snackbar: true,
       comment: '',
       qualifications: [],
+      interests: [],
       qualList:[
       'SEFE',
       'WIC',
@@ -233,6 +283,16 @@ export default {
       '2-ship',
       'Wingman'
       ],
+      interestList: [
+      'ALO Assignment',
+      'Palace Chase',
+      'Separate',
+      'Squadron Snacko'      
+      ],
+      desiredDepartureDate: new Date('2018/05/30').toISOString().split('T')[0],
+      allowedDepartureDates:function(date){
+        return date < new Date('2018/09/30') & date > new Date('2018/05/30')
+      },
       desiredRNLTD: new Date('2018/05/30').toISOString().split('T')[0],
       allowedRNLTD: function(date){
         return date < new Date('2018/09/30') & date > new Date('2018/05/30')
@@ -317,7 +377,8 @@ export default {
         total_hours: 2086,
         gate_months: 187,
     },
-      menu: false,
+      showDDD: false,
+      showRNLTD: false,
       apiData: '',
       errors: []
     }
