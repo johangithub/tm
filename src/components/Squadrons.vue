@@ -29,7 +29,7 @@
     <v-layout row>
     <v-flex>
     <v-card class="pa-1">
-      <v-card-media>
+      <v-card-media contain>
         <hide-btn v-if="!showConus" name="CONUS/OCONUS" @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>
         <div v-show="showConus" id="dc-conus-rowchart">
         <hide-btn name="CONUS/OCONUS" @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>

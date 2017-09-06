@@ -3,12 +3,13 @@
     <h4>Greetings, Maj FirstName LastName / ID: {{id}}</h4>
     <v-layout row>
     <v-flex xs8>
+    <v-btn primary @click.native="getData">GET</v-btn>
     <v-expansion-panel class="mt-3" expand>
       <v-expansion-panel-content>
         <div slot="header">Test Data</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-            <div>{{apiData}}</div>
+            <div>{{ apiData }}</div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -215,11 +216,7 @@
 
 <script>
 import axios from 'axios'
-const BASE_URL = 'http://localhost:5002'
-function getAxios(){
-  const url = BASE_URL + '/officers/'
-  console.log(url)
-}
+const BASE_URL = 'http://localhost:5005'
 export default {
   props: ['id'],
   data(){
@@ -325,27 +322,21 @@ export default {
       errors: []
     }
   },
-  watch: {
-    '$route': function(to, from){
-      axios.get('http://localhost:5002/officers/'+this.id)
-      .then((response)=>{
-        this.apiData = response.data.data[0]
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-    }
-  },
   methods: {
-  },
-  created(){
-    axios.get('http://localhost:5002/officers/'+this.id)
-      .then((response)=>{
-        this.apiData = response.data.data[0]
+    getData(){
+      axios.get('http://localhost:5005/api/users',
+      {
+        headers: {
+          'Authorization': localStorage.token 
+        }
       })
-      .catch((e) => {
-        console.log(e)
-      })
+          .then(response =>{
+            this.apiData = response.data[0]
+           })
+          .catch(e => {
+            console.error(e)
+          })
+    }
   },
 }
 </script>
