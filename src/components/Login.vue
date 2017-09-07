@@ -1,7 +1,7 @@
 <template>
 <v-container id="login">
 <v-layout row >
-<v-flex xs6 offset-xs3 elevation-2 class="pa-4" v-if="!agreed">
+<v-flex xs12 sm10 offset-sm1 md8 offset-md2 elevation-2 class="pa-4" v-if="!agreed">
 <h4>Notice and Consent Statement</h4>
 <p>You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: </p>
 <ol>
@@ -25,9 +25,14 @@
 </v-flex>
 </v-layout>
 <v-layout row wrap>
-<v-flex xs4 offset-xs4>
+<v-flex xs12 sm10 offset-sm1 md6 offset-md3>
 <transition name="fade" mode="out-in">
-<v-progress-linear v-if="pending" :indeterminate="true"></v-progress-linear>
+<v-layout v-if="agreed && pending">
+    <v-flex xs12 class="text-xs-center pt-5 mt-5">
+        <v-progress-circular indeterminate :size="120" :width="4" class="primary--text text-xs-center"></v-progress-circular>
+    </v-flex>
+</v-layout>
+<!--<v-progress-linear v-if="pending" :indeterminate="true"></v-progress-linear>-->
 <v-card v-if="agreed && !pending" class="py-5 px-3">
 <v-card-text @keyup.enter="login">
   <v-text-field

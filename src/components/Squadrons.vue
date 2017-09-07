@@ -1,10 +1,10 @@
 <template>
-  <v-container id="squadrons">
+  <v-container fluid id="squadrons">
   <v-layout row>
-  <v-flex xs6>
-    <h2>Billets</h2>
+  <v-flex xs6 class="text-xs-left">
+      <h2>Billets {{ width }} - {{ height }}</h2>
   </v-flex>
-  <v-flex xs6 class="dc-data-count">
+  <v-flex xs6 class="dc-data-count text-xs-right">
   <br>
     <span class="filter-count"></span>
     selected out of
@@ -14,20 +14,25 @@
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
-    <v-flex xs5>
-      <v-card class="pa-1">
-        <v-card-media>
-          <hide-btn v-if="!showStates" name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
-          <div v-show="showStates" id="dc-state-choropleth">
-          <hide-btn name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
-          <reset-btn @reset="resetChart($event)"></reset-btn>
-          </div>
+    <v-flex xs12 md7 fluid>
+      <v-card id="test" class="pa-1">
+          <v-card-title>
+              <hide-btn  v-if="!showStates" name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
+          </v-card-title>
+          <v-card-actions>
+              <!--name="States"-->
+          </v-card-actions>
+        <v-card-media contain>
+            <div id="dc-state-choropleth" v-show="showStates" style="height: 500px">
+              <hide-btn  name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
         </v-card-media>
       </v-card>
     </v-flex>
-    <v-flex xs4>
+    <v-flex xs12 md5>
     <v-layout row>
-    <v-flex>
+    <v-flex xs12 md5>
     <v-card class="pa-1">
       <v-card-media contain>
         <hide-btn v-if="!showConus" name="CONUS/OCONUS" @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>
@@ -40,9 +45,9 @@
     </v-flex>
     </v-layout>
     <v-layout row class="mt-2">
-    <v-flex>
+    <v-flex xs12 md5>
      <v-card class="pa-1">
-      <v-card-media>
+      <v-card-media contain>
       <hide-btn v-if="!showAPICode" name="API Code" @toggleShow="showAPICode = !showAPICode" :value="showAPICode"></hide-btn>
       <div v-show="showAPICode" id="dc-api-rowchart">
       <hide-btn name="API Code" @toggleShow="showAPICode = !showAPICode" :value="showAPICode"></hide-btn>
@@ -96,6 +101,8 @@ export default{
       showLocation: true,
       showAPICode: true,
       showAircraft: true,
+      width: 0,
+      height: 0
     }
   },
   computed: {
@@ -123,6 +130,16 @@ export default{
         chart.filterAll()
       })
       dc.redrawAll()
+    },
+    getWindowWidth(event) {
+        this.width = document.getElementById('test').offsetWidth;
+    },
+    getWindowHeight(event) {
+        this.height = document.getElementById('test').offsetHeight; 
+    },
+    removeResize: ()=>{
+        window.removeEventListener('resize', this.getWindowWidth);
+        window.removeEventListener('resize', this.getWindowHeight);
     }
   },
   created: function(){
@@ -134,7 +151,16 @@ export default{
     console.log('beforeMount')
   },
   mounted: function(){
+    this.$nextTick(function() {
+        window.addEventListener('resize', this.getWindowWidth)
+        window.addEventListener('resize', this.getWindowHeight)
+
+        //init 
+        this.getWindowWidth()
+        this.getWindowHeight()
+    })
     console.log('mounted')
+    // function to return window size (can't be in methods)
 
     //Data count
     dc.dataCount(".dc-data-count")
@@ -147,10 +173,9 @@ export default{
     var statesGroup = states.group()
 
     stateChart
-    .height(400)
     .dimension(states)
     .group(statesGroup)
-    .projection(d3.geo.albersUsa().scale(750).translate([300,200]))
+    .projection(d3.geo.albersUsa().scale(800).translate([400,200]))
     .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
     .colorDomain([0, 100])
     .overlayGeoJson(statesJson.features, "state", function (d) {
@@ -223,10 +248,34 @@ export default{
   },
   beforeUpdate: function(){
     console.log('before update')
+    var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
+    var states = this.ndx.dimension(function(d){return d.state})
+    var statesGroup = states.group()
+    stateChart
+        .dimension(states)
+        .group(statesGroup)
+        .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+        .colorDomain([0, 100])
+        .overlayGeoJson(statesJson.features, "state", function (d) {
+        return d.properties.name;})
+
+    window.onresize = function(event) {
+        var newWidth = document.getElementById('test').offsetWidth;
+        var newHeight = document.getElementById('test').offsetHeight;
+        var xOffset = newWidth/2;
+        var yOffset = 200;
+        console.log(newWidth)
+        stateChart
+            .transitionDuration(0)
+            .projection(d3.geo.albersUsa().scale(newWidth).translate([xOffset,yOffset]))
+            dc.renderAll()
+            stateChart.transitionDuration(750);
+    }
   },
   beforeDestroy: function(){
     // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM
     dc.chartRegistry.clear()
+    this.removeResize()
   },
 }
 
@@ -242,6 +291,15 @@ div[id*="-barchart"] .x.axis text{
 
 div[id*="-rowchart"] g.row text{
     fill: black;
+}
+
+#test {
+    width: 100%;
+    height: 500px;
+}
+#dc-state-choropleth {
+    clear: both;
+    width: 100%
 }
 
 </style> 

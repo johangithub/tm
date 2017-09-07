@@ -1,5 +1,5 @@
 <template>
-<v-container fluid>
+<v-container fluid class="pa-2">
 <v-toolbar dark class="primary">
     <v-toolbar-title class="white--text">
         <router-link to='/' tag="span" style="cursor: pointer">AF Talent Marketplace</router-link></v-toolbar-title>
@@ -68,8 +68,7 @@ export default{
   },
   computed: {
     isLoggedIn(){
-      //return this.$store.getters.isLoggedIn
-      return true 
+      return this.$store.getters.isLoggedIn
     }
   }
 }
