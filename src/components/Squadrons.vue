@@ -14,58 +14,60 @@
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
-    <v-flex xs12 md7 fluid>
-      <v-card id="test" class="pa-1">
-          <v-card-title>
-              <hide-btn  v-if="!showStates" name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
-          </v-card-title>
-          <v-card-actions>
-              <!--name="States"-->
-          </v-card-actions>
-        <v-card-media contain>
-            <div id="dc-state-choropleth" v-show="showStates" style="height: 500px">
-              <hide-btn  name="States" @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>
+    <v-flex d-flex xs12 md7>
+        <v-expansion-panel expand id="test">
+            <v-expansion-panel-content>
+                <div slot="header">States</div>          
+      <v-card>
+          <!--<v-card-title class="title" @click.prevent="$emit('toggleShow')">-->
+              <!--States<hide-btn @toggleShow="showStates = !showStates" :value="showStates"></hide-btn>-->
+          <!--</v-card-title>-->
+        <v-card-media >
+            <div id="dc-state-choropleth" style="height: 500px">
                 <reset-btn @reset="resetChart($event)"></reset-btn>
             </div>
         </v-card-media>
       </v-card>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 md5>
-    <v-layout row>
-    <v-flex xs12 md5>
+    <v-flex d-flex xs12 md5>
     <v-card class="pa-1">
+        <v-card-title class="title">
+        CONUS/OCONUS<hide-btn @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>
+        </v-card-title>
       <v-card-media contain>
-        <hide-btn v-if="!showConus" name="CONUS/OCONUS" @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>
         <div v-show="showConus" id="dc-conus-rowchart">
-        <hide-btn name="CONUS/OCONUS" @toggleShow="showConus = !showConus" :value="showConus"></hide-btn>
         <reset-btn @reset="resetChart($event)"></reset-btn>
         </div>
       </v-card-media>
     </v-card>
+    <v-flex d-flex>
+    <v-layout row wrap>
+        <v-flex d-flex xs12 class="pa-0 pt-2">
+         <v-card class="pa-1">
+             <v-card-title class="title">
+               API Code<hide-btn name="API Code" @toggleShow="showAPICode = !showAPICode" :value="showAPICode"></hide-btn>
+             </v-card-title>
+          <v-card-media contain>
+          <div v-show="showAPICode" id="dc-api-rowchart">
+          <reset-btn @reset="resetChart($event)"></reset-btn>
+          </div>
+          </v-card-media>
+          </v-card>
+        </v-flex> 
+    </v-layout>
+    </v-flex>
     </v-flex>
     </v-layout>
-    <v-layout row class="mt-2">
-    <v-flex xs12 md5>
-     <v-card class="pa-1">
-      <v-card-media contain>
-      <hide-btn v-if="!showAPICode" name="API Code" @toggleShow="showAPICode = !showAPICode" :value="showAPICode"></hide-btn>
-      <div v-show="showAPICode" id="dc-api-rowchart">
-      <hide-btn name="API Code" @toggleShow="showAPICode = !showAPICode" :value="showAPICode"></hide-btn>
-      <reset-btn @reset="resetChart($event)"></reset-btn>
-      </div>
-      </v-card-media>
-      </v-card>
-      </v-flex>
-    </v-layout>
-    </v-flex>
-  </v-layout>
   <v-layout row wrap class="mt-3">
     <v-flex xs12>
     <v-card class="pa-1">
+        <v-card-title class="title">
+          Location<hide-btn name="Location" @toggleShow="showLocation = !showLocation" :value="showLocation"></hide-btn>
+        </v-card-title>
       <v-card-media>
-      <hide-btn v-if="!showLocation" name="Location" @toggleShow="showLocation = !showLocation" :value="showLocation"></hide-btn>
       <div v-show="showLocation" id="dc-location-barchart">
-      <hide-btn name="Location" @toggleShow="showLocation = !showLocation" :value="showLocation"></hide-btn>
       <reset-btn @reset="resetChart($event)"></reset-btn>
       </div>
       </v-card-media>
@@ -75,10 +77,11 @@
   <v-layout class="mt-3">
     <v-flex xs3 class="mr-2">
     <v-card class="pa-1">
+        <v-card-title class="title">
+          Aircraft<hide-btn @toggleShow="showAircraft = !showAircraft" :value="showAircraft"></hide-btn>
+        </v-card-title>
       <v-card-media>
-      <hide-btn v-if="!showAircraft" name="Aircraft" @toggleShow="showAircraft = !showAircraft" :value="showAircraft"></hide-btn>
       <div v-show="showAircraft" id="dc-aircraft-barchart">
-      <hide-btn name="Aircraft" @toggleShow="showAircraft = !showAircraft" :value="showAircraft"></hide-btn>
       <reset-btn @reset="resetChart($event)"></reset-btn>
       </div>
       </v-card-media>
@@ -132,33 +135,31 @@ export default{
       dc.redrawAll()
     },
     getWindowWidth(event) {
-        this.width = document.getElementById('test').offsetWidth;
+        this.width = document.getElementById('dc-state-choropleth').offsetWidth;
+        //this.width = document.documentElement.clientWidth;
     },
     getWindowHeight(event) {
-        this.height = document.getElementById('test').offsetHeight; 
+        this.height = document.documentElement.clientHeight; 
     },
     removeResize: ()=>{
         window.removeEventListener('resize', this.getWindowWidth);
         window.removeEventListener('resize', this.getWindowHeight);
     }
   },
+  beforeCreate: function() {
+    console.log('before create');
+
+  },
   created: function(){
     console.log('created')
     var data = require('@/assets/data/fighter_billets.csv')
     this.data = data
+    
   },
   beforeMount: function(){
     console.log('beforeMount')
   },
   mounted: function(){
-    this.$nextTick(function() {
-        window.addEventListener('resize', this.getWindowWidth)
-        window.addEventListener('resize', this.getWindowHeight)
-
-        //init 
-        this.getWindowWidth()
-        this.getWindowHeight()
-    })
     console.log('mounted')
     // function to return window size (can't be in methods)
 
@@ -171,16 +172,42 @@ export default{
     var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
     var states = this.ndx.dimension(function(d){return d.state})
     var statesGroup = states.group()
+    var newWidth = document.getElementById('test').offsetWidth;
+    var newHeight = document.getElementById('test').offsetHeight;
+    var xOffset = newWidth/3;
+    var yOffset = 250;
 
+        console.log(newWidth)
+        console.log(newHeight)
     stateChart
     .dimension(states)
     .group(statesGroup)
-    .projection(d3.geo.albersUsa().scale(800).translate([400,200]))
     .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
     .colorDomain([0, 100])
+    .height(500)
+    .projection(d3.geo.albersUsa().scale(newWidth).translate([xOffset,yOffset]))
     .overlayGeoJson(statesJson.features, "state", function (d) {
       return d.properties.name;
     })
+
+    window.onresize = function(event) {
+        var newWidth = document.getElementById('test').offsetWidth;
+        var newHeight = document.getElementById('test').offsetHeight;
+        var xOffset = newWidth/3;
+        var yOffset = 250;
+        stateChart
+        .dimension(states)
+            .group(statesGroup)
+            .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+            .colorDomain([0, 100])
+            .width(newWidth)
+            .height(500)
+            .transitionDuration(0)
+            .projection(d3.geo.albersUsa().scale(newWidth).translate([xOffset,yOffset]))
+            .overlayGeoJson(statesJson.features, "state", function (d) {
+            return d.properties.name;})
+        dc.renderAll()
+    }
 
     //CONUS
     var conusChart = dc.rowChart("#dc-conus-rowchart")
@@ -242,35 +269,15 @@ export default{
       });
     }
 
+    //this.$forceUpdate();
     onresize()
     //window.addEventListener('resize', onresize);
 
   },
   beforeUpdate: function(){
     console.log('before update')
-    var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
-    var states = this.ndx.dimension(function(d){return d.state})
-    var statesGroup = states.group()
-    stateChart
-        .dimension(states)
-        .group(statesGroup)
-        .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-        .colorDomain([0, 100])
-        .overlayGeoJson(statesJson.features, "state", function (d) {
-        return d.properties.name;})
+    //window.dispatchEvent( new Event('resize') )
 
-    window.onresize = function(event) {
-        var newWidth = document.getElementById('test').offsetWidth;
-        var newHeight = document.getElementById('test').offsetHeight;
-        var xOffset = newWidth/2;
-        var yOffset = 200;
-        console.log(newWidth)
-        stateChart
-            .transitionDuration(0)
-            .projection(d3.geo.albersUsa().scale(newWidth).translate([xOffset,yOffset]))
-            dc.renderAll()
-            stateChart.transitionDuration(750);
-    }
   },
   beforeDestroy: function(){
     // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM
@@ -292,14 +299,8 @@ div[id*="-barchart"] .x.axis text{
 div[id*="-rowchart"] g.row text{
     fill: black;
 }
-
-#test {
-    width: 100%;
-    height: 500px;
-}
 #dc-state-choropleth {
-    clear: both;
-    width: 100%
+    width: 100%;
 }
 
 </style> 
