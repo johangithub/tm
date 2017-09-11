@@ -45,17 +45,18 @@ export const store = new Vuex.Store({
             password: creds.password
           })
           .then((response)=>{
-            if (response.data.success){
-              setTimeout(()=>{
-                commit(LOGIN_SUCCESS)
-                localStorage.setItem("token", response.data.token)
-                resolve()
-              }, 2500)
-            }
-            else{
-              //login failure on server side. e.g. wrong password, no user exists
-              reject()
-            }
+            // wait 2.5s before accepting or rejecting user credentials
+            setTimeout(()=>{
+                if (response.data.success){
+                    commit(LOGIN_SUCCESS)
+                    localStorage.setItem("token", response.data.token)
+                    resolve()
+                }
+                else{
+                    //login failure on server side. e.g. wrong password, no user exists
+                    reject()
+                }
+            }, 2500)
           })
           .catch((e) => {
             console.log(e)
