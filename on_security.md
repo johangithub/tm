@@ -28,6 +28,10 @@ db.get(sql, [userId], (err, row)=>{
 
 ----
 
-Cross-site scripting (XSS). A simple XSS example can be found [here](https://codepen.io/vouill/pen/WjVMjL) For our frontend VueJS, we can be safe as long as we're careful when using v-html, which is a direct injection of html.
+Cross-site scripting (XSS). A simple XSS example can be found [here](https://codepen.io/vouill/pen/WjVMjL) For our VueJS frontend, we can be safe as long as we're careful when using v-html, which is a direct injection of html.
 
 ----
+
+Lots of Interesting discussion of Login.gov launch
+
+[Original](https://news.ycombinator.com/item?id=15202552) and its [criticism](https://news.ycombinator.com/item?id=15215561) and defense.
