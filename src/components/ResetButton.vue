@@ -1,5 +1,5 @@
 <template>
-  <v-btn small primary flat round dark @click.prevent="resetClicked($event)" class="reset" style="display: none">reset</v-btn>
+    <v-btn small error dark flat round absolute @click.prevent="resetClicked($event)" class="ml-3 reset" style="display: none">reset</v-btn>
 </template>
 
 <script>
