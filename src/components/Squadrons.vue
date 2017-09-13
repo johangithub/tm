@@ -123,19 +123,30 @@
   </v-layout>
   <v-layout row wrap class="mt-3">
     <v-flex xs12 elevation-3 class="ma-1">
-        <table class="table table-hover" id='dc-data-table'>
-            <thead>
-                <tr class='header'>
-                    <th>API</th>
-                    <th>Grade</th>
-                    <th>AFSC</th>
-                    <th>Aircraft</th>
-                    <th>Unit</th>
-                    <th>Location</th>
-                    <th>State</th>
-                </tr>
-            </thead>
-        </table>
+        <v-data-table :items="items">
+            <template slot="items" scope="props">
+                <td>{{props.item.api}}</td>
+                <td>{{props.item.afsc}}</td>
+                <td>{{props.item.grade}}</td>
+                <td>{{props.item.aircraft}}</td>
+                <td>{{props.item.unit}}</td>
+                <td>{{props.item.state}}</td>
+            </template> 
+        </v-data-table>
+        <!--<table class="table table-hover" id='dc-data-table'>-->
+            <!--<thead>-->
+                <!--<tr class='header'>-->
+                    <!--<th>Favorite</th>-->
+                    <!--<th>API</th>-->
+                    <!--<th>Grade</th>-->
+                    <!--<th>AFSC</th>-->
+                    <!--<th>Aircraft</th>-->
+                    <!--<th>Unit</th>-->
+                    <!--<th>Location</th>-->
+                    <!--<th>State</th>-->
+                <!--</tr>-->
+            <!--</thead>-->
+        <!--</table>-->
     </v-flex>
   </v-layout>
   </v-container>
@@ -155,7 +166,8 @@ export default{
       showAPICode: true,
       showAircraft: true,
       width: 0,
-      height: 0
+      height: 0,
+      items: [] 
     }
   },
   computed: {
@@ -165,6 +177,9 @@ export default{
     allGroup: function(){
       return this.ndx.groupAll()
     }
+ //   items: function() {
+   //     return this.ndx.dimension(function(d) {return d;}).top(Infinity)
+   // }
   },
   components:{
     'reset-btn': ResetButton,
@@ -211,12 +226,12 @@ export default{
   },
   mounted: function(){
     console.log('mounted')
-    // function to return window size (can't be in methods)
 
     //Data count
     dc.dataCount(".dc-data-count")
       .dimension(this.ndx)
       .group(this.allGroup)
+
 
     //State Map
     var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
@@ -419,25 +434,26 @@ export default{
     .elasticX(true)
     .colors(d3.scale.category10())
 
-    //Data Table
-    var dataTable = dc.dataTable('#dc-data-table')
-    var tableDimension = this.ndx.dimension( function (d) {
-        return d;
-    } )
-    dataTable
-    .group(function(d) { return 'Billets'})
-    .showGroups(false)
-    .dimension(tableDimension)
-    .columns([
-        function(d) {return d.api; },
-        function(d) {return d.grade;},
-        function(d) {return d.afsc;},
-        function(d) {return d.aircraft},
-        function(d) {return d.unit},
-        function(d) {return d.location},
-        function(d) {return d.state}
-    ])
-
+//    //Data Table
+//    var dataTable = dc.dataTable('#dc-data-table')
+//    var tableDimension = this.ndx.dimension( function (d) {
+//        return d;
+//    } )
+//    dataTable
+//    .group(function(d) { return 'Billets'})
+//    .showGroups(false)
+//    .dimension(tableDimension)
+//    .columns([
+//        function(d) {return d.api; },
+//        function(d) {return d.grade;},
+//        function(d) {return d.afsc;},
+//        function(d) {return d.aircraft},
+//        function(d) {return d.unit},
+//        function(d) {return d.location},
+//        function(d) {return d.state}
+//    ])
+//    .sortBy(function(d) { return d.unit })
+//    .order(d3.ascending)
 
     function onresize (){
       dc.chartRegistry.list().forEach(chart => {
@@ -575,6 +591,8 @@ export default{
         dc.redrawAll();
     }
 
+    this.items = this.ndx.dimension(function(d){return d; }).top(Infinity)
+    console.log(this.items)
     onresize()
 
   },
@@ -603,5 +621,7 @@ div[id*="-barchart"] .x.axis text{
 div[id*="-rowchart"] g.row text{
     fill: black;
 }
-
+.favorite {
+    color: red;
+}
 </style> 

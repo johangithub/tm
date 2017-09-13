@@ -6,13 +6,13 @@
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="isLoggedIn" class="hidden-sm-and-down">
         <v-btn class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
-        <v-btn class="white--text" flat @click="dialog = true">About</v-btn><my-about v-model="dialog"></my-about>
+        <v-btn class="white--text" flat @click.native.stop="dialog = true">About</v-btn><my-about v-model="dialog"></my-about>
         <v-btn class="white--text" flat @click="logout">LOG OUT</v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-if="!isLoggedIn" class="hidden-sm-and-down">
         <v-btn class="white--text" flat to="/login" router right>LOG IN</v-btn>
     </v-toolbar-items>
-    <span @click="sideNav = !sideNav"
+    <span @click.stop="sideNav = !sideNav"
           class="hidden-md-and-up"><v-toolbar-side-icon 
           ></v-toolbar-side-icon></span>
 </v-toolbar>
@@ -25,8 +25,8 @@
           :to="'/'+item.link">
           <v-list-tile-content>{{item.name}}</v-list-tile-content>
       </v-list-tile>
-      <v-list-tile @click="showAboutSide">About<my-about v-model="dialog"></my-about></v-list-tile>
-      <v-list-tile v-if="isLoggedIn" @click="logout">LOG OUT</v-list-tile>
+      <v-list-tile @click.native.stop="showAboutSide">About<my-about v-model="dialog"></my-about></v-list-tile>
+      <v-list-tile v-if="isLoggedIn" @click="logout">Log out</v-list-tile>
       <v-list-tile v-if="!isLoggedIn" router to="/login"></v-list-tile>
   </v-list> 
 </v-navigation-drawer>
