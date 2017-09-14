@@ -206,7 +206,7 @@ export default{
   methods: {
       toggleFavorite: function(obj) {
           if (this.selected.includes(obj.item)) {
-            this.selected.splice(selected.indexOf(obj.item),1)
+            this.selected.splice(this.selected.indexOf(obj.item),1)
           } 
           else {
             this.selected.push(obj.item)
