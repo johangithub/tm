@@ -123,31 +123,28 @@
   </v-layout>
   <v-layout row wrap class="mt-3">
     <v-flex xs12 elevation-3 class="ma-1">
-        <v-data-table :items="items">
+        <v-data-table :headers="headers" :items="items" v-model="selected" selected-key="unit">
             <template slot="items" scope="props">
-                <td>{{props.item.api}}</td>
-                <td>{{props.item.afsc}}</td>
-                <td>{{props.item.grade}}</td>
-                <td>{{props.item.aircraft}}</td>
-                <td>{{props.item.unit}}</td>
-                <td>{{props.item.state}}</td>
+                <tr @click="toggleFavorite(props)">
+                <td>
+                    <v-icon v-if="selected.includes(props.item)" warning style="cursor: pointer;">star</v-icon>
+                    <v-icon v-else style="cursor: pointer;">star</v-icon>
+                </td>
+                <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
+                <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
+                <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
+                <td class="text-xs-left" style="width: 15%">{{props.item.aircraft}}</td>
+                <td class="text-xs-left" style="width: 35%">{{props.item.unit}}</td>
+                <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
+                </tr>
             </template> 
         </v-data-table>
-        <!--<table class="table table-hover" id='dc-data-table'>-->
-            <!--<thead>-->
-                <!--<tr class='header'>-->
-                    <!--<th>Favorite</th>-->
-                    <!--<th>API</th>-->
-                    <!--<th>Grade</th>-->
-                    <!--<th>AFSC</th>-->
-                    <!--<th>Aircraft</th>-->
-                    <!--<th>Unit</th>-->
-                    <!--<th>Location</th>-->
-                    <!--<th>State</th>-->
-                <!--</tr>-->
-            <!--</thead>-->
-        <!--</table>-->
     </v-flex>
+  </v-layout>
+  <v-layout row>
+      <v-flex xs12>
+        {{ selected }} 
+      </v-flex>
   </v-layout>
   </v-container>
 </template>
@@ -167,7 +164,31 @@ export default{
       showAircraft: true,
       width: 0,
       height: 0,
-      items: [] 
+      items: [],
+      selected: [],
+      headers: [
+        {
+            text: 'Favorite', sortable: false   
+        },
+        {
+            text: 'API code', value: 'api', align: 'left' 
+        },
+        {
+            text: 'AFSC', value: 'afsc', align: 'left'
+        },
+        {
+            text: 'Grade', value: 'grade', align: 'left'
+        },
+        {
+            text: 'MWS', value: 'aircraft', align: 'left'
+        },
+        {
+            text: 'Unit', value: 'unit', align: 'left'
+        },
+        {
+            text: 'State', value: 'state', align: 'left'
+        }
+      ]
     }
   },
   computed: {
@@ -177,15 +198,20 @@ export default{
     allGroup: function(){
       return this.ndx.groupAll()
     }
- //   items: function() {
-   //     return this.ndx.dimension(function(d) {return d;}).top(Infinity)
-   // }
   },
   components:{
     'reset-btn': ResetButton,
     'hide-btn': HideButton
   },
   methods: {
+      toggleFavorite: function(obj) {
+          if (this.selected.includes(obj.item)) {
+            this.selected.splice(selected.indexOf(obj.item),1)
+          } 
+          else {
+            this.selected.push(obj.item)
+          }
+      },
     resetAll: (event)=>{
       //Emulate javascript:dc.filterAll();dc.redrawAll()
       dc.filterAll()
@@ -232,7 +258,6 @@ export default{
       .dimension(this.ndx)
       .group(this.allGroup)
 
-
     //State Map
     var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
     var states = this.ndx.dimension(function(d){return d.state})
@@ -250,9 +275,6 @@ export default{
     var xOffset = statesWidth/2.5;
     var yOffset = statesHeight/1.9;
 
-        console.log(statesWidth)
-        console.log(statesHeight)
-        console.log('document width: ' + document.documentElement.clientWidth)
     stateChart
     .dimension(states)
     .group(statesGroup)
@@ -434,6 +456,17 @@ export default{
     .elasticX(true)
     .colors(d3.scale.category10())
 
+    // Create data for data table
+    var vm = this
+    vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+    // update rows in data table upon each chart being filtered 
+    dc.chartRegistry.list().forEach(function(chart) {
+        chart.on('filtered', function() {
+            vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+            console.log(vm.items)
+        })
+    })
+
 //    //Data Table
 //    var dataTable = dc.dataTable('#dc-data-table')
 //    var tableDimension = this.ndx.dimension( function (d) {
@@ -461,10 +494,16 @@ export default{
         chart.width(_bbox.width).render();
       });
     }
-
+   
+    var temp 
     window.onresize = function(event) {
+        clearTimeout(temp)
+        temp = setTimeout(resizeDone,200)
+    }
+    function resizeDone() {
         // values for width, height, and offsets are for formatting -
         // numbers are fairly arbitrary
+        console.log('!!!!')
         var statesWidth = document.getElementById('states').offsetWidth*1.2;
         var statesHeight = statesWidth/1.8;
         var xOffset = statesWidth/2.5;
@@ -591,8 +630,6 @@ export default{
         dc.redrawAll();
     }
 
-    this.items = this.ndx.dimension(function(d){return d; }).top(Infinity)
-    console.log(this.items)
     onresize()
 
   },
