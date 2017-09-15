@@ -1,19 +1,10 @@
 <template>
     <v-container fluid id="profile">
-    <h4>Greetings, Maj FirstName LastName / ID: {{id}}</h4>
+    <h4>Maj FirstName LastName / ID: {{profileId}}</h4>
     <v-layout row>
     <v-flex xs8>
     <v-btn primary @click.native="getData">GET</v-btn>
-    <v-expansion-panel class="mt-3" expand>
-      <v-expansion-panel-content>
-        <div slot="header">Test Data</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-            <div>{{ apiData }}</div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+    <div>{{apiData}}</div>
 
     <v-expansion-panel class="mt-3">
       <v-expansion-panel-content>
@@ -257,7 +248,7 @@
     </v-layout>
     <v-btn primary @click.native="snackbar = true">Submit</v-btn>
     <v-snackbar
-      :timeout="3000"
+      :timeout="1000"
       :top="true"
       v-model="snackbar"
     >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
@@ -265,13 +256,14 @@
 </template>
 
 <script>
+import { store } from '@/store.js'
 import axios from 'axios'
-const BASE_URL = 'http://localhost:5005'
+const BASE_URL = store.state.baseUrl
 export default {
   props: ['id'],
   data(){
     return {
-      snackbar: true,
+      snackbar: false,
       comment: '',
       qualifications: [],
       interests: [],
@@ -385,19 +377,24 @@ export default {
   },
   methods: {
     getData(){
-      axios.get('http://localhost:5005/api/users',
+      axios.get(BASE_URL+'/users',
       {
         headers: {
           'Authorization': localStorage.token 
         }
       })
           .then(response =>{
-            this.apiData = response.data[0]
+            this.apiData = response.data.data
            })
           .catch(e => {
             console.error(e)
           })
     }
   },
+  computed: {
+    profileId(){
+      return this.id ? this.id : store.getters.userId
+    }
+  }
 }
 </script>

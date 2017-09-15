@@ -1,6 +1,8 @@
+//Mutation names
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
@@ -8,7 +10,10 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token"),
-    pending: false
+    pending: false,
+    userId: localStorage.getItem("id"),
+    role: localStorage.getItem("role"),
+    baseUrl: "http://localhost:5005/api"
   },
   getters: {
     isLoggedIn: state => {
@@ -16,6 +21,12 @@ export const store = new Vuex.Store({
     },
     isPending: state => {
       return state.pending
+    },
+    userId: state => {
+      return state.userId
+    },
+    role: state => {
+      return state.role
     }
   },
   mutations: {
@@ -30,14 +41,14 @@ export const store = new Vuex.Store({
     [LOGOUT](state) {
       state.isLoggedIn = false
       state.pending = false
-    }
+    },
   },
   actions: {
     // this is a fake login system. Will replace with axios call to the serverside
     login({ commit }, creds) {
       commit(LOGIN)
       return new Promise((resolve,reject) => {
-          axios.post('http://localhost:5005/api/authenticate',{
+          axios.post(this.state.baseUrl+'/authenticate',{
             headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -45,18 +56,31 @@ export const store = new Vuex.Store({
             password: creds.password
           })
           .then((response)=>{
-            // wait 2.5s before accepting or rejecting user credentials
+            // wait 1s before accepting or rejecting user credentials
             setTimeout(()=>{
                 if (response.data.success){
                     commit(LOGIN_SUCCESS)
-                    localStorage.setItem("token", response.data.token)
+                    var token = response.data.token
+                    
+                    function parseJwt (token) {
+                      var base64Url = token.split('.')[1];
+                      var base64 = base64Url.replace('-', '+').replace('_', '/');
+                      return JSON.parse(window.atob(base64));
+                    }
+
+                    var token_decoded = parseJwt(token)
+
+                    localStorage.setItem("token", token)
+                    localStorage.setItem("id", token_decoded.id)
+                    localStorage.setItem("role", token_decoded.role)
+
                     resolve()
                 }
                 else{
                     //login failure on server side. e.g. wrong password, no user exists
                     reject()
                 }
-            }, 2500)
+            }, 1000)
           })
           .catch((e) => {
             console.log(e)
@@ -65,6 +89,8 @@ export const store = new Vuex.Store({
     },
     logout ({ commit }) {
       localStorage.removeItem("token")
+      localStorage.removeItem("role")
+      localStorage.removeItem("id")
       commit(LOGOUT)
     }
   }

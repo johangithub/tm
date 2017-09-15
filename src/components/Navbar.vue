@@ -40,8 +40,7 @@ export default{
     return {
       headerList: [
         // Home link captured in title
-        //{name: "Home", link: "/"},
-        {name: "My Profile", link: "profile/1"},
+        {name: "My Profile", link: "profile"},
         {name: "Rank Billets", link: "billet"},
         {name: "Find Billets", link: "find_billets"},
         {name: "Find Officers", link: "find_officers"},
@@ -67,6 +66,10 @@ export default{
     }
   },
   computed: {
+    userId() {
+      console.log('Navbar userID',this.$store.getters.userId)
+      return this.$store.getters.userId
+    },
     isLoggedIn(){
       return this.$store.getters.isLoggedIn
     }
