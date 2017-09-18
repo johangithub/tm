@@ -1,7 +1,7 @@
 <template>
     <v-container fluid id="profile">
-    <h4>Maj FirstName LastName / ID: {{profileId}}</h4>
     <v-btn primary @click.native="getData">GET</v-btn>
+    <h4 v-if="dataReady">{{rank}} ID: {{this.apiData.rowid}}</h4>
     <v-layout row v-if="dataReady">
     <v-flex xs8>
     <v-expansion-panel class="mt-2">
@@ -20,13 +20,13 @@
         <div slot="header">General</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>Grade: {{ general_data.grade }}</div>
-          <div>Component: {{ general_data.component }}</div>
-          <div>Functional Category: {{ general_data.func_cat }}</div>
-          <div>Competitive Cateogry: {{ general_data.comp_cat }}</div>
-          <div>Record Status: {{ general_data.record_status }}</div>
-          <div>Accounting Status: {{ general_data.accounting_status }}</div>
-          <div>Short Tour Number: {{ general_data.short_tour_num }}</div>
+          <div>Grade: {{ general.grade }}</div>
+          <div>Component: {{ general.component }}</div>
+          <div>Functional Category: {{ general.func_cat }}</div>
+          <div>Competitive Cateogry: {{ general.comp_cat }}</div>
+          <div>Record Status: {{ general.record_status }}</div>
+          <div>Accounting Status: {{ general.accounting_status }}</div>
+          <div>Short Tour Number: {{ general.short_tour_num }}</div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -38,7 +38,7 @@
           <v-card-text class="grey lighten-3">
            <div>Projected PAS: {{projected.assignment.pas}}</div>
             <div>Projected AFSC: {{projected.assignment.afsc}}</div>
-            <div>Projected Assignment Selection Date: {{projected.assignment.asd}}</div>
+            <div>Assignment Selection Date: {{projected.assignment.asd}}</div>
             <div>Projected Departure Date: {{projected.assignment.pdd}}</div>
             <div>Projected RNLTD: {{projected.assignment.rnltd}}</div>
             <div>Projected Duty Effective Date: {{projected.duty.eff_date}}</div>
@@ -75,6 +75,20 @@
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
+
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Courses</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div v-for="course in courses">
+            <span>{{course.course}} ({{course.date}})</span>
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
     <v-layout row>
     <v-flex xs4>
     <v-expansion-panel class="mt-2">
@@ -103,7 +117,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
-    <v-flex xs8>
+    <v-flex xs4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">PME</div>
@@ -114,6 +128,24 @@
           </div>
           </v-card-text>
         </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Joint</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>JDA Flag: {{joint.jda_flag}}</div>
+          <div>JSO Code: {{joint.jso_code}}</div>
+          <div>JSO_NUM Status: {{joint.jso_jsonum_status}}</div>
+          <div v-for="tour in joint.history">
+          {{tour.type}}//{{tour.credit}}//{{tour.reason}}//{{tour.posn}}//{{tour.start_date}} - {{tour.stop_date}}
+          </div>
+          </v-card-text>
+        </v-card>
+
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
@@ -150,7 +182,7 @@
     </v-flex>
     </v-layout>
     <v-layout row>
-    <v-flex xs6>
+    <v-flex xs4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Aircraft Data</div>
@@ -167,7 +199,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
-    <v-flex xs6>
+    <v-flex xs4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Rated Data</div>
@@ -193,32 +225,50 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Exp Identifier</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>{{spec_exp}}</div>
+          <div>Nuclear Experience</div>
+          <div v-for="item in spec_exp.nuclear">
+          {{item.nei}}//{{item.start_date}}//{{item.stop_date}}
+          </div>
+          <div>SEI</div>
+          <div v-for="item in spec_exp.sei">
+          {{item.sei}}
+          </div>
+          <div>Acquisition</div>
+          <div>{{spec_exp.acquisitions}}</div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
     </v-layout>
-<v-expansion-panel class="mt-2">
+    <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Duty History</div>
-    <table>
-      <tr>
-        <th>Duty Title</th>
-        <th>Unit</th>
-        <th>Location</th>
-        <th>MAJCOM</th>
-        <th>Level</th>
-        <th>DFASC</th>
-        <th>EFF Date</th>
-      </tr>
-      <tr v-for="history in duty_history">
-        <td>{{ history.duty_title }}</td>
-        <td>{{ history.unit}}</td>
-        <td>{{ history.location }}</td>
-        <td>{{ history.org_majcom }}</td>
-        <td>{{ history.command_level }}</td>
-        <td>{{ history.dafsc }}</td>
-        <td>{{ history.eff_date }}</td>
-      </tr>
-    </table>
-    </v-expansion-panel-content>
+              <v-data-table
+            :headers="duty_history_headers"
+            :items="duty_history"
+            hide-actions>
+            <template slot="items" scope="props">
+              <td>{{props.item.duty_title}}</td>
+              <td>{{props.item.unit}}</td>
+              <td>{{props.item.location}}</td>
+              <td>{{props.item.org_majcom}}</td>
+              <td>{{props.item.command_level}}</td>
+              <td>{{props.item.dafsc}}</td>
+              <td>{{props.item.eff_date}}</td>
+            </template>
+    </v-data-table>
+      </v-expansion-panel-content>
     </v-expansion-panel>
+
+
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Self Advertise</div>
@@ -329,7 +379,7 @@
     </v-expansion-panel>
     </v-flex>
     </v-layout>
-    <v-btn primary @click.native="snackbar = true">Submit</v-btn>
+    <v-btn v-if="dataReady" primary @click.native="snackbar = true">Submit</v-btn>
     <v-snackbar
       :timeout="1000"
       :top="true"
@@ -377,7 +427,7 @@ export default {
       dataReady: false,
       apiData: '',
       errors: [],
-      general_data: '',
+      general: '',
       projected: '',
       rated: '',
       asgn_code: '',
@@ -386,6 +436,19 @@ export default {
       pme: '',
       degree: '',
       language: '',
+      jonit: '',
+      courses: '',
+      spec_exp: '',
+      duty_history_headers: [
+      {text: 'Duty Title', value: 'duty_title', align: 'left', sortable: false },
+      {text: 'Unit', value: 'unit', align: 'left', sortable: false },
+      {text: 'Location', value: 'location', align: 'left', sortable: false },
+      {text: 'MAJCOM', value: 'majcom', align: 'left', sortable: false },
+      {text: 'Level', value: 'level', align: 'left', sortable: false },
+      {text: 'DAFSC', value: 'dafsc', align: 'left', sortable: false },
+      {text: 'Eff Date', value: 'date', align: 'left', sortable: false },
+      ],
+      items: []
     }
   },
   methods: {
@@ -399,7 +462,7 @@ export default {
           .then(response =>{
             var data = response.data.data
             this.apiData = data
-            this.general_data = data.general
+            this.general = data.general
             this.duty_history = data.duty.history
             this.asgn_code = data.asgn_code
             this.service_dates = data.service_dates
@@ -408,8 +471,11 @@ export default {
             this.degree = data.degree
             this.language = data.language
             this.projected = data.projected
-
+            this.joint = data.joint
+            this.courses = data.courses
+            this.spec_exp = data.special_experience
             this.dataReady = true
+            this.items = this.duty_history
            })
           .catch(e => {
             console.error(e)
@@ -427,7 +493,17 @@ export default {
       else{
         return ""
       }
-    }
+    },
+    rank(){
+      var rank_obj = {
+        "01": "2LT",
+        "02": "1LT",
+        "03": "CAPT",
+        "04": "MAJ",
+        "05": "LTC",
+      }
+      return rank_obj[this.general.grade]
+    },
   }
 }
 </script>
