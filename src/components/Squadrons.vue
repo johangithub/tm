@@ -130,7 +130,7 @@
                     <v-icon v-if="selected.includes(props.item)" @click="toggleFavorite(props)" warning style="cursor: pointer;">star</v-icon>
                     <v-icon v-else style="cursor: pointer;" @click="toggleFavorite(props)">star</v-icon>
                 </td>
-                <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReq = true">1111</a><req-sheet :item="props.item"v-model="showReq" :key="props.item.unit"></req-sheet></td>
+                <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet :item="dialogData" v-model="showReq" :key="props.item.id"></req-sheet></a></td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
@@ -161,6 +161,10 @@ export default{
       width: 0,
       height: 0,
       showReq: false,
+      dialogData: {
+      state: "",
+      api: ""
+      },
       panelOpen: {
          state: true,
          conus: true,
@@ -226,6 +230,19 @@ export default{
         for (var key in this.panelOpen) {
             this.panelOpen[key] = !this.panelOpen[key]
         }
+      },
+      showReqMethod: function(event){
+          //shows req and updates 
+        var id = event.target.id
+        var billet = this.items.filter((d)=>{return d.id == id})[0]
+        this.dialogData['id']=billet.id
+        this.dialogData['api']=billet.api
+        this.dialogData['state']=billet.state
+        this.dialogData['unit']=billet.unit
+        this.dialogData['aircraft']=billet.aircraft
+        this.dialogData['afsc']=billet.afsc
+        this.dialogData['grade']=billet.grade
+        this.showReq = true
       },
     resetAll: (event)=>{
       //Emulate javascript:dc.filterAll();dc.redrawAll()
