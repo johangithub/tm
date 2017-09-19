@@ -2,6 +2,7 @@
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
+const VERIFY_ADMIN = "VERIFY_ADMIN";
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -11,6 +12,7 @@ export const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token"),
     pending: false,
+    adminVerified: false,
     userId: localStorage.getItem("id"),
     role: localStorage.getItem("role"),
     baseUrl: "http://localhost:5005/api"
@@ -27,6 +29,9 @@ export const store = new Vuex.Store({
     },
     role: state => {
       return state.role
+    },
+    adminVerified: state=> {
+      return state.adminVerified
     }
   },
   mutations: {
@@ -42,6 +47,9 @@ export const store = new Vuex.Store({
       state.isLoggedIn = false
       state.pending = false
     },
+    [VERIFY_ADMIN](state){
+      state.adminVerified = true
+    }
   },
   actions: {
     // this is a fake login system. Will replace with axios call to the serverside
@@ -58,7 +66,6 @@ export const store = new Vuex.Store({
           .then((response)=>{
             //If server-side login is successful
             setTimeout(()=>{
-                    commit(LOGIN_SUCCESS)
                     var token = response.data.token  
                     function parseJwt (token) {
                       var base64Url = token.split('.')[1];
@@ -69,7 +76,16 @@ export const store = new Vuex.Store({
                     localStorage.setItem("token", token)
                     localStorage.setItem("id", token_decoded.id)
                     localStorage.setItem("role", token_decoded.role)
-                    resolve()
+                    //handle admin login
+                    if (token_decoded.role =='admin' && !this.state.adminVerified ){
+                      resolve()
+                      commit(LOGOUT)
+                    }
+                    else{
+                      commit(VERIFY_ADMIN)
+                      commit(LOGIN_SUCCESS)
+                      resolve()
+                    }
                 
             }, 1000)
           })
@@ -88,6 +104,9 @@ export const store = new Vuex.Store({
       localStorage.removeItem("role")
       localStorage.removeItem("id")
       commit(LOGOUT)
+    },
+    direct_login ({ commit }){
+      commit(LOGIN_SUCCESS)
     }
   }
 }); 
