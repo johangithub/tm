@@ -14,14 +14,6 @@ Vue.use(Router)
 export const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Home',
-      component: Home,
-      meta: {
-        authRequired: true
-      }
-    },
-    {
       path: '/login',
       name: 'Login',
       component: Login,
@@ -29,6 +21,15 @@ export const router = new Router({
         authRequired: false
       }
     },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home,
+      meta: {
+        authRequired: true
+      }
+    },
+
     {
       path: '/billet',
       name: 'Billet',
@@ -54,11 +55,20 @@ export const router = new Router({
       }
     },
     {
-      path: '/profile/:id',
+      path: '/profile',
       name: 'Profile',
       component: Profile,
       meta: {
         authRequired: true
+      },
+    },
+    {
+      path: '/profile/:id',
+      name: 'ProfileById',
+      component: Profile,
+      meta: {
+        authRequired: true,
+        profileViewRequired: true
       },
       props: true
     },
@@ -84,12 +94,30 @@ export const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const authed = store.state.isLoggedIn
+  const authed = store.getters.isLoggedIn
   const authRequired = to.meta.authRequired
+  const profileViewRequired = to.meta.profileViewRequired
+  const id = store.getters.userId
+  const role = store.getters.role
+
+  //if authentication is required and not logged in, then send to login page 
   if (authRequired && !authed){
     next('/login')
+  }
+  //If visiting profile, check the authority and automatically reroute to his profile id
+  //Differentiate between officer who can only view his profile and someone who can view anyone'someone
+  else if (/\/profile\/\d+/.test(to.path)){
+    //Only let admin through for other profile view
+    if (role == 'admin'){
+      next()
+    }
+    //if role is not sufficient, forward to his own profile
+    else{
+      next('/profile')
+    }
   }
   else {
     next()
   }
 })
+

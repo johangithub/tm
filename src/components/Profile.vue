@@ -1,151 +1,275 @@
 <template>
     <v-container fluid id="profile">
-    <h4>Greetings, Maj FirstName LastName / ID: {{id}}</h4>
-    <v-layout row>
-    <v-flex xs8>
     <v-btn primary @click.native="getData">GET</v-btn>
-    <v-expansion-panel class="mt-3" expand>
+    <h4 v-if="dataReady">{{rank}} ID: {{this.apiData.rowid}}</h4>
+    <v-layout row v-if="dataReady">
+    <v-flex xs8>
+    <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Test Data</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-            <div>{{ apiData }}</div>
+          <pre>{{pretty_apiData}}</pre>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
 
-    <v-expansion-panel class="mt-3">
+    <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Personal</div>
+        <div slot="header">General</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>Name: </div>
-          <div>Age: </div>
+          <div>Grade: {{ general.grade }}</div>
+          <div>Component: {{ general.component }}</div>
+          <div>Functional Category: {{ general.func_cat }}</div>
+          <div>Competitive Cateogry: {{ general.comp_cat }}</div>
+          <div>Record Status: {{ general.record_status }}</div>
+          <div>Accounting Status: {{ general.accounting_status }}</div>
+          <div>Short Tour Number: {{ general.short_tour_num }}</div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-
-    <v-expansion-panel class="mt-3">
+    <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Assignments</div>
+        <div slot="header">Projected</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>Name: </div>
-          <div>Age: </div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    <v-layout row>
-    <v-flex xs4>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">Service Dates</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div>DOR: {{ DOR }}</div>
-          <div>DAS: {{ DAS }}</div>
-          <div>ODSD: {{ ODSD }}</div>
-          <div>TFCSD: {{ TFCSD }}</div>
-          <div>TFMSD: {{ TFMSD }}</div>
-          <div>EAD: {{ EAD }}</div>
-          <div>PAY: {{ PAY }}</div>
-          <div>DOS: {{ DOS }}</div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    </v-flex>
-    <v-flex xs8>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">PME</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div v-for="item in pme">{{item.pme_level}} - {{item.pme_title}} / {{item.pme_method}} / {{item.pme_date}}
-          </div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    </v-flex>
-    </v-layout>
-    <v-layout row>
-    <v-flex xs6>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">Degrees</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div>Name: </div>
-          <div>Age: </div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    </v-flex>
-    
-    </v-layout>
-    <v-layout row>
-    <v-flex xs6>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">Aircraft Data</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div>Aircraft // Hours // Date Last Flown</div>
-          <div v-for="ac in rated_data.aircrafts">
-          {{ ac.aircraft }} //
-          {{ ac.hours }} //
-          {{ ac.date_flown_last }}
-          </div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    </v-flex>
-    <v-flex xs6>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">Rated Data</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div>Aviation Service Date: {{ rated_data.avsd }}</div>
-          <div>ACP Status: {{ rated_data.acp_status}} </div>
-          <div>Gate Return to Fly Date: {{ rated_data.gate_rtfd}} </div>
-          <div>Gate months: {{ rated_data.gate_months}} </div>
-          <div>Combat Hours: {{ rated_data.combat_hours}} </div>
-          <div>Instructor Hours: {{ rated_data.instructor_hours}} </div>
-          <div>Total Hours: {{ rated_data.total_hours}} </div>
-          </v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    </v-flex>
-    </v-layout>
-    <v-expansion-panel class="mt-3">
-      <v-expansion-panel-content>
-        <div slot="header">Duty History</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-            <div  v-for="history in duty_history">
-            {{ history.dafsc}} //
-            {{ history.duty_title }} //
-            {{ history.unit }} //
-            {{ history.majcom }} //
-            {{ history.level }} //
-            {{ history.base }} //
-            {{ history.state }} //
-            {{ history.start_date }}
+           <div>Projected PAS: {{projected.assignment.pas}}</div>
+            <div>Projected AFSC: {{projected.assignment.afsc}}</div>
+            <div>Assignment Selection Date: {{projected.assignment.asd}}</div>
+            <div>Projected Departure Date: {{projected.assignment.pdd}}</div>
+            <div>Projected RNLTD: {{projected.assignment.rnltd}}</div>
+            <div>Projected Duty Effective Date: {{projected.duty.eff_date}}</div>
+            <div>Projected Duty Expiration Date: {{projected.duty.exp_date}}</div>
+            <div>Projected Duty Status: {{projected.duty.status}}</div>
+            <div>Projected Duty Title: {{projected.duty.title_pending}}</div>
+            <div>Projected Duty Command Level: {{projected.duty.cmd_lvl_pending}}</div>
+            <div>Projected Duty AFSC: {{projected.duty.afsc_pending}}</div>
+            <div>Projected Duty Effective Date Pending: {{projected.duty.eff_date_pending}}</div>
+            <span>Projected Course</span>
+            <div v-for="course in projected.course">
+              {{course.course}}//{{course.course_ct}}//{{course.start_date}}//{{course.grad_date}}
             </div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
 
-    <v-expansion-panel class="mt-3">
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Assignment Codes</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div v-for="abc in asgn_code.block_code">
+            <span>Block code: {{abc.code}} ({{abc.date}})</span>
+          </div>
+          <div v-for="aac in asgn_code.avail_code">
+            <span>Avail code: {{aac.code}} ({{aac.date}})</span>
+          </div>
+          <div v-for="alc in asgn_code.limit_code">
+            <span>Limit code: {{alc.code}} ({{alc.date}})</span>
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Courses</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div v-for="course in courses">
+            <span>{{course.course}} ({{course.date}})</span>
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
+    <v-layout row>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Service Dates</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>DAS: {{service_dates._das}}</div>
+          <div>DDLDS: {{service_dates._ddlds}}</div>
+          <div>Duty Status Eff Date: {{service_dates._duty_status_eff_date}}</div>
+          <div>ODSD: {{service_dates._odsd}}</div>
+          <div>STRD: {{service_dates._strd}}</div>
+          <div>DOS: {{service_dates._dos}}</div>
+          <div>EAD: {{service_dates._ead}}</div>
+          <div>PAY Date: {{service_dates._pay_date}}</div>
+          <div>TAFCSD: {{service_dates._tafcsd}}</div>
+          <div>TFCSD: {{service_dates._tfcsd}}</div>
+          <div>TAFMSD: {{service_dates._tafmsd}}</div>
+          <div>Grade Effective Date: {{service_dates._grade_eff_date}}</div>
+          <div>DOR: {{service_dates._dor}}</div>
+          <div>DEROS: {{service_dates._deros}}</div>
+          <div>CC Date: {{service_dates._cc_date}}</div>
+          <div>Projected RET/SEP Effecitive Date: {{service_dates._ret_sep_date_proj}}</div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">PME</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>PME Highest: {{pme.pme_highest}}</div>
+          <div v-for="item in pme.history">{{item.level}} - {{item.course}} / {{item.method}} / {{item.date}}
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Joint</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>JDA Flag: {{joint.jda_flag}}</div>
+          <div>JSO Code: {{joint.jso_code}}</div>
+          <div>JSO_NUM Status: {{joint.jso_jsonum_status}}</div>
+          <div v-for="tour in joint.history">
+          {{tour.type}}//{{tour.credit}}//{{tour.reason}}//{{tour.posn}}//{{tour.start_date}} - {{tour.stop_date}}
+          </div>
+          </v-card-text>
+        </v-card>
+
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    </v-layout>
+    <v-layout row>
+    <v-flex xs6>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Degrees</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div v-for="deg in degree.history">
+            {{deg.degree_ct}}//{{deg.level}}//{{deg.method}}//{{deg.school}}//{{deg.date}}            
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs6>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Language</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div v-if="language.dlab_score">DLAB Score(Date): {{language.dlab_score}} ({{language.dlab_date}})</div>
+          <div v-for="lang in language.list">
+            {{lang.id}}//{{lang.listen}}//{{lang.read}}//{{lang.date}}
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    </v-layout>
+    <v-layout row>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Aircraft Data</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>Aircraft // Hours // Date Last Flown</div>
+          <div v-for="ac in rated.aircraft_history">
+          {{ ac.aircraft }} //
+          {{ ac.hours }} //
+          {{ ac.aircraft_date_flown }}
+          </div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Rated Data</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+            <div>Aero Rating: {{rated.aero_rating_ct}}</div>
+            <div>Flight Activity Code: {{rated.flt_activity_code}}</div>
+            <div>Gates Current: {{rated.gates_curr}}</div>
+            <div>Flight Hours(Combat): {{rated.flt_hrs_combat}}</div>
+            <div>Flight Hours(Inst): {{rated.flt_hrs_instr}}</div>
+            <div>Flight Hours(Total): {{rated.flt_hrs_total}}</div>
+            <div>Aviation Service Code: {{rated.avn_service_code_ct}}</div>
+            <div>RDTM: {{rated.rdtm}}</div>
+            <div>Aircrew Position ID: {{rated.aircrew_position_id}}</div>
+            <div>Aviation Service Date: {{rated.avn_service_date}}</div>
+            <div>Aero Rating Date: {{rated.aero_rating_date}}</div>
+            <div>Return To Fly Date: {{rated.return_to_fly_date}}</div>
+            <div>ACP Eligible Date: {{rated.acp_elig_date}}</div>
+            <div>ACP Effective Date: {{rated.acp_effective_date}}</div>
+            <div>ACP Stop Date: {{rated.acp_stop_date}}</div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    <v-flex xs4>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Exp Identifier</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+          <div>{{spec_exp}}</div>
+          <div>Nuclear Experience</div>
+          <div v-for="item in spec_exp.nuclear">
+          {{item.nei}}//{{item.start_date}}//{{item.stop_date}}
+          </div>
+          <div>SEI</div>
+          <div v-for="item in spec_exp.sei">
+          {{item.sei}}
+          </div>
+          <div>Acquisition</div>
+          <div>{{spec_exp.acquisitions}}</div>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+    </v-flex>
+    </v-layout>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header">Duty History</div>
+              <v-data-table
+            :headers="duty_history_headers"
+            :items="duty_history"
+            hide-actions>
+            <template slot="items" scope="props">
+              <td>{{props.item.duty_title}}</td>
+              <td>{{props.item.unit}}</td>
+              <td>{{props.item.location}}</td>
+              <td>{{props.item.org_majcom}}</td>
+              <td>{{props.item.command_level}}</td>
+              <td>{{props.item.dafsc}}</td>
+              <td>{{props.item.eff_date}}</td>
+            </template>
+    </v-data-table>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
+
+    <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Self Advertise</div>
         <v-card>
@@ -255,9 +379,9 @@
     </v-expansion-panel>
     </v-flex>
     </v-layout>
-    <v-btn primary @click.native="snackbar = true">Submit</v-btn>
+    <v-btn v-if="dataReady" primary @click.native="snackbar = true">Submit</v-btn>
     <v-snackbar
-      :timeout="3000"
+      :timeout="1000"
       :top="true"
       v-model="snackbar"
     >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
@@ -265,13 +389,14 @@
 </template>
 
 <script>
+import { store } from '@/store.js'
 import axios from 'axios'
-const BASE_URL = 'http://localhost:5005'
+const BASE_URL = store.state.baseUrl
 export default {
   props: ['id'],
   data(){
     return {
-      snackbar: true,
+      snackbar: false,
       comment: '',
       qualifications: [],
       interests: [],
@@ -297,107 +422,88 @@ export default {
       allowedRNLTD: function(date){
         return date < new Date('2018/09/30') & date > new Date('2018/05/30')
       },
-      DAS: '2014-08-09',
-      DOR: '2013-12-01',
-      ODSD: '2005-08-07',
-      TFCSD: '1999-06-02',
-      TFMSD: '1999-06-02',
-      EAD: '1999-06-02',
-      PAY: '1999-06-02',
-      DOS: '2027-06-30',
-      pme: [
-      {
-        "pme_date": "06-2013",
-        "pme_method": "RESIDENCE",
-        "pme_level": "IDE",
-        "pme_title": "AIR COMMAND ADN STAFF COLLEGE (ACSC)"
-      },
-      {
-        "pme_date": "12-2004",
-        "pme_method": "RESIDENCE",
-        "pme_level": "PDE",
-        "pme_title": "SQUADRON OFFICER SCHOOL"
-      }
-      ],
-      duty_history: [
-      {
-        "dafsc": "C11F3Y",
-        "duty_title": "COMMANDER",
-        "unit": "86 FIGHTER WEAPONS SQ",
-        "majcom": "ACC",
-        "level": "SQ",
-        "base": "EGLIN",
-        "state": "FL",
-        "start_date": "2015-08-20"
-      },
-      {
-        "dafsc": "B11F3Y",
-        "duty_title": "DO/F-16 OT&E IP",
-        "unit": "85 TEST AND EVALUATION SQ",
-        "majcom": "ACC",
-        "level": "SQ",
-        "base": "EGLIN",
-        "state": "FL",
-        "start_date": "2014-08-09"
-      }
-      ],
-      rated_data: {
-        "aircrafts": [
-          {
-            "aircraft": "F-16C",
-            "date_flown_last": "2017-05-02",
-            "hours": 1500.2
-          },
-          {
-            "aircraft": "F-16D",
-            "date_flown_last": "2017-05-01",
-            "hours": 341.6
-          },
-          {
-            "aircraft": "F-15C",
-            "date_flown_last": "2001-07-31",
-            "hours": 1.3
-          },
-          {
-            "aircraft": "AT-38B",
-            "date_flown_last": "2001-02-15",
-            "hours": 25.1
-          },
-          {
-            "aircraft": "T-38A",
-            "date_flown_last": "2000-12-07",
-            "hours": 7.5
-          },
-        ],
-        acp_status: "Bonus accepted 25000",
-        avsd: "2014-06-13",
-        gate_rtfd: "2005-03-01",
-        combat_hours: 156,
-        instructor_hours: 709,
-        total_hours: 2086,
-        gate_months: 187,
-    },
       showDDD: false,
       showRNLTD: false,
+      dataReady: false,
       apiData: '',
-      errors: []
+      errors: [],
+      general: '',
+      projected: '',
+      rated: '',
+      asgn_code: '',
+      service_dates: '',
+      duty_history: '',
+      pme: '',
+      degree: '',
+      language: '',
+      jonit: '',
+      courses: '',
+      spec_exp: '',
+      duty_history_headers: [
+      {text: 'Duty Title', value: 'duty_title', align: 'left', sortable: false },
+      {text: 'Unit', value: 'unit', align: 'left', sortable: false },
+      {text: 'Location', value: 'location', align: 'left', sortable: false },
+      {text: 'MAJCOM', value: 'majcom', align: 'left', sortable: false },
+      {text: 'Level', value: 'level', align: 'left', sortable: false },
+      {text: 'DAFSC', value: 'dafsc', align: 'left', sortable: false },
+      {text: 'Eff Date', value: 'date', align: 'left', sortable: false },
+      ],
+      items: []
     }
   },
   methods: {
     getData(){
-      axios.get('http://localhost:5005/api/users',
+      axios.get(BASE_URL+'/officers',
       {
         headers: {
           'Authorization': localStorage.token 
         }
       })
           .then(response =>{
-            this.apiData = response.data[0]
+            var data = response.data.data
+            this.apiData = data
+            this.general = data.general
+            this.duty_history = data.duty.history
+            this.asgn_code = data.asgn_code
+            this.service_dates = data.service_dates
+            this.rated = data.rated
+            this.pme = data.pme
+            this.degree = data.degree
+            this.language = data.language
+            this.projected = data.projected
+            this.joint = data.joint
+            this.courses = data.courses
+            this.spec_exp = data.special_experience
+            this.dataReady = true
+            this.items = this.duty_history
            })
           .catch(e => {
             console.error(e)
           })
     }
   },
+  computed: {
+    profileId(){
+      return this.id ? this.id : store.getters.userId
+    },
+    pretty_apiData(){
+      if (this.apiData){
+        return JSON.stringify(this.apiData, null, 2);
+      }
+      else{
+        return ""
+      }
+    },
+    rank(){
+      var rank_obj = {
+        "01": "2LT",
+        "02": "1LT",
+        "03": "CAPT",
+        "04": "MAJ",
+        "05": "LTC",
+      }
+      return rank_obj[this.general.grade]
+    },
+  }
 }
 </script>
