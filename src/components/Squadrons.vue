@@ -11,12 +11,13 @@
     <span class="total-count"></span>
     billets | 
     <v-btn small error round @click.prevent="resetAll">Reset All</v-btn>
+    <v-btn small warning round @click.prevent="togglePanels">Toggle</v-btn>
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
     <v-flex d-flex xs12 md7>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="states">
+            <v-expansion-panel-content :value="panelOpen.state" id="states">
                 <div slot="header" style="font-size: 140%;">States</div>          
       <v-card>
         <v-card-media>
@@ -30,7 +31,7 @@
     </v-flex>
     <v-flex d-flex xs12 md5>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="conus">
+            <v-expansion-panel-content :value="panelOpen.conus" id="conus">
                 <div slot="header" style="font-size: 140%;">CONUS/OCONUS</div>
                 <v-card>
                   <v-card-media>
@@ -45,7 +46,7 @@
     <v-layout row wrap>
         <v-flex d-flex xs12 class="pa-0 pt-2">
             <v-expansion-panel expand>
-                <v-expansion-panel-content id="api">
+                <v-expansion-panel-content :value="panelOpen.api" id="api">
                     <div slot="header" style="font-size: 140%;">API Code</div>
                     <v-card>
                       <v-card-media>
@@ -64,7 +65,7 @@
   <v-layout row wrap class="mt-3">
     <v-flex xs12>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="loc">
+            <v-expansion-panel-content :value="panelOpen.location" id="loc">
                 <div slot="header" style="font-size: 140%;">Location</div>
                 <v-card>
                   <v-card-media>
@@ -80,7 +81,7 @@
   <v-layout wrap class="mt-3">
     <v-flex xs6 md4>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="arcft">
+            <v-expansion-panel-content :value="panelOpen.aircraft" id="arcft">
                 <div slot="header" style="font-size: 140%;">Aircraft</div>
                 <v-card>
                   <v-card-media>
@@ -94,7 +95,7 @@
     </v-flex>
     <v-flex xs6 md4>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="grade">
+            <v-expansion-panel-content :value="panelOpen.grade" id="grade">
                 <div slot="header" style="font-size: 140%;">Grade</div>
                 <v-card>
                   <v-card-media>
@@ -108,7 +109,7 @@
     </v-flex>
     <v-flex xs12 md4>
         <v-expansion-panel expand>
-            <v-expansion-panel-content id="afsc">
+            <v-expansion-panel-content :value="panelOpen.afsc" id="afsc">
                 <div slot="header" style="font-size: 140%;">AFSC</div>
                 <v-card>
                   <v-card-media>
@@ -125,18 +126,17 @@
     <v-flex xs12 elevation-3 class="ma-1">
         <v-data-table :headers="headers" :items="items" v-model="selected" selected-key="unit">
             <template slot="items" scope="props">
-                <tr @click="toggleFavorite(props)">
                 <td>
-                    <v-icon v-if="selected.includes(props.item)" warning style="cursor: pointer;">star</v-icon>
-                    <v-icon v-else style="cursor: pointer;">star</v-icon>
+                    <v-icon v-if="selected.includes(props.item)" @click="toggleFavorite(props)" warning style="cursor: pointer;">star</v-icon>
+                    <v-icon v-else style="cursor: pointer;" @click="toggleFavorite(props)">star</v-icon>
                 </td>
+                <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet :item="dialogData" v-model="showReq"></req-sheet></a></td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
                 <td class="text-xs-left" style="width: 15%">{{props.item.aircraft}}</td>
                 <td class="text-xs-left" style="width: 35%">{{props.item.unit}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
-                </tr>
             </template> 
         </v-data-table>
     </v-flex>
@@ -152,23 +152,36 @@
 import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
+import Req from './Req'
 
 export default{
   data(){
     return {
       data: [],
-      showConus: true,
-      showStates: true,
-      showLocation: true,
-      showAPICode: true,
-      showAircraft: true,
       width: 0,
       height: 0,
+      showReq: false,
+      dialogData: {
+      state: "",
+      api: ""
+      },
+      panelOpen: {
+         state: true,
+         conus: true,
+         api: true,
+         location: true,
+         aircraft: true,
+         grade: true,
+         afsc: true 
+      },
       items: [],
       selected: [],
       headers: [
         {
             text: 'Favorite', sortable: false   
+        },
+        {
+            text: 'ID', value: 'id', align: 'left'
         },
         {
             text: 'API code', value: 'api', align: 'left' 
@@ -201,7 +214,8 @@ export default{
   },
   components:{
     'reset-btn': ResetButton,
-    'hide-btn': HideButton
+    'hide-btn': HideButton,
+    'req-sheet': Req
   },
   methods: {
       toggleFavorite: function(obj) {
@@ -211,6 +225,24 @@ export default{
           else {
             this.selected.push(obj.item)
           }
+      },
+      togglePanels: function() {
+        for (var key in this.panelOpen) {
+            this.panelOpen[key] = !this.panelOpen[key]
+        }
+      },
+      showReqMethod: function(event){
+          //shows req and updates 
+        var id = event.target.id
+        var billet = this.items.filter((d)=>{return d.id == id})[0]
+        this.dialogData['id']=billet.id
+        this.dialogData['api']=billet.api
+        this.dialogData['state']=billet.state
+        this.dialogData['unit']=billet.unit
+        this.dialogData['aircraft']=billet.aircraft
+        this.dialogData['afsc']=billet.afsc
+        this.dialogData['grade']=billet.grade
+        this.showReq = true
       },
     resetAll: (event)=>{
       //Emulate javascript:dc.filterAll();dc.redrawAll()
