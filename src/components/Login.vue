@@ -90,22 +90,25 @@ export default{
       this.show_password = !this.show_password  
     },
     login: function(){
-      if (this.email_valid){ 
+      if (this.email_valid && this.password){ 
       this.$store.dispatch("login", {
               email: this.email,
               password: this.password
             }).then(() => {
             this.$router.push("/")
-          }).catch(()=>{
+          }).catch((message)=>{
             //handle server side login rejection
-            this.$store.dispatch("logout")
-            this.snackbar('Wrong Password')
+            this.snackbar(message)
           })
       }
-      else{
+      else if (!this.email_valid){
         //Client side email validation
-        this.snackbar('Wrong Email')
-      } 
+        this.snackbar('Wrong Email Format')
+      }
+      else if (!this.password){
+        //Password is required
+        this.snackbar('Please input password')
+      }
     },
     snackbar(text){
       this.snackbar_text = text

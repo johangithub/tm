@@ -56,34 +56,30 @@ export const store = new Vuex.Store({
             password: creds.password
           })
           .then((response)=>{
-            // wait 1s before accepting or rejecting user credentials
+            //If server-side login is successful
             setTimeout(()=>{
-                if (response.data.success){
                     commit(LOGIN_SUCCESS)
-                    var token = response.data.token
-                    
+                    var token = response.data.token  
                     function parseJwt (token) {
                       var base64Url = token.split('.')[1];
                       var base64 = base64Url.replace('-', '+').replace('_', '/');
                       return JSON.parse(window.atob(base64));
                     }
-
                     var token_decoded = parseJwt(token)
-
                     localStorage.setItem("token", token)
                     localStorage.setItem("id", token_decoded.id)
                     localStorage.setItem("role", token_decoded.role)
-
                     resolve()
-                }
-                else{
-                    //login failure on server side. e.g. wrong password, no user exists
-                    reject()
-                }
+                
             }, 1000)
           })
           .catch((e) => {
-            console.log(e)
+            // If server-side login is unsuccessful 
+            setTimeout(()=>{
+            commit(LOGOUT)
+            var message = e.response.data.message
+            reject(message)
+            }, 1000)
           })    
       })
     },
