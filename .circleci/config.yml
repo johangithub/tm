@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/repo
+    working_directory: ~/tm
 
     steps:
       - checkout
@@ -32,13 +32,14 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-  deploy:
-    name: Deploy to S3 if branch is Master
-    command: |
-    if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      aws s3 sync tm/dist s3://tm-build
-    else 
-      echo "Not master branch"
-    fi
-      # run tests!
-      # - run: yarn test
+
+      - deploy:
+          name: Deploy to S3 if branch is Master
+          command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            aws s3 sync tm/dist s3://tm-build/ --delete
+          else 
+            echo "Not master branch"
+          fi
+            # run tests!
+            # - run: yarn test
