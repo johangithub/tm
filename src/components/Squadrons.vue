@@ -130,7 +130,7 @@
                     <v-icon v-if="selected.includes(props.item)" @click="toggleFavorite(props)" warning style="cursor: pointer;">star</v-icon>
                     <v-icon v-else style="cursor: pointer;" @click="toggleFavorite(props)">star</v-icon>
                 </td>
-                <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet :item="dialogData" v-model="showReq" :key="props.item.id"></req-sheet></a></td>
+                <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet :item="dialogData" v-model="showReq"></req-sheet></a></td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
@@ -181,7 +181,7 @@ export default{
             text: 'Favorite', sortable: false   
         },
         {
-            text: 'ID', align: 'left'
+            text: 'ID', value: 'id', align: 'left'
         },
         {
             text: 'API code', value: 'api', align: 'left' 
