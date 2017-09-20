@@ -5,6 +5,7 @@ const LOGOUT = "LOGOUT";
 const ADD_BILLET = "ADD_BILLET";
 const REMOVE_BILLET = "REMOVE_BILLET";
 const RANK_BILLETS = "RANK_BILLETS";
+const VERIFY_ADMIN = "VERIFY_ADMIN";
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -14,6 +15,7 @@ export const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token"),
     pending: false,
+    adminVerified: false,
     userId: localStorage.getItem("id"),
     role: localStorage.getItem("role"),
     baseUrl: "http://localhost:5005/api",
@@ -36,6 +38,9 @@ export const store = new Vuex.Store({
     },
     faveBillets: state => {
         return state.faveBillets
+    },
+    adminVerified: state=> {
+      return state.adminVerified
     }
   },
   mutations: {
@@ -70,6 +75,9 @@ export const store = new Vuex.Store({
         //the index of each billet in an array (ie - first ranked billet has 
         //index of 0)
         state.faveBillets = payload
+    },
+    [VERIFY_ADMIN](state){
+      state.adminVerified = true
     }
   },
   actions: {
@@ -85,34 +93,38 @@ export const store = new Vuex.Store({
             password: creds.password
           })
           .then((response)=>{
-            // wait 1s before accepting or rejecting user credentials
+            //If server-side login is successful
             setTimeout(()=>{
-                if (response.data.success){
-                    commit(LOGIN_SUCCESS)
-                    var token = response.data.token
-                    
+                    var token = response.data.token  
                     function parseJwt (token) {
                       var base64Url = token.split('.')[1];
                       var base64 = base64Url.replace('-', '+').replace('_', '/');
                       return JSON.parse(window.atob(base64));
                     }
-
                     var token_decoded = parseJwt(token)
-
                     localStorage.setItem("token", token)
                     localStorage.setItem("id", token_decoded.id)
                     localStorage.setItem("role", token_decoded.role)
-
-                    resolve()
-                }
-                else{
-                    //login failure on server side. e.g. wrong password, no user exists
-                    reject()
-                }
+                    //handle admin login
+                    if (token_decoded.role =='admin' && !this.state.adminVerified ){
+                      resolve()
+                      commit(LOGOUT)
+                    }
+                    else{
+                      commit(VERIFY_ADMIN)
+                      commit(LOGIN_SUCCESS)
+                      resolve()
+                    }
+                
             }, 1000)
           })
           .catch((e) => {
-            console.log(e)
+            // If server-side login is unsuccessful 
+            setTimeout(()=>{
+            commit(LOGOUT)
+            var message = e.response.data.message
+            reject(message)
+            }, 1000)
           })    
       })
     },
@@ -134,6 +146,9 @@ export const store = new Vuex.Store({
     save ({commit},payload) {
         //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
         localStorage.setItem(payload.name, payload.value)
+    },
+    direct_login ({ commit }){
+      commit(LOGIN_SUCCESS)
     }
   }
 }); 

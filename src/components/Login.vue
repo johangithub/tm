@@ -27,13 +27,13 @@
 <v-layout row wrap>
 <v-flex xs12 sm10 offset-sm1 md6 offset-md3>
 <transition name="fade" mode="out-in">
-<v-layout v-if="agreed && pending">
+<v-layout v-if="agreed && pending && !admin">
     <v-flex xs12 class="text-xs-center pt-5 mt-5">
         <v-progress-circular indeterminate :size="120" :width="4" class="primary--text text-xs-center"></v-progress-circular>
     </v-flex>
 </v-layout>
 <!--<v-progress-linear v-if="pending" :indeterminate="true"></v-progress-linear>-->
-<v-card v-if="agreed && !pending" class="py-5 px-3">
+<v-card v-if="agreed && !pending && !admin" class="py-5 px-3">
 <v-card-text @keyup.enter="login">
   <v-text-field
     name="input-email"
@@ -53,6 +53,25 @@
     ></v-text-field>
 </v-card-text>
 <v-btn primary @click.native="login">Login</v-btn>
+</v-card>
+</transition>
+</v-flex>
+</v-layout>
+<v-layout row wrap>
+<v-flex xs12 sm10 offset-sm1 md6 offset-md3>
+<transition name="fade" mode="out-in">
+<v-card v-if="agreed && !pending && admin" class="py-5 px-3">
+<v-card-text @keyup.enter="adminVerify">
+    <div>Admin Login</div>
+    <span>{{email}}@us.af.mil</span>
+    <v-text-field
+      name="input-key"
+      label="TOTP key"
+      v-model="totp"
+      counter
+    ></v-text-field>
+</v-card-text>
+<v-btn primary @click.native="adminVerify">Verify</v-btn>
 </v-card>
 </transition>
 </v-flex>
@@ -82,7 +101,9 @@ export default{
       validate_email: false,
       email: '',
       password: '',
-      autofocus: false
+      autofocus: false,
+      admin: false,
+      totp:''
     }
   },
   methods:{
@@ -90,22 +111,38 @@ export default{
       this.show_password = !this.show_password  
     },
     login: function(){
-      if (this.email_valid){ 
+      if (this.email_valid && this.password){ 
       this.$store.dispatch("login", {
               email: this.email,
               password: this.password
             }).then(() => {
-            this.$router.push("/")
-          }).catch(()=>{
+              if (this.$store.getters.adminVerified){
+                this.$router.push("/")
+              }
+              else {
+                this.admin = true
+              }
+            
+          }).catch((message)=>{
             //handle server side login rejection
-            this.$store.dispatch("logout")
-            this.snackbar('Wrong Password')
+            this.snackbar(message)
           })
       }
-      else{
+      else if (!this.email_valid){
         //Client side email validation
-        this.snackbar('Wrong Email')
-      } 
+        this.snackbar('Wrong Email Format')
+      }
+      else if (!this.password){
+        //Password is required
+        this.snackbar('Please input password')
+      }
+    },
+    adminVerify: function(){
+      this.totp == '123' ? this.$store.dispatch('direct_login') : ''
+
+      setTimeout(()=>{
+        this.$router.push("/")
+      },1000)
     },
     snackbar(text){
       this.snackbar_text = text

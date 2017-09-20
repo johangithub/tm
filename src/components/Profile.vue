@@ -57,25 +57,29 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
 
+    <v-layout row>
+    <v-flex xs4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Assignment Codes</div>
         <v-card>
           <v-card-text class="grey lighten-3">
           <div v-for="abc in asgn_code.block_code">
-            <span>Block code: {{abc.code}} ({{abc.date}})</span>
+            <span v-tooltip:right="{ html: abcFormat(abc.code) }">Block code: {{abc.code}} ({{abc.date}})</span>
           </div>
           <div v-for="aac in asgn_code.avail_code">
-            <span>Avail code: {{aac.code}} ({{aac.date}})</span>
+            <span v-tooltip:right="{ html: aacFormat(aac.code) }">Avail code: {{aac.code}} ({{aac.date}})</span>
           </div>
           <div v-for="alc in asgn_code.limit_code">
-            <span>Limit code: {{alc.code}} ({{alc.date}})</span>
+            <span v-tooltip:right="{ html: alcFormat(alc.code) }">Limit code: {{alc.code}} ({{alc.date}})</span>
           </div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
-
+    </v-flex>
+    </v-layout>
+    
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Courses</div>
@@ -258,7 +262,7 @@
             <template slot="items" scope="props">
               <td>{{props.item.duty_title}}</td>
               <td>{{props.item.unit}}</td>
-              <td>{{props.item.location}}</td>
+              <td>{{props.item.location | ajh4filter }}</td>
               <td>{{props.item.org_majcom}}</td>
               <td>{{props.item.command_level}}</td>
               <td>{{props.item.dafsc}}</td>
@@ -391,6 +395,10 @@
 <script>
 import { store } from '@/store.js'
 import axios from 'axios'
+var ajh4 = require('@/format/location_format')
+var abc = require('@/format/abc')
+var aac = require('@/format/aac')
+var alc = require('@/format/alc')
 const BASE_URL = store.state.baseUrl
 export default {
   props: ['id'],
@@ -403,10 +411,12 @@ export default {
       qualList:[
       'SEFE',
       'WIC',
-      'IP',
-      '4-ship',  
-      '2-ship',
-      'Wingman'
+      'IP/IWSO',
+      '4-ship FL',  
+      '2-ship FL',
+      'Wingman',
+      'FAC (A)',
+      'SANDY'
       ],
       interestList: [
       'ALO Assignment',
@@ -480,6 +490,15 @@ export default {
           .catch(e => {
             console.error(e)
           })
+    },
+    abcFormat(value){
+      return abc[value]
+    },
+    aacFormat(value){
+      return aac[value]
+    },
+    alcFormat(value){
+      return alc[value]
     }
   },
   computed: {
@@ -504,6 +523,11 @@ export default {
       }
       return rank_obj[this.general.grade]
     },
+  },
+  filters: {
+    ajh4filter(val){
+      return ajh4[val]
+    }
   }
 }
 </script>
