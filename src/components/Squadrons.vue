@@ -124,11 +124,14 @@
   </v-layout>
   <v-layout row wrap class="mt-3">
     <v-flex xs12 elevation-3 class="ma-1">
-        <v-data-table :headers="headers" :items="items" v-model="selected" selected-key="unit">
+        <v-data-table :headers="headers" :items="items" selected-key="items.id">
             <template slot="items" scope="props">
+                <!--TODO: edit for IE11 support (see vuetify docs)-->
                 <td>
-                    <v-icon v-if="selected.includes(props.item)" @click="toggleFavorite(props)" warning style="cursor: pointer;">star</v-icon>
-                    <v-icon v-else style="cursor: pointer;" @click="toggleFavorite(props)">star</v-icon>
+                    <!--can't find a way to dynamically change material icons colors, so use two-->
+                    <!--icons with v-show for now-->
+                    <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
+                    <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                 </td>
                 <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet :item="dialogData" v-model="showReq"></req-sheet></a></td>
                 <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
@@ -141,11 +144,6 @@
         </v-data-table>
     </v-flex>
   </v-layout>
-  <v-layout row>
-      <v-flex xs12>
-        {{ selected }} 
-      </v-flex>
-  </v-layout>
   </v-container>
 </template>
 <script>
@@ -153,6 +151,7 @@ import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
 import Req from './Req'
+import { mapGetters } from 'vuex'
 
 export default{
   data(){
@@ -161,10 +160,7 @@ export default{
       width: 0,
       height: 0,
       showReq: false,
-      dialogData: {
-      state: "",
-      api: ""
-      },
+      dialogData: {},
       panelOpen: {
          state: true,
          conus: true,
@@ -178,7 +174,7 @@ export default{
       selected: [],
       headers: [
         {
-            text: 'Favorite', sortable: false   
+            text: 'Favorite', sortable: false  
         },
         {
             text: 'ID', value: 'id', align: 'left'
@@ -205,6 +201,9 @@ export default{
     }
   },
   computed: {
+    ...mapGetters([
+        'faveBillets'
+    ]),
     ndx: function(){
       return crossfilter(this.data)
     },
@@ -218,12 +217,22 @@ export default{
     'req-sheet': Req
   },
   methods: {
+      favorited: function(obj) {
+          //have to use some method to check if billet id exists in 
+          //faveBillets array (includes method doesn't work)
+          return this.faveBillets.some(function(d) {return d.id === obj.id})
+      },
       toggleFavorite: function(obj) {
-          if (this.selected.includes(obj.item)) {
-            this.selected.splice(this.selected.indexOf(obj.item),1)
+          if (this.favorited(obj)) {
+            //have to use findIndex method to find index of billet, by billet id, to remove from 
+            //faveBillets array (indexOf method doesn't work)
+            var index = this.faveBillets.findIndex(function(d) {return d.id === obj.id})
+            //keep payload an object to follow convention
+            var payload = {'index': index}
+            this.$store.dispatch('removeBillet',payload)
           } 
           else {
-            this.selected.push(obj.item)
+            this.$store.dispatch('addBillet',obj)
           }
       },
       togglePanels: function() {
@@ -232,7 +241,7 @@ export default{
         }
       },
       showReqMethod: function(event){
-          //shows req and updates 
+          //shows req and updates values in dialog (needed to make dialog dynamic) 
         var id = event.target.id
         var billet = this.items.filter((d)=>{return d.id == id})[0]
         this.dialogData['id']=billet.id
@@ -495,30 +504,8 @@ export default{
     dc.chartRegistry.list().forEach(function(chart) {
         chart.on('filtered', function() {
             vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
-            console.log(vm.items)
         })
     })
-
-//    //Data Table
-//    var dataTable = dc.dataTable('#dc-data-table')
-//    var tableDimension = this.ndx.dimension( function (d) {
-//        return d;
-//    } )
-//    dataTable
-//    .group(function(d) { return 'Billets'})
-//    .showGroups(false)
-//    .dimension(tableDimension)
-//    .columns([
-//        function(d) {return d.api; },
-//        function(d) {return d.grade;},
-//        function(d) {return d.afsc;},
-//        function(d) {return d.aircraft},
-//        function(d) {return d.unit},
-//        function(d) {return d.location},
-//        function(d) {return d.state}
-//    ])
-//    .sortBy(function(d) { return d.unit })
-//    .order(d3.ascending)
 
     function onresize (){
       dc.chartRegistry.list().forEach(chart => {
@@ -533,9 +520,12 @@ export default{
         temp = setTimeout(resizeDone,200)
     }
     function resizeDone() {
+        // hacky way to prevent getElementById from firing when not on Squadrons page
+        if (vm.$route.name !== 'Squadrons') {
+            return
+        }
         // values for width, height, and offsets are for formatting -
         // numbers are fairly arbitrary
-        console.log('!!!!')
         var statesWidth = document.getElementById('states').offsetWidth*1.2;
         var statesHeight = statesWidth/1.8;
         var xOffset = statesWidth/2.5;
@@ -689,8 +679,5 @@ div[id*="-barchart"] .x.axis text{
 
 div[id*="-rowchart"] g.row text{
     fill: black;
-}
-.favorite {
-    color: red;
 }
 </style> 
