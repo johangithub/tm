@@ -5,9 +5,9 @@ import Billet from '@/components/Billet'
 import Profile from '@/components/Profile'
 import FindBillets from '@/components/FindBillets'
 import FindOfficers from '@/components/FindOfficers'
+import RankOfficers from '@/components/RankOfficers'
 import About from '@/components/About'
 import Login from '@/components/Login'
-import Squadrons from '@/components/Squadrons'
 import LosingCommander from '@/components/LosingCommander'
 import { store } from '@/store.js'
 Vue.use(Router)
@@ -29,11 +29,18 @@ export const router = new Router({
         authRequired: true
       }
     },
-
     {
       path: '/billet',
       name: 'Billet',
       component: Billet,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/rank_officers',
+      name: 'Rank_Officers',
+      component: RankOfficers,
       meta: {
         authRequired: true
       }
@@ -71,14 +78,6 @@ export const router = new Router({
         profileViewRequired: true
       },
       props: true
-    },
-    {
-      path: '/squadrons',
-      name: 'Squadrons',
-      component: Squadrons,
-      meta: {
-        authRequired: true
-      }
     },
     {
       path: '/losing_commander',

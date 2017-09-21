@@ -2,6 +2,9 @@
 const LOGIN = "LOGIN";
 const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 const LOGOUT = "LOGOUT";
+const ADD_BILLET = "ADD_BILLET";
+const REMOVE_BILLET = "REMOVE_BILLET";
+const RANK_BILLETS = "RANK_BILLETS";
 const VERIFY_ADMIN = "VERIFY_ADMIN";
 
 import Vue from 'vue'
@@ -15,7 +18,10 @@ export const store = new Vuex.Store({
     adminVerified: false,
     userId: localStorage.getItem("id"),
     role: localStorage.getItem("role"),
-    baseUrl: "http://192.168.1.85:5005/api"
+    baseUrl: "http://192.168.1.85:5005/api",
+    //if user saved their ranked billets, pull them from local storate, 
+    //else start with empty array
+    faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [] 
   },
   getters: {
     isLoggedIn: state => {
@@ -29,6 +35,9 @@ export const store = new Vuex.Store({
     },
     role: state => {
       return state.role
+    },
+    faveBillets: state => {
+        return state.faveBillets
     },
     adminVerified: state=> {
       return state.adminVerified
@@ -46,6 +55,26 @@ export const store = new Vuex.Store({
     [LOGOUT](state) {
       state.isLoggedIn = false
       state.pending = false
+    },
+    [ADD_BILLET] (state,payload) {
+        //payload is object for billet, and only add billet to faveBillets if not
+        //already in faveBillets array
+        if (state.faveBillets.some(function(d) {d.id === payload.id})) {
+            return
+        } else {
+            state.faveBillets.push(payload)    
+        }
+    },
+    [REMOVE_BILLET] (state,payload) {
+        //payload is object and index property is index of billet to remove
+        state.faveBillets.splice(payload.index,1)
+    },
+    [RANK_BILLETS] (state,payload) {
+        //payload is the array of ranked billets
+        //note: when billets are ranked, the rank of each billet is denoted by
+        //the index of each billet in an array (ie - first ranked billet has 
+        //index of 0)
+        state.faveBillets = payload
     },
     [VERIFY_ADMIN](state){
       state.adminVerified = true
@@ -105,6 +134,19 @@ export const store = new Vuex.Store({
       localStorage.removeItem("role")
       localStorage.removeItem("id")
       commit(LOGOUT)
+    },
+    addBillet ({ commit },payload) {
+        commit(ADD_BILLET,payload)
+    },
+    removeBillet( { commit },payload) {
+        commit(REMOVE_BILLET,payload)
+    },
+    rankBillets( { commit },payload) {
+        commit(RANK_BILLETS,payload)
+    },
+    save ({commit},payload) {
+        //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
+        localStorage.setItem(payload.name, payload.value)
     },
     direct_login ({ commit }){
       commit(LOGIN_SUCCESS)
