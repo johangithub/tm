@@ -1,6 +1,7 @@
 <template>
     <v-container fluid id="profile">
     <v-btn primary @click.native="getData">GET</v-btn>
+    <v-btn primary @click.native="getData2">GET2</v-btn>
     <h4 v-if="dataReady">{{rank}} ID: {{this.apiData.rowid}}</h4>
     <v-layout row v-if="dataReady">
     <v-flex xs8>
@@ -65,13 +66,16 @@
         <v-card>
           <v-card-text class="grey lighten-3">
           <div v-for="abc in asgn_code.block_code">
-            <span v-tooltip:right="{ html: abcFormat(abc.code) }">Block code: {{abc.code}} ({{abc.date}})</span>
+            <div>Block code: 
+              <span v-tooltip:right="{ html: abcFormat(abc.code) }">{{abc.code}}</span> ({{abc.date}})</div>
           </div>
           <div v-for="aac in asgn_code.avail_code">
-            <span v-tooltip:right="{ html: aacFormat(aac.code) }">Avail code: {{aac.code}} ({{aac.date}})</span>
+            <div>Avail code: 
+              <span v-tooltip:right="{ html: aacFormat(aac.code) }">{{aac.code}}</span> ({{aac.date}})</div>
           </div>
           <div v-for="alc in asgn_code.limit_code">
-            <span v-tooltip:right="{ html: alcFormat(alc.code) }">Limit code: {{alc.code}} ({{alc.date}})</span>
+            <div>Limit code: 
+              <span v-tooltip:right="{ html: alcFormat(alc.code) }">{{alc.code}}</span> ({{alc.date}})</div>
           </div>
           </v-card-text>
         </v-card>
@@ -79,14 +83,14 @@
     </v-expansion-panel>
     </v-flex>
     </v-layout>
-    
+
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Courses</div>
         <v-card>
           <v-card-text class="grey lighten-3">
           <div v-for="course in courses">
-            <span>{{course.course}} ({{course.date}})</span>
+            <div><span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span> ({{course.date}})</div>
           </div>
           </v-card-text>
         </v-card>
@@ -399,6 +403,7 @@ var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
 var aac = require('@/format/aac')
 var alc = require('@/format/alc')
+var course = require('@/format/course')
 const BASE_URL = store.state.baseUrl
 export default {
   props: ['id'],
@@ -435,7 +440,6 @@ export default {
       showDDD: false,
       showRNLTD: false,
       dataReady: false,
-      apiData: '',
       errors: [],
       general: '',
       projected: '',
@@ -458,7 +462,9 @@ export default {
       {text: 'DAFSC', value: 'dafsc', align: 'left', sortable: false },
       {text: 'Eff Date', value: 'date', align: 'left', sortable: false },
       ],
-      items: []
+      items: [],
+      apiData: '',
+      apiData2: ''
     }
   },
   methods: {
@@ -491,6 +497,18 @@ export default {
             console.error(e)
           })
     },
+    getData2(){
+      axios.get(BASE_URL+'/officer_view',
+      {
+        headers: {
+          'Authorization': localStorage.token 
+        }
+      }).then(response =>{
+            this.apiData2 = response.data.data
+      }).catch(e => {
+            console.error(e)
+      })
+    },
     abcFormat(value){
       return abc[value]
     },
@@ -499,6 +517,9 @@ export default {
     },
     alcFormat(value){
       return alc[value]
+    },
+    courseFormat(value){
+      return course[value]
     }
   },
   computed: {
@@ -507,7 +528,7 @@ export default {
     },
     pretty_apiData(){
       if (this.apiData){
-        return JSON.stringify(this.apiData, null, 2);
+        return JSON.stringify(this.apiData2, null, 2);
       }
       else{
         return ""

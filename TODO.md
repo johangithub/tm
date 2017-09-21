@@ -4,7 +4,9 @@
 - [ ] Format Profile page including duty history table
 - [ ] Debug Losing Commander Page (something to do with garbage collection)
 - [ ] Unit Test
-- [ ] 2FA for Admin
+- [ ] Integration Test
+- [ ] ~~2FA for Admin~~
+
 
 ---
 

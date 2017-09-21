@@ -15,7 +15,7 @@ export const store = new Vuex.Store({
     adminVerified: false,
     userId: localStorage.getItem("id"),
     role: localStorage.getItem("role"),
-    baseUrl: "http://localhost:5005/api"
+    baseUrl: "http://192.168.1.85:5005/api"
   },
   getters: {
     isLoggedIn: state => {
@@ -65,6 +65,7 @@ export const store = new Vuex.Store({
           })
           .then((response)=>{
             //If server-side login is successful
+            console.log('login success')
             setTimeout(()=>{
                     var token = response.data.token  
                     function parseJwt (token) {
