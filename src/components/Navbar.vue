@@ -41,11 +41,11 @@ export default{
       headerList: [
         // Home link captured in title
         {name: "My Profile", link: "profile"},
-        {name: "Rank Billets", link: "billet"},
         {name: "Find Billets", link: "find_billets"},
+        {name: "Rank Billets", link: "billet"},
         {name: "Find Officers", link: "find_officers"},
+        {name: "Rank Officers", link: "rank_officers"},
         {name: "Losing Commander", link: "losing_commander"},
-        {name: "Squadrons", link: "squadrons"},
       ],
       dialog: false,
       sideNav: false
