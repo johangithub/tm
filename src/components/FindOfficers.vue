@@ -120,7 +120,7 @@
         </v-expansion-panel>
     </v-flex>
   </v-layout>
-  <v-layout row wrap class="mt-3" id="Officers">
+  <v-layout row wrap class="mt-3" id="officers">
     <v-flex xs12>
         <!--doesn't have to be on card, but easier to add search bar with card-->
         <v-card elevation-3>
@@ -149,9 +149,9 @@
                     </td>
                     <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet v-if="props.item.id === clickedId" :item="dialogData" v-model="showReq"></req-sheet></a></td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
+                    <td class="text-xs-left" style="width: 10%">{{props.item.afsc_duty}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
-                    <td class="text-xs-left" style="width: 15%">{{props.item.aircraft}}</td>
+                    <td class="text-xs-left" style="width: 15%">{{props.item.acft_hist_1}}</td>
                     <td class="text-xs-left" style="width: 35%">{{props.item.unit}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
                 </template> 
@@ -199,7 +199,7 @@ export default{
             text: 'API code', value: 'api', align: 'left' 
         },
         {
-            text: 'AFSC', value: 'afsc', align: 'left'
+            text: 'AFSC', value: 'afsc_duty', align: 'left'
         },
         {
             text: 'Grade', value: 'grade', align: 'left'

@@ -313,18 +313,22 @@ export default{
     var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
     var states = this.ndx.dimension(function(d){return d.state})
     var statesGroup = states.group()
+    var statesAspectRatio = 1.8
+    var statesXRatio = 2.5
+    var statesYRatio = 1.9
+    var statesSizeFactor = 1.2
     // get document width, and if on md or larger screen, manually
     // reduce size of first state map so fits in 7 columns
     var documentWidth = document.documentElement.clientWidth;
     if (documentWidth > 960) {
-        var statesWidth = Math.round(documentWidth*(7/12)*1.2);
+        var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);
     }
     else {
         var statesWidth = documentWidth;
     }
-    var statesHeight = statesWidth/1.8;
-    var xOffset = statesWidth/2.5;
-    var yOffset = statesHeight/1.9;
+    var statesHeight = statesWidth/statesAspectRatio;
+    var xOffset = statesWidth/statesXRatio;
+    var yOffset = statesHeight/statesYRatio;
 
     stateChart
     .dimension(states)
@@ -341,10 +345,10 @@ export default{
     .on('preRedraw', function(chart) {
         // values for width, height, and offsets are for formatting -
         // numbers are fairly arbitrary
-        var newWidth = document.getElementById('states').offsetWidth*1.2;
-        var newHeight = newWidth/1.8;
-        var newxOffset = newWidth/2.5;
-        var newyOffset = newHeight/1.9;
+        var newWidth = document.getElementById('states').offsetWidth*statesSizeFactor;
+        var newHeight = newWidth/statesAspectRatio;
+        var newxOffset = newWidth/statesXRatio;
+        var newyOffset = newHeight/statesYRatio;
        chart
        .minWidth(newWidth)
        .width(newWidth)
@@ -359,15 +363,17 @@ export default{
     var conusChart = dc.rowChart("#dc-conus-rowchart")
     var conusDim = this.ndx.dimension(function(d){return d.conus})
     var conusGroup = conusDim.group()
+    var conusMinHeight = 130
+    var conusAspectRatio = 7
     if (documentWidth > 960) {
         var conusWidth = Math.round(documentWidth*(5/12));
     }
     else {
         var conusWidth = documentWidth*0.90;
     }
-    var conusHeight = conusWidth/7;
-    if (conusHeight < 130) {
-        conusHeight = 130;
+    var conusHeight = conusWidth/conusAspectRatio;
+    if (conusHeight < conusMinHeight) {
+        conusHeight = conusMinHeight;
     }
 
     conusChart
@@ -381,14 +387,14 @@ export default{
     .group(conusGroup)
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('conus').offsetWidth;
-        var newHeight = newWidth/7;
-        if (newHeight < 130) {
-            newHeight = 130;
+        var newHeight = newWidth/conusAspectRatio;
+        if (newHeight < conusMinHeight) {
+            newHeight = conusMinHeight;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(130)
+       .minHeight(conusMinHeight)
        .height(newHeight)
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
     })
@@ -397,16 +403,18 @@ export default{
     var locationChart = dc.barChart("#dc-location-barchart")
     var locationDim = this.ndx.dimension(function(d){return d.location;})
     var locationGroup = locationDim.group()
+    var locMinHeight = 300
+    var locAspectRatio = 4
     var locWidth = documentWidth;
-    var locHeight = locWidth/4;
-    if (locHeight < 300) {
-        locHeight = 300;
+    var locHeight = locWidth/locAspectRatio;
+    if (locHeight < locMinHeight) {
+        locHeight = locMinHeight;
     }
 
     locationChart
     .minWidth(locWidth)
     .width(locWidth)
-    .minHeight(300)
+    .minHeight(locMinHeight)
     .height(locHeight)
     .margins({top: 30, right: 50, left: 40, bottom: 100})
     .dimension(locationDim)
@@ -418,14 +426,14 @@ export default{
     .colors(["orange"])
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('loc').offsetWidth;
-        var newHeight = newWidth/4;
-        if (newHeight < 300) {
-            newHeight = 300;
+        var newHeight = newWidth/locAspectRatio;
+        if (newHeight < locMinHeight) {
+            newHeight = locMinHeight;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(300)
+       .minHeight(locMinHeight)
        .height(newHeight)
        .rescale()
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
@@ -435,21 +443,23 @@ export default{
     var apiChart = dc.rowChart('#dc-api-rowchart')
     var apiDim = this.ndx.dimension(function(d){return d.api;})
     var apiGroup = apiDim.group()
+    var apiMinHeight = 250
+    var apiAspectRatio = 3
     if (documentWidth > 960) {
         var apiWidth = Math.round(documentWidth*(5/12));
     }
     else {
         var apiWidth = documentWidth*0.90;
     }
-    var apiHeight = apiWidth/3;
-    if (apiHeight < 250) {
-        apiHeight = 250;
+    var apiHeight = apiWidth/apiAspectRatio;
+    if (apiHeight < apiMinHeight) {
+        apiHeight = apiMinHeight;
     }
 
     apiChart
     .minWidth(apiWidth)
     .width(apiWidth)
-    .minHeight(250)
+    .minHeight(apiMinHeight)
     .height(apiHeight)
     .margins({top: 30, left: 30, right: 50, bottom: 40})
     .dimension(apiDim)
@@ -458,14 +468,14 @@ export default{
     .colors(d3.scale.category10())
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('api').offsetWidth;
-        var newHeight = newWidth/3;
-        if (newHeight < 250) {
-            newHeight = 250;
+        var newHeight = newWidth/apiAspectRatio;
+        if (newHeight < apiMinHeight) {
+            newHeight = apiMinHeight;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(250)
+       .minHeight(apiMinHeight)
        .height(newHeight)
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
     })
@@ -474,22 +484,24 @@ export default{
     var aircraftChart = dc.barChart("#dc-aircraft-barchart")
     var aircraftDim = this.ndx.dimension(function(d){return d.aircraft;})
     var aircraftGroup = aircraftDim.group()
+    var arcftMinWidth = 200
+    var arcftAspectRatio = 3
     if (documentWidth > 960) {
         var arcftWidth = Math.round(documentWidth*(4/12));
     }
     else {
         var arcftWidth = Math.round(documentWidth/2);
     }
-    var arcftHeight = arcftWidth/3;
-    if (arcftHeight < 200) {
-        arcftHeight = 200;
+    var arcftHeight = arcftWidth/arcftAspectRatio;
+    if (arcftHeight < arcftMinWidth) {
+        arcftHeight = arcftMinWidth;
     }
 
     aircraftChart
     .minWidth(arcftWidth)
     .width(arcftWidth)
     .height(arcftHeight)
-    .minHeight(200)
+    .minHeight(arcftMinWidth)
     .margins({top: 30, left: 30, right: 40, bottom: 60})
     .dimension(aircraftDim)
     .group(aircraftGroup)
@@ -499,14 +511,14 @@ export default{
     .colors(["orange"])
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('arcft').offsetWidth;
-        var newHeight = newWidth/3;
-        if (newHeight < 200) {
-            newHeight = 200;
+        var newHeight = newWidth/arcftAspectRatio;
+        if (newHeight < arcftMinWidth) {
+            newHeight = arcftMinWidth;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(200)
+       .minHeight(arcftMinWidth)
        .height(newHeight)
        .rescale()
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
@@ -516,22 +528,24 @@ export default{
     var gradeChart = dc.barChart("#dc-grade-barchart")
     var gradeDim = this.ndx.dimension(function(d){return d.grade;})
     var gradeGroup = gradeDim.group()
+    var gradeMinHeight = 200
+    var gradeAspectRatio = 3
     if (documentWidth > 960) {
         var gradeWidth = Math.round(documentWidth*(4/12));
     }
     else {
         var gradeWidth = Math.round(documentWidth/2);
     }
-    var gradeHeight = gradeWidth/3;
-    if (gradeHeight < 200) {
-        gradeHeight = 200;
+    var gradeHeight = gradeWidth/gradeAspectRatio;
+    if (gradeHeight < gradeMinHeight) {
+        gradeHeight = gradeMinHeight;
     }
 
     gradeChart
     .minWidth(gradeWidth)
     .width(gradeWidth)
     .height(gradeHeight)
-    .minHeight(250)
+    .minHeight(gradeMinHeight)
     .margins({top: 30, left: 30, right: 40, bottom: 60})
     .dimension(gradeDim)
     .group(gradeGroup)
@@ -543,14 +557,14 @@ export default{
     .colors(["#2277ff"])
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('grade').offsetWidth;
-        var newHeight = newWidth/3;
-        if (newHeight < 200) {
-            newHeight = 200;
+        var newHeight = newWidth/gradeAspectRatio;
+        if (newHeight < gradeMinHeight) {
+            newHeight = gradeMinHeight;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(200)
+       .minHeight(gradeMinHeight)
        .height(newHeight)
        .rescale()
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
@@ -568,21 +582,23 @@ export default{
     }
         )
     var afscGroup = afscDim.group()
+    var afscMinHeight = 200
+    var afscAspectRatio = 4
     if (documentWidth > 960) {
         var afscWidth = Math.round(documentWidth*(4/12));
     }
     else {
         var afscWidth = documentWidth*0.90;
     }
-    var afscHeight = afscWidth/4;
-    if (afscHeight < 200) {
-        afscHeight = 200;
+    var afscHeight = afscWidth/afscAspectRatio;
+    if (afscHeight < afscMinHeight) {
+        afscHeight = afscMinHeight;
     }
 
     afscChart
     .minWidth(afscWidth)
     .width(afscWidth)
-    .minHeight(200)
+    .minHeight(afscMinHeight)
     .height(afscHeight)
     .margins({top: 30, left: 30, right: 50, bottom: 40})
     .dimension(afscDim)
@@ -591,14 +607,14 @@ export default{
     .colors(d3.scale.category10())
     .on('preRedraw', function(chart) {
         var newWidth = document.getElementById('afsc').offsetWidth;
-        var newHeight = afscWidth/4;
-        if (newHeight < 200) {
-            newHeight = 200;
+        var newHeight = afscWidth/afscAspectRatio;
+        if (newHeight < afscMinHeight) {
+            newHeight = afscMinHeight;
         }
        chart
        .minWidth(newWidth)
        .width(newWidth)
-       .minHeight(200)
+       .minHeight(afscMinHeight)
        .height(newHeight)
        .root().select('svg').attr('width',newWidth).attr('height',newHeight)
     })
