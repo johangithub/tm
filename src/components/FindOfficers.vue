@@ -167,7 +167,9 @@ import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
 import Req from './Req'
 import { mapGetters } from 'vuex'
-
+import axios from 'axios'
+import { store } from '@/store'
+const BASE_URL = store.state.baseUrl
 export default{
   data(){
     return {
@@ -289,8 +291,15 @@ export default{
   },
   created: function(){
     console.log('created')
-    var data = require('@/assets/data/officers.csv')
-    this.data = data
+    axios.get(BASE_URL+'/officer_view', {
+      headers: {
+        'Authorization': localStorage.token
+      }
+    }).then(response => {
+      this.data = response.data.data
+    }).catch(e => {
+      console.error(e)
+    })
     
   },
   beforeMount: function(){
