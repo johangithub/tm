@@ -16,82 +16,7 @@
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
-    <v-flex d-flex xs12 md7>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.state" id="states">
-                <div slot="header" style="font-size: 140%;">States</div>          
-      <v-card>
-        <v-card-media>
-        </v-card-media>
-      </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
-    </v-flex>
-    <v-flex d-flex xs12 md5>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.rdtm" id="rdtm">
-                <div slot="header" style="font-size: 140%;">CONUS/OCONUS</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-rdtm-rowchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
-    <v-flex d-flex>
-    <v-layout row wrap>
-        <v-flex d-flex xs12 class="pa-0 pt-2">
-            <v-expansion-panel expand>
-                <v-expansion-panel-content :value="panelOpen.api" id="api">
-                    <div slot="header" style="font-size: 140%;">API Code</div>
-                    <v-card>
-                      <v-card-media>
-                          <div id="dc-api-rowchart">
-                              <reset-btn @reset="resetChart($event)"></reset-btn>
-                          </div>
-                      </v-card-media>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-flex> 
-    </v-layout>
-    </v-flex>
-    </v-flex>
-    </v-layout>
-  <v-layout row wrap class="mt-3">
-    <v-flex xs12>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.yearGroup" id="year">
-                <div slot="header" style="font-size: 140%;">Location</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-yearGroup-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
-    </v-flex>
-  </v-layout>
-  <v-layout wrap class="mt-3">
-    <v-flex xs6 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.aircraft" id="arcft">
-                <div slot="header" style="font-size: 140%;">Aircraft</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-aircraft-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
-    </v-flex>
-    <v-flex xs6 md4>
+    <v-flex xs12 md6 class="mt-3">
         <v-expansion-panel expand>
             <v-expansion-panel-content :value="panelOpen.grade" id="grade">
                 <div slot="header" style="font-size: 140%;">Grade</div>
@@ -105,13 +30,29 @@
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 md4>
+    <v-flex xs12 md6 class="mt-3">
         <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.afsc" id="afsc">
-                <div slot="header" style="font-size: 140%;">AFSC</div>
+            <v-expansion-panel-content :value="panelOpen.rtg" id="rtg">
+                <div slot="header" style="font-size: 140%;">Rating</div>
                 <v-card>
                   <v-card-media>
-                      <div id="dc-afsc-rowchart">
+                      <div id="dc-rtg-rowchart">
+                          <reset-btn @reset="resetChart($event)"></reset-btn>
+                      </div>
+                  </v-card-media>
+                </v-card>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+    </v-flex> 
+  </v-layout>
+  <v-layout row wrap class="mt-3">
+    <v-flex xs12>
+        <v-expansion-panel expand>
+            <v-expansion-panel-content :value="panelOpen.yearGroup" id="year">
+                <div slot="header" style="font-size: 140%;">Adjusted Year Group</div>
+                <v-card>
+                  <v-card-media>
+                      <div id="dc-yearGroup-barchart">
                           <reset-btn @reset="resetChart($event)"></reset-btn>
                       </div>
                   </v-card-media>
@@ -119,6 +60,50 @@
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-flex>
+  </v-layout>
+  <v-layout wrap>
+    <v-flex xs12 md6 class="mt-3">
+        <v-expansion-panel expand>
+            <v-expansion-panel-content :value="panelOpen.rdtm" id="rdtm">
+                <div slot="header" style="font-size: 140%;">RDTM</div>
+                <v-card>
+                  <v-card-media>
+                      <div id="dc-rdtm-rowchart">
+                          <reset-btn @reset="resetChart($event)"></reset-btn>
+                      </div>
+                  </v-card-media>
+                </v-card>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+    </v-flex>
+    <v-flex xs12 md6 class="mt-3">
+        <v-expansion-panel expand>
+            <v-expansion-panel-content :value="panelOpen.fltHrs" id="fltHrs">
+                <div slot="header" style="font-size: 140%;">Flight Hours</div>
+                <v-card>
+                  <v-card-media>
+                      <div id="dc-fltHrs-barchart">
+                          <reset-btn @reset="resetChart($event)"></reset-btn>
+                      </div>
+                  </v-card-media>
+                </v-card>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
+    </v-flex>
+    <!--<v-flex xs12 md4>-->
+        <!--<v-expansion-panel expand>-->
+            <!--<v-expansion-panel-content :value="panelOpen.afsc" id="afsc">-->
+                <!--<div slot="header" style="font-size: 140%;">AFSC</div>-->
+                <!--<v-card>-->
+                  <!--<v-card-media>-->
+                      <!--<div id="dc-afsc-rowchart">-->
+                          <!--<reset-btn @reset="resetChart($event)"></reset-btn>-->
+                      <!--</div>-->
+                  <!--</v-card-media>-->
+                <!--</v-card>-->
+            <!--</v-expansion-panel-content>-->
+        <!--</v-expansion-panel>-->
+    <!--</v-flex>-->
   </v-layout>
   <v-layout row wrap class="mt-3" id="officers">
     <v-flex xs12>
@@ -138,7 +123,7 @@
             <v-data-table :headers="headers" 
                           :items="items" 
                           :search="search"
-                          selected-key="items.id">
+                          selected-key="items.ID">
                 <template slot="items" scope="props">
                     <!--TODO: edit for IE11 support (see vuetify docs)-->
                     <td>
@@ -147,13 +132,12 @@
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
-                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet v-if="props.item.id === clickedId" :item="dialogData" v-model="showReq"></req-sheet></a></td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.afsc_duty}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
-                    <td class="text-xs-left" style="width: 15%">{{props.item.acft_hist_1}}</td>
-                    <td class="text-xs-left" style="width: 35%">{{props.item.unit}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
+                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.ID">{{props.item.ID}}<req-sheet v-if="props.item.ID === clickedId" :item="dialogData" v-model="showReq"></req-sheet></a></td>
+                    <td class="text-xs-left" style="width: 18%">{{props.item.grade}}</td>
+                    <td class="text-xs-left" style="width: 18%">{{props.item.adjYG}}</td>
+                    <td class="text-xs-left" style="width: 18%">{{props.item.RTG}}</td>
+                    <td class="text-xs-left" style="width: 18%">{{props.item.rdtm}}</td>
+                    <td class="text-xs-left" style="width: 18%">{{Math.round(props.item.flt_hrs_total)}}</td>
                 </template> 
             </v-data-table>
         </v-card>
@@ -177,48 +161,43 @@ export default{
       showReq: false,
       dialogData: {},
       panelOpen: {
-         state: true,
          rdtm: true,
-         api: true,
+         rtg: true,
          yearGroup: true,
-         aircraft: true,
-         grade: true,
-         afsc: true 
+         fltHrs: true,
+         grade: true
       },
       items: [],
       search: '',
       clickedId: null,
       headers: [
         {
-            text: 'Favorite', sortable: false  
+            text: 'Favorite', align: 'left', sortable: false  
         },
         {
             text: 'ID', value: 'id', align: 'left'
         },
         {
-            text: 'API code', value: 'api', align: 'left' 
+            text: 'Grade', value: 'grade', align: 'left' 
         },
         {
-            text: 'AFSC', value: 'afsc_duty', align: 'left'
+            text: 'Year Group', value: 'adjYG', align: 'left'
         },
         {
-            text: 'Grade', value: 'grade', align: 'left'
+            text: 'Rating', value: 'RTG', align: 'left'
         },
         {
-            text: 'MWS', value: 'aircraft', align: 'left'
+            text: 'RDTM', value: 'rdtm', align: 'left'
         },
         {
-            text: 'Unit', value: 'unit', align: 'left'
-        },
-        {
-            text: 'State', value: 'state', align: 'left'
+            text: 'Total Hours', value: 'flt_hrs_total', align: 'left'
         }
       ]
     }
   },
   computed: {
     ...mapGetters([
-        'faveBillets'
+        'faveOfficers'
     ]),
     ndx: function(){
       return crossfilter(this.data)
@@ -239,19 +218,19 @@ export default{
       favorited: function(obj) {
           //have to use some method to check if billet id exists in 
           //faveBillets array (includes method doesn't work)
-          return this.faveBillets.some(function(d) {return d.id === obj.id})
+          return this.faveOfficers.some(function(d) {return d.ID === obj.ID})
       },
       toggleFavorite: function(obj) {
           if (this.favorited(obj)) {
             //have to use findIndex method to find index of billet, by billet id, to remove from 
             //faveBillets array (indexOf method doesn't work)
-            var index = this.faveBillets.findIndex(function(d) {return d.id === obj.id})
+            var index = this.faveOfficers.findIndex(function(d) {return d.ID === obj.ID})
             //keep payload an object to follow convention
             var payload = {'index': index}
-            this.$store.dispatch('removeBillet',payload)
+            this.$store.dispatch('removeOfficer',payload)
           } 
           else {
-            this.$store.dispatch('addBillet',obj)
+            this.$store.dispatch('addOfficer',obj)
           }
       },
       togglePanels: function() {
@@ -262,12 +241,12 @@ export default{
       showReqMethod: function(event){
           //shows req and updates values in dialog (needed to make dialog dynamic) 
         var id = event.target.id
-        var billet = this.items.filter((d)=>{return d.id == id})[0]
+        var billet = this.items.filter((d)=>{return d.ID == id})[0]
         this.dialogData['id']=billet.id
-        this.dialogData['api']=billet.api
+        this.dialogData['rtg']=billet.rtg
         this.dialogData['state']=billet.state
         this.dialogData['unit']=billet.unit
-        this.dialogData['aircraft']=billet.aircraft
+        this.dialogData['fltHrs']=billet.fltHrs
         this.dialogData['afsc']=billet.afsc
         this.dialogData['grade']=billet.grade
         this.showReq = true
@@ -291,15 +270,6 @@ export default{
   },
   created: function(){
     console.log('created')
-    axios.get(BASE_URL+'/officer_view', {
-      headers: {
-        'Authorization': localStorage.token
-      }
-    }).then(response => {
-      this.data = response.data.data
-    }).catch(e => {
-      console.error(e)
-    })
     
   },
   beforeMount: function(){
@@ -307,319 +277,328 @@ export default{
   },
   mounted: function(){
     console.log('mounted')
-
-    //Data count
-    dc.dataCount(".dc-data-count")
-      .dimension(this.ndx)
-      .group(this.allGroup)
-
-    var documentWidth = document.documentElement.clientWidth;
-
-    //unformat
-    function unformat(string) {
-        var newString = string.split("'")[1]
-        if (newString === undefined) {
-            return "NONE"
-        } else {
-            return string.split("'")[1]
-        }
-    }
-
-    // RDTM
-    var rdtmChart = dc.rowChart("#dc-rdtm-rowchart")
-    var rdtmDim = this.ndx.dimension(function(d){return unformat(d.rdtm)})
-    var rdtmGroup = rdtmDim.group()
-    var rdtmMinHeight = 330
-    var rdtmAspectRatio = 3
-    if (documentWidth > 960) {
-        var rdtmWidth = Math.round(documentWidth*(5/12));
-    }
-    else {
-        var rdtmWidth = documentWidth*0.90;
-    }
-    var rdtmHeight = rdtmWidth/rdtmAspectRatio;
-    if (rdtmHeight < rdtmMinHeight) {
-        rdtmHeight = rdtmMinHeight;
-    }
-
-    rdtmChart
-    .minWidth(rdtmWidth)
-    .width(rdtmWidth)
-    .minHeight(rdtmMinHeight)
-    .height(rdtmHeight)
-    .margins({top: 30, left: 30, right: 50, bottom: 40})
-    .elasticX(true)
-    .dimension(rdtmDim)
-    .group(rdtmGroup)
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('rdtm').offsetWidth;
-        var newHeight = newWidth/rdtmAspectRatio;
-        if (newHeight < rdtmMinHeight) {
-            newHeight = rdtmMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(rdtmMinHeight)
-       .height(newHeight)
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+    axios.get(BASE_URL+'/officer_view', {
+      headers: {
+        'Authorization': localStorage.token
+      }
+    }).then(response => {
+      this.data = response.data.data
+      renderCharts()
+    }).catch(e => {
+      console.error(e)
     })
+   
+    // es6 arrow function 
+    var renderCharts = () => {
+        //Data count
+        console.log(this.data)
+        dc.dataCount(".dc-data-count")
+          .dimension(this.ndx)
+          .group(this.allGroup)
 
-    // yeargroup
-    var yearGroupChart = dc.barChart("#dc-yearGroup-barchart")
-    var yearGroupDim = this.ndx.dimension(function(d){
-        var date = new Date(-315619200000 + d.tafmsd * 86400000)
-        var year = date.getFullYear();
-        return year    
-    })
-    var yearGroupGroup = yearGroupDim.group()
-    var yearMinHeight = 330
-    var yearAspectRatio = 3
-    var yearWidth = documentWidth;
-    var yearHeight = yearWidth/yearAspectRatio;
-    if (yearHeight < yearMinHeight) {
-        yearHeight = yearMinHeight;
-    }
+        var documentWidth = document.documentElement.clientWidth;
+        var smallScreenFactor = 0.96
 
-    yearGroupChart
-    .minWidth(yearWidth)
-    .width(yearWidth)
-    .minHeight(yearMinHeight)
-    .height(yearHeight)
-    .margins({top: 30, right: 50, left: 40, bottom: 100})
-    .dimension(yearGroupDim)
-    .group(yearGroupGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .elasticX(true)
-    .colors(["orange"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('year').offsetWidth;
-        var newHeight = newWidth/yearAspectRatio;
-        if (newHeight < yearMinHeight) {
-            newHeight = yearMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(yearMinHeight)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-//    //API code
-//    var apiChart = dc.rowChart('#dc-api-rowchart')
-//    var apiDim = this.ndx.dimension(function(d){return d.api;})
-//    var apiGroup = apiDim.group()
-//    if (documentWidth > 960) {
-//        var apiWidth = Math.round(documentWidth*(5/12));
-//    }
-//    else {
-//        var apiWidth = documentWidth*0.90;
-//    }
-//    var apiHeight = apiWidth/3;
-//    if (apiHeight < 250) {
-//        apiHeight = 250;
-//    }
-//
-//    apiChart
-//    .minWidth(apiWidth)
-//    .width(apiWidth)
-//    .minHeight(250)
-//    .height(apiHeight)
-//    .margins({top: 30, left: 30, right: 50, bottom: 40})
-//    .dimension(apiDim)
-//    .group(apiGroup)
-//    .elasticX(true)
-//    .colors(d3.scale.category10())
-//    .on('preRedraw', function(chart) {
-//        var newWidth = document.getElementById('api').offsetWidth;
-//        var newHeight = newWidth/3;
-//        if (newHeight < 250) {
-//            newHeight = 250;
-//        }
-//       chart
-//       .minWidth(newWidth)
-//       .width(newWidth)
-//       .minHeight(250)
-//       .height(newHeight)
-//       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-//    })
-    
-    //Aircraft
-    var aircraftChart = dc.barChart("#dc-aircraft-barchart")
-    var aircraftDim = this.ndx.dimension(function(d){
-        var acftString = unformat(d.acft_hist_1)
-        return acftString;
-    })
-    var aircraftGroup = aircraftDim.group()
-    var aircraftMinHeight = 200 
-    var aircraftAspectRatio = 3
-    if (documentWidth > 960) {
-        var arcftWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var arcftWidth = Math.round(documentWidth/2);
-    }
-    var arcftHeight = arcftWidth/aircraftAspectRatio;
-    if (arcftHeight < aircraftMinHeight) {
-        arcftHeight = aircraftMinHeight;
-    }
-
-    aircraftChart
-    .minWidth(arcftWidth)
-    .width(arcftWidth)
-    .height(arcftHeight)
-    .minHeight(aircraftMinHeight)
-    .margins({top: 30, left: 30, right: 40, bottom: 60})
-    .dimension(aircraftDim)
-    .group(aircraftGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .colors(["orange"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('arcft').offsetWidth;
-        var newHeight = newWidth/aircraftAspectRatio;
-        if (newHeight < aircraftMinHeight) {
-            newHeight = aircraftMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(aircraftMinHeight)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //grade
-    var gradeChart = dc.barChart("#dc-grade-barchart")
-    var gradeDim = this.ndx.dimension(function(d){
-        var gradeFormat = "O-" + unformat(d.grade).substr(1,1)
-        return gradeFormat;
-    })
-    var gradeGroup = gradeDim.group()
-    var gradeMinHeight = 200 
-    var gradeAspectRatio = 3
-    if (documentWidth > 960) {
-        var gradeWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var gradeWidth = Math.round(documentWidth/2);
-    }
-    var gradeHeight = gradeWidth/gradeAspectRatio;
-    if (gradeHeight < gradeMinHeight) {
-        gradeHeight = gradeMinHeight;
-    }
-
-    gradeChart
-    .minWidth(gradeWidth)
-    .width(gradeWidth)
-    .height(gradeHeight)
-    .minHeight(gradeMinHeight)
-    .margins({top: 30, left: 30, right: 40, bottom: 60})
-    .dimension(gradeDim)
-    .group(gradeGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .barPadding(0.1)
-    .outerPadding(0)
-    .colors(["#2277ff"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('grade').offsetWidth;
-        var newHeight = newWidth/gradeAspectRatio;
-        if (newHeight < gradeMinHeight) {
-            newHeight = gradeMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(gradeMinHeight)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //AFSC
-    var afscChart = dc.rowChart('#dc-afsc-rowchart')
-    var afscDim = this.ndx.dimension(function(d){
-        var afscRegex = /\d\d\D/
-        var afscString = unformat(d.afsc_duty)
-        var afscMatch = afscString.match(afscRegex)
-        if (afscMatch) {
-            return afscMatch[0] 
-        } else {
-            return "NONE"
-        }
-    })
-    var afscGroup = afscDim.group()
-    var afscMinHeight = 600 
-    var afscAspectRatio = 1
-    if (documentWidth > 960) {
-        var afscWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var afscWidth = documentWidth*0.90;
-    }
-    var afscHeight = afscWidth/afscAspectRatio;
-    if (afscHeight < afscMinHeight) {
-        afscHeight = afscMinHeight;
-    }
-
-    afscChart
-    .minWidth(afscWidth)
-    .width(afscWidth)
-    .minHeight(afscMinHeight)
-    .height(afscHeight)
-    .margins({top: 30, left: 30, right: 50, bottom: 40})
-    .dimension(afscDim)
-    .group(afscGroup)
-    .elasticX(true)
-    .colors(d3.scale.category10())
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('afsc').offsetWidth;
-        var newHeight = newWidth/afscAspectRatio;
-        if (newHeight < afscMinHeight) {
-            newHeight = afscMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(afscMinHeight)
-       .height(newHeight)
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    // Create data for data table
-    var vm = this
-    vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
-    // update rows in data table upon each chart being filtered 
-    dc.chartRegistry.list().forEach(function(chart) {
-        chart.on('filtered', function() {
-            vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+        //grade
+        var gradeChart = dc.barChart("#dc-grade-barchart")
+        var gradeDim = this.ndx.dimension(function(d){
+            return d.grade;
         })
-    })
-
-    var temp 
-    window.onresize = function(event) {
-        clearTimeout(temp)
-        temp = setTimeout(resizeDone,200)
-    }
-    function resizeDone() {
-        // hacky way to prevent getElementById from firing when not on FindBillets page
-        if (vm.$route.name !== 'FindOfficers') {
-            return
+        var gradeGroup = gradeDim.group()
+        var gradeMinHeight = 200 
+        var gradeAspectRatio = 3
+        if (documentWidth > 960) {
+            var gradeWidth = Math.round(documentWidth*(6/12));
         }
-        // call redraw to preRedraw event on charts, which resizes charts
-        console.log('redrawn')
-        dc.redrawAll();
-    }
+        else {
+            var gradeWidth = Math.round(documentWidth*smallScreenFactor);
+        }
+        var gradeHeight = gradeWidth/gradeAspectRatio;
+        if (gradeHeight < gradeMinHeight) {
+            gradeHeight = gradeMinHeight;
+        }
 
-    dc.renderAll();
+        gradeChart
+        .minWidth(gradeWidth)
+        .width(gradeWidth)
+        .height(gradeHeight)
+        .minHeight(gradeMinHeight)
+        .margins({top: 30, left: 30, right: 40, bottom: 30})
+        .dimension(gradeDim)
+        .group(gradeGroup)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .barPadding(0.1)
+        .outerPadding(0)
+        .colors(["#2277ff"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('grade').offsetWidth;
+            var newHeight = newWidth/gradeAspectRatio;
+            if (newHeight < gradeMinHeight) {
+                newHeight = gradeMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(gradeMinHeight)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        //Rating
+        var rtgChart = dc.rowChart('#dc-rtg-rowchart')
+        var rtgDim = this.ndx.dimension(function(d){return d.RTG;})
+        var rtgGroup = rtgDim.group()
+        var rtgMinHeight = 200 
+        var rtgAspectRatio = 3
+        if (documentWidth > 960) {
+            var rtgWidth = Math.round(documentWidth*(6/12));
+        }
+        else {
+            var rtgWidth = Math.round(documentWidth*smallScreenFactor);
+        }
+        var rtgHeight = rtgWidth/rtgAspectRatio;
+        if (rtgHeight < rtgMinHeight) {
+            rtgHeight = rtgMinHeight;
+        }
+    
+        rtgChart
+        .minWidth(rtgWidth)
+        .width(rtgWidth)
+        .minHeight(rtgMinHeight)
+        .height(rtgHeight)
+        .margins({top: 30, left: 30, right: 50, bottom: 40})
+        .dimension(rtgDim)
+        .group(rtgGroup)
+        .elasticX(true)
+        .colors(d3.scale.category10())
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('rtg').offsetWidth;
+            var newHeight = newWidth/rtgAspectRatio;
+            if (newHeight < rtgMinHeight) {
+                newHeight = rtgMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(rtgMinHeight)
+           .height(newHeight)
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        // yeargroup
+        var yearGroupChart = dc.barChart("#dc-yearGroup-barchart")
+        var yearGroupDim = this.ndx.dimension(function(d){
+            return d.adjYG    
+        })
+        var yearGroupGroup = yearGroupDim.group()
+        var yearMinHeight = 330
+        var yearAspectRatio = 3
+        var yearWidth = Math.round(documentWidth*smallScreenFactor);
+        var yearHeight = yearWidth/yearAspectRatio;
+        if (yearHeight < yearMinHeight) {
+            yearHeight = yearMinHeight;
+        }
+
+        yearGroupChart
+        .minWidth(yearWidth)
+        .width(yearWidth)
+        .minHeight(yearMinHeight)
+        .height(yearHeight)
+        .margins({top: 30, right: 50, left: 40, bottom: 50})
+        .dimension(yearGroupDim)
+        .group(yearGroupGroup)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .elasticX(true)
+        .colors(["orange"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('year').offsetWidth;
+            var newHeight = newWidth/yearAspectRatio;
+            if (newHeight < yearMinHeight) {
+                newHeight = yearMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(yearMinHeight)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        // RDTM
+        var rdtmChart = dc.rowChart("#dc-rdtm-rowchart")
+        var rdtmDim = this.ndx.dimension(function(d){return d.rdtm})
+        var rdtmGroup = rdtmDim.group()
+        var rdtmMinHeight = 380
+        var rdtmAspectRatio = 3
+        if (documentWidth > 960) {
+            var rdtmWidth = Math.round(documentWidth*(6/12));
+        }
+        else {
+            var rdtmWidth = Math.round(documentWidth*smallScreenFactor);
+        }
+        var rdtmHeight = rdtmWidth/rdtmAspectRatio;
+        if (rdtmHeight < rdtmMinHeight) {
+            rdtmHeight = rdtmMinHeight;
+        }
+
+        rdtmChart
+        .minWidth(rdtmWidth)
+        .width(rdtmWidth)
+        .minHeight(rdtmMinHeight)
+        .height(rdtmHeight)
+        .margins({top: 30, left: 30, right: 50, bottom: 40})
+        .elasticX(true)
+        .dimension(rdtmDim)
+        .group(rdtmGroup)
+        .colors(d3.scale.category10())
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('rdtm').offsetWidth;
+            var newHeight = newWidth/rdtmAspectRatio;
+            if (newHeight < rdtmMinHeight) {
+                newHeight = rdtmMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(rdtmMinHeight)
+           .height(newHeight)
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+        
+        //Total Flight hours
+        var fltHrsChart = dc.barChart("#dc-fltHrs-barchart")
+        var fltHrsDim = this.ndx.dimension(function(d){
+            //round to nearest 500
+            return Math.round(d.flt_hrs_total/100)*100;
+        })
+        var fltHrsGroup = fltHrsDim.group()
+        var fltHrsMinHeight = 380 
+        var fltHrsAspectRatio = 3
+        if (documentWidth > 960) {
+            var fltHrsWidth = Math.round(documentWidth*(6/12));
+        }
+        else {
+            var fltHrsWidth = Math.round(documentWidth*smallScreenFactor);
+        }
+        var fltHrsHeight = fltHrsWidth/fltHrsAspectRatio;
+        if (fltHrsHeight < fltHrsMinHeight) {
+            fltHrsHeight = fltHrsMinHeight;
+        }
+
+        fltHrsChart
+        .minWidth(fltHrsWidth)
+        .width(fltHrsWidth)
+        .height(fltHrsHeight)
+        .minHeight(fltHrsMinHeight)
+        .margins({top: 30, left: 30, right: 40, bottom: 60})
+        .dimension(fltHrsDim)
+        .group(fltHrsGroup)
+        .brushOn(true)
+        .x(d3.scale.linear().domain([0, 4000]))
+        .xUnits(function() {return 50})
+        .outerPadding(0)
+        .barPadding(0)
+        .elasticY(true)
+        .colors(["orange"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('fltHrs').offsetWidth;
+            var newHeight = newWidth/fltHrsAspectRatio;
+            if (newHeight < fltHrsMinHeight) {
+                newHeight = fltHrsMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(fltHrsMinHeight)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+//        //AFSC
+//        var afscChart = dc.rowChart('#dc-afsc-rowchart')
+//        var afscDim = this.ndx.dimension(function(d){
+//            var afscRegex = /\d\d\D/
+//            var afscString = d.afsc_duty
+//            var afscMatch = afscString.match(afscRegex)
+//            if (afscMatch) {
+//                return afscMatch[0] 
+//            } else {
+//                return "NONE"
+//            }
+//        })
+//        var afscGroup = afscDim.group()
+//        var afscMinHeight = 600 
+//        var afscAspectRatio = 1
+//        if (documentWidth > 960) {
+//            var afscWidth = Math.round(documentWidth*(4/12));
+//        }
+//        else {
+//            var afscWidth = documentWidth*0.90;
+//        }
+//        var afscHeight = afscWidth/afscAspectRatio;
+//        if (afscHeight < afscMinHeight) {
+//            afscHeight = afscMinHeight;
+//        }
+//
+//        afscChart
+//        .minWidth(afscWidth)
+//        .width(afscWidth)
+//        .minHeight(afscMinHeight)
+//        .height(afscHeight)
+//        .margins({top: 30, left: 30, right: 50, bottom: 40})
+//        .dimension(afscDim)
+//        .group(afscGroup)
+//        .elasticX(true)
+//        .colors(d3.scale.category10())
+//        .on('preRedraw', function(chart) {
+//            var newWidth = document.getElementById('afsc').offsetWidth;
+//            var newHeight = newWidth/afscAspectRatio;
+//            if (newHeight < afscMinHeight) {
+//                newHeight = afscMinHeight;
+//            }
+//           chart
+//           .minWidth(newWidth)
+//           .width(newWidth)
+//           .minHeight(afscMinHeight)
+//           .height(newHeight)
+//           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+//        })
+
+        // Create data for data table
+        var vm = this
+        vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+        // update rows in data table upon each chart being filtered 
+        dc.chartRegistry.list().forEach(function(chart) {
+            chart.on('filtered', function() {
+                vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+            })
+        })
+
+        var temp 
+        window.onresize = function(event) {
+            clearTimeout(temp)
+            temp = setTimeout(resizeDone,200)
+        }
+        function resizeDone() {
+            // hacky way to prevent getElementById from firing when not on FindBillets page
+            if (vm.$route.name !== 'FindOfficers') {
+                return
+            }
+            // call redraw to preRedraw event on charts, which resizes charts
+            console.log('redrawn')
+            dc.redrawAll();
+        }
+
+        dc.renderAll();
+        
+    }
 
   },
   beforeUpdate: function(){

@@ -2,10 +2,10 @@
   <v-container fluid>
       <v-layout row>
           <v-flex xs6 class="text-xs-left">
-              <h2>Rank Billets</h2>
+              <h2>Rank Officers</h2>
           </v-flex>
           <v-flex xs6 class="text-xs-right">
-              <v-btn v-if="faveBillets.length!==0" success small @click.prevent="save">Save</v-btn>  
+              <v-btn v-if="faveOfficers.length!==0" success small @click.prevent="save">Save</v-btn>  
           </v-flex>
       </v-layout>
       <v-layout row>
@@ -20,9 +20,9 @@
               </v-snackbar>
           </v-flex>
       </v-layout>
-      <v-layout row v-if="faveBillets.length===0">
+      <v-layout row v-if="faveOfficers.length===0">
           <v-flex xs12>
-              <v-alert warning value="true">Please favorite some billets!
+              <v-alert warning value="true">Please favorite some officers!
               </v-alert>
           </v-flex>
       </v-layout>
@@ -36,24 +36,24 @@
               <table style="width: 100%">
                   <thead>
                   <tr>
-                      <th style="width:13%">ID</th>
-                      <th style="width:10%">AFSC</th>
-                      <th style="width:10%">Grade</th>
-                      <th style="width:10%">MWS</th>
-                      <th style="width:35%">UNIT</th>
-                      <th style="width:10%">State</th>
-                      <th style="width:12%"></th>
+                      <th style="width:10%">ID</th>
+                      <th style="width:16%">Grade</th>
+                      <th style="width:16%">Year Group</th>
+                      <th style="width:16%">Rating</th>
+                      <th style="width:16%">RDTM</th>
+                      <th style="width:16%">Total Hours</th>
+                      <th style="width:10%"></th>
                   </tr>
                   </thead>
               </table>
           </v-flex>
       </v-layout>
-      <v-layout row v-if="faveBillets.length!==0">
+      <v-layout row v-if="faveOfficers.length!==0">
           <v-flex xs12>
-              <!--drag and drop tiles for ranking billets, possibly style better later-->
-              <draggable v-model="rankBillets" class="list-group" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
+              <!--drag and drop tiles for ranking officers, possibly style better later-->
+              <draggable v-model="rankOfficers" class="list-group" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
               <transition-group type="transition" :name="'flip-list'">
-                  <v-layout row v-for="(billet,index) in rankBillets" class="list-group-item" :key="billet.id">
+                  <v-layout row v-for="(officer,index) in rankOfficers" class="list-group-item" :key="officer.ID">
                       <v-flex class="pt-3 text-xs-right" xs1 offset-md1 md1>
                           {{index+1}}. 
                       </v-flex>
@@ -61,16 +61,16 @@
                           <v-card class="pa-1">
                               <table style="width: 100%">
                                   <tr>
-                                      <td style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="billet.id">{{billet.id}}
-                                              <req-sheet v-if="billet.id === clickedId" :item="dialogData" v-model="showReq"></req-sheet>
+                                      <td style="width 10%"><a href="#" @click.prevent = "showOffMethod($event)"  :id="officer.ID">{{officer.ID}}
+                                              <off-sheet v-if="officer.ID == clickedId" :item="dialogData" v-model="showOff"></off-sheet>
                                           </a></td>
-                                      <td style="width:10%">{{billet.api}}</td>
-                                      <td style="width:10%">{{billet.grade}}</td>
-                                      <td style="width:10%">{{billet.aircraft}}</td>
-                                      <td style="width:35%">{{billet.unit}}</td>
-                                      <td style="width:10%">{{billet.state}}</td>
-                                      <!--payload for removeBillet mutation is object with index as property-->
-                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeBillet',{'index': index})">Remove</v-btn></td>
+                                      <td style="width:16%">{{officer.grade}}</td>
+                                      <td style="width:16%">{{officer.adjYG}}</td>
+                                      <td style="width:16%">{{officer.RTG}}</td>
+                                      <td style="width:16%">{{officer.rdtm}}</td>
+                                      <td style="width:16%">{{Math.round(officer.flt_hrs_total)}}</td>
+                                      <!--payload for removeOfficer mutation is object with index as property-->
+                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
                                   </tr>
                               </table>
                               </h6>
@@ -84,29 +84,24 @@
       </v-layout>
       <v-layout row>
           <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
-              <v-btn primary large block v-if="faveBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
+              <v-btn primary large block v-if="faveOfficers.length!==0" @click.prevent="submit">Submit</v-btn>  
           </v-flex>
       </v-layout>
   </v-container>
 </template>
 
 <script>
-//import $ from 'jquery'
-//import 'jquery-ui/themes/base/core.css';
-//import 'jquery-ui/themes/base/theme.css';
-//import 'jquery-ui/ui/core';
-//import 'jquery-ui/ui/widgets/sortable';
 import draggable from 'vuedraggable'
-import Req from './Req'
+import Off from './Off'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'billet',
+  name: 'officer',
   data () {
     return {
-      title: 'billet page',
+      title: 'officer page',
       dialogData: {},
-      showReq: false,
+      showOff: false,
       editable: true,
       isDragging: false,
       delayedDragging: false,
@@ -117,18 +112,18 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'faveBillets'
+        'faveOfficers'
     ]),
-    rankBillets: {
-        //need getter to be faveBillets to get from vuex state
+    rankOfficers: {
+        //need getter to be faveOfficers to get from vuex state
         get: function () {
-            return this.faveBillets 
+            return this.faveOfficers 
         },  
-        //need setter to dispatch ranked billets to the store so 
-        //vuex state 'faveBillets' always has most recent rank - 
-        //remember, index of each billet in array tells rank
+        //need setter to dispatch ranked officers to the store so 
+        //vuex state 'faveOfficers' always has most recent rank - 
+        //remember, index of each officer in array tells rank
         set: function (rankedArray) {
-            this.$store.dispatch('rankBillets',rankedArray) 
+            this.$store.dispatch('rankOfficers',rankedArray) 
         }
     },
     dragOptions () {
@@ -148,26 +143,25 @@ export default {
         const draggedElement = draggedContext.element;
         return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
     },
-      showReqMethod: function(event){
+      showOffMethod: function(event){
         //shows req and updates (allows dialog to dynamically update values) 
         var id = event.target.id
-        var billet = this.faveBillets.filter((d)=>{return d.id == id})[0]
-        this.dialogData['id']=billet.id
-        this.dialogData['api']=billet.api
-        this.dialogData['state']=billet.state
-        this.dialogData['unit']=billet.unit
-        this.dialogData['aircraft']=billet.aircraft
-        this.dialogData['afsc']=billet.afsc
-        this.dialogData['grade']=billet.grade
-        this.showReq = true
+        var officer = this.faveOfficers.filter((d)=>{return d.ID == id})[0]
+        this.dialogData['id']=officer.ID
+        this.dialogData['grade']=officer.grade
+        this.dialogData['adjYG']=officer.adjYG
+        this.dialogData['RTG']=officer.RTG
+        this.dialogData['rdtm']=officer.rdtm
+        this.dialogData['flt_hrs_total']=Math.round(officer.flt_hrs_total)
+        this.showOff = true
         //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
         this.clickedId = id
       },
       save: function () {
-        //store vuex state 'faveBillets' (array of billets) to local storage
-        //(faveBillets will be ranked billets if officer ranked billets due to
-        //setter on rankedBillets)
-        var payload = {'name': 'rankedBillets', 'value': JSON.stringify(this.faveBillets)}
+        //store vuex state 'faveOfficers' (array of officers) to local storage
+        //(faveOfficers will be ranked officers if officer ranked officers due to
+        //setter on rankedOfficers)
+        var payload = {'name': 'rankedOfficers', 'value': JSON.stringify(this.faveOfficers)}
         //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
         this.$store.dispatch('save',payload)
         this.saved = true; 
@@ -191,7 +185,7 @@ export default {
   },
   components: {
     'draggable': draggable,
-    'req-sheet': Req
+    'off-sheet': Off 
   }
 }
 </script>

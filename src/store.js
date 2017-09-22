@@ -5,6 +5,9 @@ const LOGOUT = "LOGOUT";
 const ADD_BILLET = "ADD_BILLET";
 const REMOVE_BILLET = "REMOVE_BILLET";
 const RANK_BILLETS = "RANK_BILLETS";
+const ADD_OFFICER = "ADD_OFFICER";
+const REMOVE_OFFICER = "REMOVE_OFFICER";
+const RANK_OFFICERS = "RANK_OFFICERS";
 const VERIFY_ADMIN = "VERIFY_ADMIN";
 
 import Vue from 'vue'
@@ -21,7 +24,8 @@ export const store = new Vuex.Store({
     baseUrl: "http://192.168.1.85:5005/api",
     //if user saved their ranked billets, pull them from local storate, 
     //else start with empty array
-    faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [] 
+    faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
+    faveOfficers: localStorage.getItem('rankedOfficers') ? JSON.parse(localStorage.getItem('rankedOfficers')) : []
   },
   getters: {
     isLoggedIn: state => {
@@ -38,6 +42,9 @@ export const store = new Vuex.Store({
     },
     faveBillets: state => {
         return state.faveBillets
+    },
+    faveOfficers: state => {
+        return state.faveOfficers
     },
     adminVerified: state=> {
       return state.adminVerified
@@ -75,6 +82,26 @@ export const store = new Vuex.Store({
         //the index of each billet in an array (ie - first ranked billet has 
         //index of 0)
         state.faveBillets = payload
+    },
+    [ADD_OFFICER] (state,payload) {
+        //payload is object for officer, and only add officer to faveOfficers if not
+        //already in faveOfficers array
+        if (state.faveOfficers.some(function(d) {d.ID === payload.ID})) {
+            return
+        } else {
+            state.faveOfficers.push(payload)    
+        }
+    },
+    [REMOVE_OFFICER] (state,payload) {
+        //payload is object and index property is index of officer to remove
+        state.faveOfficers.splice(payload.index,1)
+    },
+    [RANK_OFFICERS] (state,payload) {
+        //payload is the array of ranked officers 
+        //note: when officers are ranked, the rank of each officer is denoted by
+        //the index of each officer in an array (ie - first ranked officer has 
+        //index of 0)
+        state.faveOfficers = payload
     },
     [VERIFY_ADMIN](state){
       state.adminVerified = true
@@ -143,6 +170,15 @@ export const store = new Vuex.Store({
     },
     rankBillets( { commit },payload) {
         commit(RANK_BILLETS,payload)
+    },
+    addOfficer({ commit },payload) {
+        commit(ADD_OFFICER,payload)
+    },
+    removeOfficer( { commit },payload) {
+        commit(REMOVE_OFFICER,payload)
+    },
+    rankOfficers( { commit },payload) {
+        commit(RANK_OFFICERS,payload)
     },
     save ({commit},payload) {
         //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
