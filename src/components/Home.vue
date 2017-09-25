@@ -8,18 +8,11 @@
     <v-card-media
               class="headline"
               height="300px"
-              src="/static/airforce_pilot.jpg"
+              src="/static/f-15.jpg"
             >
-              <v-container fill-height fluid>
-                <v-layout fill-height>
-                  <v-flex xs12 align-end flexbox>
-                    <span>Officers</span>
-                  </v-flex>
-                </v-layout>
-              </v-container>
     </v-card-media>
     <v-card-title>
-      <div class="headline">Update your profile</div>
+      <div class="headline">Officers: Update your profile</div>
     You're more than what's on your SURF. Your first step is to input your work experience, skills, and other relevant information in MyVector. We've provided a guide for you here. This information will be seen by billet owners as they search for officers that are most suitable for their positions. Tip: The more information you provide, the better the billet owners will be able to make an assessment on choosing specific officers. Please provide this information by 31 January 2017 so that gaining commanders have enough time to search.
     </v-card-title>
     <v-divider></v-divider>
@@ -39,18 +32,11 @@
     <v-card-media
               class="headline"
               height="300px"
-              src="/static/beach.jpg"
+              src="/static/iron-eagle.jpg"
             >
-              <v-container fill-height fluid>
-                <v-layout fill-height>
-                  <v-flex xs12 align-end flexbox>
-                    <span>Billets</span>
-                  </v-flex>
-                </v-layout>
-              </v-container>
     </v-card-media>
     <v-card-title>
-      <div class="headline">Update your billets</div>
+      <div class="headline">Commanders: Update your billets</div>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut veritatis, repellat saepe sapiente natus. Eos beatae tenetur eligendi doloribus magnam sit quaerat nihil vitae ipsam, enim quam ipsum, quas accusamus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi optio consectetur explicabo facere molestias cumque pariatur expedita minus totam repellendus tempora, repudiandae sequi magni numquam atque. Quod aperiam dicta delectus.
     </v-card-title>
     <v-divider></v-divider>
