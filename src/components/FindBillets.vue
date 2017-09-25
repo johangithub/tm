@@ -621,11 +621,12 @@ export default{
 
     // Create data for data table
     var vm = this
-    vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+    var itemsDim = vm.ndx.dimension(function(d) {return d;})
+    vm.items = itemsDim.top(Infinity)
     // update rows in data table upon each chart being filtered 
     dc.chartRegistry.list().forEach(function(chart) {
         chart.on('filtered', function() {
-            vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+            vm.items = itemsDim.top(Infinity)
         })
     })
 

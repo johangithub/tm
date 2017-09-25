@@ -199,12 +199,6 @@ export default{
     ...mapGetters([
         'faveOfficers'
     ]),
-    ndx: function(){
-      return crossfilter(this.data)
-    },
-    allGroup: function(){
-      return this.ndx.groupAll()
-    }
   },
   components:{
     'reset-btn': ResetButton,
@@ -241,7 +235,7 @@ export default{
       showReqMethod: function(event){
           //shows req and updates values in dialog (needed to make dialog dynamic) 
         var id = event.target.id
-        var billet = this.items.filter((d)=>{return d.ID == id})[0]
+        var billet = this.items.filter((d)=>{console.log(d.ID);return d.ID == id})[0]
         this.dialogData['id']=billet.id
         this.dialogData['rtg']=billet.rtg
         this.dialogData['state']=billet.state
@@ -291,17 +285,18 @@ export default{
     // es6 arrow function 
     var renderCharts = () => {
         //Data count
-        console.log(this.data)
+        var ndx =  crossfilter(this.data)
+        var allGroup = ndx.groupAll()
         dc.dataCount(".dc-data-count")
-          .dimension(this.ndx)
-          .group(this.allGroup)
+          .dimension(ndx)
+          .group(allGroup)
 
         var documentWidth = document.documentElement.clientWidth;
         var smallScreenFactor = 0.96
 
         //grade
         var gradeChart = dc.barChart("#dc-grade-barchart")
-        var gradeDim = this.ndx.dimension(function(d){
+        var gradeDim = ndx.dimension(function(d){
             return d.grade;
         })
         var gradeGroup = gradeDim.group()
@@ -349,7 +344,7 @@ export default{
 
         //Rating
         var rtgChart = dc.rowChart('#dc-rtg-rowchart')
-        var rtgDim = this.ndx.dimension(function(d){return d.RTG;})
+        var rtgDim = ndx.dimension(function(d){return d.RTG;})
         var rtgGroup = rtgDim.group()
         var rtgMinHeight = 200 
         var rtgAspectRatio = 3
@@ -390,7 +385,7 @@ export default{
 
         // yeargroup
         var yearGroupChart = dc.barChart("#dc-yearGroup-barchart")
-        var yearGroupDim = this.ndx.dimension(function(d){
+        var yearGroupDim = ndx.dimension(function(d){
             return d.adjYG    
         })
         var yearGroupGroup = yearGroupDim.group()
@@ -432,7 +427,7 @@ export default{
 
         // RDTM
         var rdtmChart = dc.rowChart("#dc-rdtm-rowchart")
-        var rdtmDim = this.ndx.dimension(function(d){return d.rdtm})
+        var rdtmDim = ndx.dimension(function(d){return d.rdtm ? d.rdtm : 'NONE'})
         var rdtmGroup = rdtmDim.group()
         var rdtmMinHeight = 380
         var rdtmAspectRatio = 3
@@ -473,7 +468,7 @@ export default{
         
         //Total Flight hours
         var fltHrsChart = dc.barChart("#dc-fltHrs-barchart")
-        var fltHrsDim = this.ndx.dimension(function(d){
+        var fltHrsDim = ndx.dimension(function(d){
             //round to nearest 500
             return Math.round(d.flt_hrs_total/100)*100;
         })
@@ -523,7 +518,7 @@ export default{
 
 //        //AFSC
 //        var afscChart = dc.rowChart('#dc-afsc-rowchart')
-//        var afscDim = this.ndx.dimension(function(d){
+//        var afscDim = ndx.dimension(function(d){
 //            var afscRegex = /\d\d\D/
 //            var afscString = d.afsc_duty
 //            var afscMatch = afscString.match(afscRegex)
@@ -573,16 +568,19 @@ export default{
 
         // Create data for data table
         var vm = this
-        vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+        var itemDim = ndx.dimension(function(d) {return d;})
+        vm.items = itemDim.top(Infinity)
         // update rows in data table upon each chart being filtered 
         dc.chartRegistry.list().forEach(function(chart) {
             chart.on('filtered', function() {
-                vm.items = vm.ndx.dimension(function(d) {return d;}).top(Infinity)
+              vm.items = itemDim.top(Infinity)
+              console.log(vm.items)
             })
         })
 
         var temp 
         window.onresize = function(event) {
+            console.log('resize')
             clearTimeout(temp)
             temp = setTimeout(resizeDone,200)
         }
@@ -603,10 +601,10 @@ export default{
   },
   beforeUpdate: function(){
     console.log('before update')
-    //window.dispatchEvent( new Event('resize') )
-
+    console.log(this.items)
   },
   beforeDestroy: function(){
+    console.log('before destroy')
     // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM
     dc.chartRegistry.clear()
   },
