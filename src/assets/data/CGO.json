@@ -1,143 +1,86 @@
 [
   {
-  "name": "John Doe1", 
+  "name": "Jane Smith", 
   "grade": "Capt", 
   "rank": "", 
-  "joinSpouse": false, 
-  "EFMP": false, 
+  "joinSpouse": false,
   "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "",
   "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
   "qualifications": []
   },
   { 
-  "name": "John Doe2", 
+  "name": "John Doe", 
   "grade": "Capt", 
   "rank": "", 
-  "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
+  "joinSpouse": false,
+  "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "", 
   "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
   "qualifications": []
   },
   { 
-  "name": "John Doe3", 
-  "grade": "Capt", 
+  "name": "John Smith", 
+  "grade": "1Lt", 
   "rank": "", 
-  "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
+  "joinSpouse": false,
+  "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "", 
  "vectors":[
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
-    }
-  ],
-  "comment_commander": "", 
-  "qualifications": []
-  },
-  { 
-  "name": "John Doe4", 
-  "grade": "Capt", 
-  "rank": "", 
-  "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
-  "vectors":[
-    {
-      "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
-    },
-    {
-      "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
-    },
-    {
-      "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
-    },
-    {
-      "vector": "",
-      "location1": "",
-      "location2": "",
-      "location3": ""
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 

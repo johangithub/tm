@@ -1,111 +1,115 @@
 [
   {
-  "name": "Jane Smith1", 
+  "name": "Jane Smith", 
   "grade": "Maj", 
   "rank": "", 
   "joinSpouse": false, 
-  "EFMP": false, 
   "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "",
   "vectors":[
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
   "qualifications": []
   },
   { 
-  "name": "Jane Smith2", 
+  "name": "John Doe", 
   "grade": "Maj", 
   "rank": "", 
   "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
+  "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "", 
   "vectors":[
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
   "qualifications": []
   },
   { 
-  "name": "Jane Smith3", 
+  "name": "John Smith", 
   "grade": "Maj", 
   "rank": "", 
   "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
+  "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "", 
  "vectors":[
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
   "qualifications": []
   },
   { 
-  "name": "Jane Smith4", 
+  "name": "Jane Doe", 
   "grade": "Maj", 
   "rank": "", 
   "joinSpouse": false, 
-  "EFMP": false, 
-  "issueRNLTD": false, 
+  "issueRNLTD": false,
+  "slip": "",
+  "slip_reason": "", 
   "vectors":[
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     },
     {
       "vector": "",
-      "location": ["","","",""]
+      "location": ["","","",""]      
     }
   ],
   "comment_commander": "", 
