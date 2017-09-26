@@ -614,6 +614,22 @@ export default{
 <style src="../../node_modules/dc/dc.css">
 </style>
 <style>
+/* edit anchor tag styling so no highlighting after 
+click, also give feedback to users on click */
+a, a:visited, a:focus {
+    outline: 0;
+    position: relative;
+}
+a:hover {
+    outline: 0;
+    positon: relative;
+    color: green;
+}
+a:active {
+    outline: 0;
+    top: 1px;
+    color: red;
+}
 
 div[id*="-barchart"] .x.axis text{
     text-anchor: end !important;
