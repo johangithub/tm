@@ -175,7 +175,8 @@ export default{
             text: 'Favorite', align: 'left', sortable: false  
         },
         {
-            text: 'ID', value: 'id', align: 'left'
+            // value must be exact name of property for column!!!
+            text: 'ID', value: 'ID', align: 'left'
         },
         {
             text: 'Grade', value: 'grade', align: 'left' 
