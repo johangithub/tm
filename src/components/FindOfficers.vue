@@ -10,7 +10,7 @@
     <span class="filter-count"></span>
     selected out of
     <span class="total-count"></span>
-    billets | 
+    officers | 
     <v-btn small error round @click.prevent="resetAll">Reset All</v-btn>
     <v-btn small warning round @click.prevent="togglePanels">Toggle</v-btn>
   </v-flex>    
@@ -132,7 +132,7 @@
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
-                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.ID">{{props.item.ID}}<req-sheet v-if="props.item.ID === clickedId" :item="dialogData" v-model="showReq"></req-sheet></a></td>
+                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showOffMethod($event)"  :id="props.item.ID">{{props.item.ID}}<off-sheet v-if="props.item.ID == clickedId" :item="dialogData" v-model="showOff"></off-sheet></a></td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.grade}}</td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.adjYG}}</td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.RTG}}</td>
@@ -149,7 +149,7 @@
 import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
-import Req from './Req'
+import Off from './Off'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { store } from '@/store'
@@ -158,7 +158,7 @@ export default{
   data(){
     return {
       data: [],
-      showReq: false,
+      showOff: false,
       dialogData: {},
       panelOpen: {
          rdtm: true,
@@ -175,7 +175,8 @@ export default{
             text: 'Favorite', align: 'left', sortable: false  
         },
         {
-            text: 'ID', value: 'id', align: 'left'
+            // value must be exact name of property for column!!!
+            text: 'ID', value: 'ID', align: 'left'
         },
         {
             text: 'Grade', value: 'grade', align: 'left' 
@@ -203,21 +204,21 @@ export default{
   components:{
     'reset-btn': ResetButton,
     'hide-btn': HideButton,
-    'req-sheet': Req
+    'off-sheet': Off 
   },
   methods: {
       jumpToSection: function(id) {
           document.getElementById(id).scrollIntoView();
       },
       favorited: function(obj) {
-          //have to use some method to check if billet id exists in 
-          //faveBillets array (includes method doesn't work)
+          //have to use some method to check if officer id exists in 
+          //faveOfficers array (includes method doesn't work)
           return this.faveOfficers.some(function(d) {return d.ID === obj.ID})
       },
       toggleFavorite: function(obj) {
           if (this.favorited(obj)) {
-            //have to use findIndex method to find index of billet, by billet id, to remove from 
-            //faveBillets array (indexOf method doesn't work)
+            //have to use findIndex method to find index of officer, by officer id, to remove from 
+            //faveOfficers array (indexOf method doesn't work)
             var index = this.faveOfficers.findIndex(function(d) {return d.ID === obj.ID})
             //keep payload an object to follow convention
             var payload = {'index': index}
@@ -232,18 +233,17 @@ export default{
             this.panelOpen[key] = !this.panelOpen[key]
         }
       },
-      showReqMethod: function(event){
-          //shows req and updates values in dialog (needed to make dialog dynamic) 
+      showOffMethod: function(event){
+          //shows officer view and updates values in dialog (needed to make dialog dynamic) 
         var id = event.target.id
-        var billet = this.items.filter((d)=>{console.log(d.ID);return d.ID == id})[0]
-        this.dialogData['id']=billet.id
-        this.dialogData['rtg']=billet.rtg
-        this.dialogData['state']=billet.state
-        this.dialogData['unit']=billet.unit
-        this.dialogData['fltHrs']=billet.fltHrs
-        this.dialogData['afsc']=billet.afsc
-        this.dialogData['grade']=billet.grade
-        this.showReq = true
+        var officer = this.items.filter((d)=>{return d.ID == id})[0]
+        this.dialogData['id']=officer.ID
+        this.dialogData['grade']=officer.grade
+        this.dialogData['adjYG']=officer.adjYG
+        this.dialogData['RTG']=officer.RTG
+        this.dialogData['rdtm']=officer.rdtm
+        this.dialogData['flt_hrs_total']=officer.flt_hrs_total
+        this.showOff = true
         this.clickedId = id
       },
     resetAll: (event)=>{
@@ -574,7 +574,6 @@ export default{
         dc.chartRegistry.list().forEach(function(chart) {
             chart.on('filtered', function() {
               vm.items = itemDim.top(Infinity)
-              console.log(vm.items)
             })
         })
 
@@ -585,7 +584,7 @@ export default{
             temp = setTimeout(resizeDone,200)
         }
         function resizeDone() {
-            // hacky way to prevent getElementById from firing when not on FindBillets page
+            // hacky way to prevent getElementById from firing when not on FindOfficers page
             if (vm.$route.name !== 'FindOfficers') {
                 return
             }
@@ -601,7 +600,6 @@ export default{
   },
   beforeUpdate: function(){
     console.log('before update')
-    console.log(this.items)
   },
   beforeDestroy: function(){
     console.log('before destroy')
