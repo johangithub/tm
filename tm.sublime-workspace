@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Notice",
+				"NoticeConsent"
+			],
+			[
+				"chart",
+				"chartRegistry"
+			],
+			[
 				"val",
 				"value"
 			],
@@ -72,28 +80,73 @@
 	"buffers":
 	[
 		{
-			"file": "src/components/Profile.vue",
+			"file": "src/components/Activate.vue",
 			"settings":
 			{
-				"buffer_size": 19133,
+				"buffer_size": 3491,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/format/course.js",
+			"file": "TODO.md",
 			"settings":
 			{
-				"buffer_size": 345446,
+				"buffer_size": 926,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/Login.vue",
+			"settings":
+			{
+				"buffer_size": 4209,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/NoticeConsent.vue",
+			"settings":
+			{
+				"buffer_size": 1582,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "build/dev-server.js",
+			"settings":
+			{
+				"buffer_size": 2685,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "build/webpack.prod.conf.js",
+			"settings":
+			{
+				"buffer_size": 3743,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "src/store.js",
 			"settings":
 			{
-				"buffer_size": 3304,
+				"buffer_size": 6375,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/LosingCommander.vue",
+			"settings":
+			{
+				"buffer_size": 12894,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -187,20 +240,30 @@
 	[
 		"/home/jh/tm",
 		"/home/jh/tm/src",
-		"/home/jh/tm/src/format"
+		"/home/jh/tm/src/components"
 	],
 	"file_history":
 	[
-		"/home/jh/tm/src/store.js",
-		"/home/jh/tm/src/format/aac.js",
+		"/home/jh/tm/build/webpack.prod.conf.js",
+		"/home/jh/tm/build/webpack.base.conf.js",
+		"/home/jh/tm/config/index.js",
 		"/home/jh/tm/TODO.md",
-		"/home/jh/tm/src/format/location_format.js",
-		"/home/jh/tm/src/format/course.js",
-		"/usr/share/applications/%F",
-		"/home/jh/tm/src/components/Profile.vue",
-		"/home/jh/tm/src/components/Login.vue",
-		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
 		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/src/components/Login.vue",
+		"/home/jh/tm/node_modules/crossfilter2/crossfilter.js",
+		"/home/jh/tm/src/components/LosingCommander.vue",
+		"/home/jh/tm/src/assets/data/CGO.json",
+		"/home/jh/tm/src/assets/data/FGO.json",
+		"/home/jh/tm/src/components/Profile.vue",
+		"/home/jh/tm/src/components/Home.vue",
+		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/src/format/course.js",
+		"/home/jh/tm/src/format/aac.js",
+		"/home/jh/tm/src/format/location_format.js",
+		"/usr/share/applications/%F",
+		"/home/jh/tm/src/components/Navbar.vue",
 		"/home/jh/tm/src/format/abc.js",
 		"/home/jh/tm/src/format/alc.js",
 		"/home/jh/Downloads/ajh4.csv",
@@ -208,11 +271,8 @@
 		"/home/jh/tm/.circleci/config.yml",
 		"/home/jh/tm/src/components/AdminLogin.vue",
 		"/home/jh/tm/src/format/language.js",
-		"/home/jh/tm/src/components/FindOfficers.vue",
 		"/home/jh/tm/index.html",
-		"/home/jh/tm/src/components/Home.vue",
 		"/home/jh/tm/src/assets/fonts/material-icons.css",
-		"/home/jh/tm/build/webpack.base.conf.js",
 		"/home/jh/tm/src/components/Squadrons.vue",
 		"/home/jh/commander/tm_commander/src/components/Navbar.vue",
 		"/home/jh/commander/tm_commander/src/main.js",
@@ -228,16 +288,11 @@
 		"/home/jh/tm-api/server.js",
 		"/home/jh/tm-api/public/index.html",
 		"/home/jh/tm-api/index.ejs",
-		"/home/jh/tm/src/components/LosingCommander.vue",
-		"/home/jh/tm/src/assets/data/CGO.json",
-		"/home/jh/tm/src/assets/data/FGO.json",
 		"/home/jh/tm/build/webpack.dev.conf.js",
-		"/home/jh/tm/build/webpack.prod.conf.js",
 		"/home/jh/tm/src/main.js",
 		"/home/jh/tm/src/components/ClipSpinner.vue",
 		"/home/jh/tm/temp.js",
 		"/home/jh/tm/package.json",
-		"/home/jh/tm/config/index.js",
 		"/home/jh/tm/config/dev.env.js",
 		"/home/jh/tm/config/prod.env.js",
 		"/home/jh/tm/src/assets/data/fighter_billets.csv",
@@ -276,7 +331,6 @@
 		"/home/jh/tm/src/assets/fakebillets.js",
 		"/home/jh/tm/src/App.vue",
 		"/home/jh/tm/static/fake_billet.js",
-		"/home/jh/tm/src/components/FindBillets.vue",
 		"/home/jh/tm/src/components/Hello.vue",
 		"/home/jh/tm/src/components/FindOfficer.vue",
 		"/home/jh/lunar/src/App.vue",
@@ -298,6 +352,45 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"click",
+			"options",
+			"server",
+			"@",
+			"$/",
+			"/^",
+			"route",
+			"param",
+			"login",
+			"Login",
+			"showpassword",
+			"rdtm",
+			"data",
+			"data:",
+			"ndx",
+			"this.ndx",
+			"allgroup",
+			"ndx",
+			"this.ndx",
+			".ndx.dimension",
+			"console.log",
+			"items",
+			"vm.items",
+			"array8",
+			"require",
+			"crossfilter_arrayWiden",
+			"arraywiden",
+			"axios",
+			"console.log",
+			"  \"EFMP\": false, ",
+			"\"EFMP\": false,",
+			"efmp",
+			"officer.slip",
+			"ship",
+			"data",
+			".csv",
+			"mapgetters",
+			"div",
+			"span",
 			"course",
 			"\\\\",
 			"alc",
@@ -386,46 +479,7 @@
 			"bcrypt",
 			"sha256",
 			"sha512",
-			"\\;",
-			"\"issueRNLTD\": false,",
-			"xs-4",
-			"desiredDepartureDate",
-			"port",
-			"\"location\": []",
-			"[]",
-			"\"location1\": \"\",\n      \"location2\": \"\",\n      \"location3\": \"\"",
-			"Jane Smith",
-			"Maj",
-			"FGO",
-			"console.",
-			"assetsPublicPath",
-			"console.log",
-			"name",
-			"getAxios",
-			"snackbar_login",
-			"authRequired: ",
-			"authRequired: true",
-			"authRequired",
-			"false",
-			"component",
-			"username",
-			"\\*{4}",
-			"DATA MASKED",
-			"password",
-			"d.",
-			"db4",
-			"hash",
-			"row",
-			"db4",
-			"db2",
-			"db",
-			"`",
-			"'",
-			"login_manager",
-			"conn = db_connect",
-			"db_connect",
-			"json_data",
-			"\"\""
+			"\\;"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -433,6 +487,8 @@
 		"regex": true,
 		"replace_history":
 		[
+			"ndx",
+			"",
 			"\"\\1\":\"\\2\"\\,\\n",
 			"\"\\1\":\"\\2\"\\n",
 			"Capt",
@@ -479,24 +535,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/components/Profile.vue",
+					"file": "src/components/Activate.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 19133,
+						"buffer_size": 3491,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3428,
-								3428
+								2639,
+								2639
 							]
 						],
 						"settings":
@@ -506,55 +562,113 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 756.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "src/format/course.js",
+					"file": "TODO.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 345446,
+						"buffer_size": 926,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								119705,
-								119705
+								482,
+								482
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 34770.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/store.js",
+					"file": "src/components/Login.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3304,
+						"buffer_size": 4209,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1169,
-								1169
+								115,
+								36
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/components/NoticeConsent.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1582,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1529,
+								1529
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "build/dev-server.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2685,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2534,
+								2534
 							]
 						],
 						"settings":
@@ -564,10 +678,100 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 420.0,
+						"translation.y": 554.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "build/webpack.prod.conf.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3743,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2904,
+								2904
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 714.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/store.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6375,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1098,
+								1098
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 84.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/components/LosingCommander.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12894,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6614,
+								6614
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2878.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -579,7 +783,7 @@
 	},
 	"input":
 	{
-		"height": 31.0
+		"height": 35.0
 	},
 	"layout":
 	{
@@ -658,7 +862,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 177.0,
+	"side_bar_width": 294.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

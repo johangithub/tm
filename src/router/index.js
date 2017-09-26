@@ -8,6 +8,7 @@ import FindOfficers from '@/components/FindOfficers'
 import RankOfficers from '@/components/RankOfficers'
 import About from '@/components/About'
 import Login from '@/components/Login'
+import Activate from '@/components/Activate'
 import LosingCommander from '@/components/LosingCommander'
 import { store } from '@/store.js'
 Vue.use(Router)
@@ -17,6 +18,14 @@ export const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+      meta: {
+        authRequired: false
+      }
+    },
+    {
+      path: '/activate',
+      name: 'Activate',
+      component: Activate,
       meta: {
         authRequired: false
       }
@@ -100,7 +109,10 @@ router.beforeEach((to, from, next) => {
   const role = store.getters.role
 
   //if authentication is required and not logged in, then send to login page 
-  if (authRequired && !authed){
+  if (to.path=='/activate'){
+    next()
+  }
+  else if (authRequired && !authed){
     next('/login')
   }
   //If visiting profile, check the authority and automatically reroute to his profile id

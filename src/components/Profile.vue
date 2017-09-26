@@ -397,7 +397,7 @@
 </template>
 
 <script>
-import { store } from '@/store.js'
+import { store } from '@/store'
 import axios from 'axios'
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
@@ -527,7 +527,7 @@ export default {
       return this.id ? this.id : store.getters.userId
     },
     pretty_apiData(){
-      if (this.apiData){
+      if (this.apiData2){
         return JSON.stringify(this.apiData2, null, 2);
       }
       else{

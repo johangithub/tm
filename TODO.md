@@ -8,6 +8,8 @@
 - [ ] ~~2FA for Admin~~
 - [ ] disable href highlighting
 - [x] dc.js crossfilter freeze bugs
+- [x] Enforce password length, upper, lowercase
+
 ---
 
 - [ ] Individual Officer View
@@ -35,3 +37,13 @@
 ---
 
 - [x] Rank Billet View
+
+---
+
+- [ ] MAJCOM Owner view
+
+---
+
+- [ ] Losing commander view
+- [ ] Timestamp/username for vectoring
+- [ ] Tie in command hierarchy

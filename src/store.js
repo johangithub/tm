@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
     adminVerified: false,
     userId: localStorage.getItem("id"),
     role: localStorage.getItem("role"),
-    baseUrl: "http://192.168.1.85:5005/api",
+    baseUrl: "https://localhost:5005/api",
     //if user saved their ranked billets, pull them from local storate, 
     //else start with empty array
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
