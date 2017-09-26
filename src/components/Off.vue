@@ -2,14 +2,14 @@
 <v-layout row>
     <v-dialog :value="value" @input="$emit('input',$event.value)" width="600px">
       <v-card>
-        <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native.stop="close"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+        <v-card-title class="headline">Officer<v-spacer></v-spacer><v-btn fab primary small flat @click.native.stop="close"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
             ID: {{item.id}} <br>
             Grade: {{item.grade}} <br>
             Adjusted Year Group: {{item.adjYG}} <br>
             Rating: {{item.RTG}} <br>
             RDTM: {{item.rdtm}} <br>
-            Total Flight Hours: {{item.flt_hrs_total}} <br>
+            Total Flight Hours: {{Math.round(item.flt_hrs_total)}} <br>
         </v-card-text>
           <v-spacer></v-spacer>
           <v-btn class="blue--text darken-1" flat="flat" @click.native="close">Close</v-btn>
