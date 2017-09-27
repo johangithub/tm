@@ -62,7 +62,6 @@ export default{
       agreed: false,
       password: '',
       password_confirm: '',
-      autofocus: false,
     }
   },
   methods:{
@@ -106,15 +105,6 @@ export default{
     //check if the token is expired
     console.log(this.$route.params)
   },
-  watch: {
-    autofocus(val){
-      if(!val){
-        return requestAnimationFrame(() => {
-          this.$refs.focus.focus()
-        })
-      }
-    }
-  }
 }
 </script>
 <style lang="scss">

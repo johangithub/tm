@@ -8,7 +8,7 @@ const RANK_BILLETS = "RANK_BILLETS";
 const ADD_OFFICER = "ADD_OFFICER";
 const REMOVE_OFFICER = "REMOVE_OFFICER";
 const RANK_OFFICERS = "RANK_OFFICERS";
-const VERIFY_ADMIN = "VERIFY_ADMIN";
+const SET_ROLE = "SET_ROLE";
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -18,9 +18,8 @@ export const store = new Vuex.Store({
   state: {
     isLoggedIn: !!localStorage.getItem("token"),
     pending: false,
-    adminVerified: false,
     userId: localStorage.getItem("id"),
-    role: localStorage.getItem("role"),
+    userRole: localStorage.getItem("role"),
     baseUrl: "https://localhost:5005/api",
     //if user saved their ranked billets, pull them from local storate, 
     //else start with empty array
@@ -37,8 +36,8 @@ export const store = new Vuex.Store({
     userId: state => {
       return state.userId
     },
-    role: state => {
-      return state.role
+    userRole: state => {
+      return state.userRole
     },
     faveBillets: state => {
         return state.faveBillets
@@ -46,9 +45,6 @@ export const store = new Vuex.Store({
     faveOfficers: state => {
         return state.faveOfficers
     },
-    adminVerified: state=> {
-      return state.adminVerified
-    }
   },
   mutations: {
     [LOGIN] (state) {
@@ -57,7 +53,6 @@ export const store = new Vuex.Store({
     },
     [LOGIN_SUCCESS] (state) {
       state.isLoggedIn = true
-      state.pending = false
     },
     [LOGOUT](state) {
       state.isLoggedIn = false
@@ -103,8 +98,8 @@ export const store = new Vuex.Store({
         //index of 0)
         state.faveOfficers = payload
     },
-    [VERIFY_ADMIN](state){
-      state.adminVerified = true
+    [SET_ROLE](state, role){
+      state.userRole = role
     }
   },
   actions: {
@@ -131,19 +126,10 @@ export const store = new Vuex.Store({
                     }
                     var token_decoded = parseJwt(token)
                     localStorage.setItem("token", token)
-                    localStorage.setItem("id", token_decoded.id)
                     localStorage.setItem("role", token_decoded.role)
-                    //handle admin login
-                    if (token_decoded.role =='admin' && !this.state.adminVerified ){
-                      resolve()
-                      commit(LOGOUT)
-                    }
-                    else{
-                      commit(VERIFY_ADMIN)
-                      commit(LOGIN_SUCCESS)
-                      resolve()
-                    }
-                
+                    commit(SET_ROLE, token_decoded.role)
+                    commit(LOGIN_SUCCESS)
+                    resolve()
             }, 1000)
           })
           .catch((e) => {

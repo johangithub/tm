@@ -98,37 +98,22 @@
 			}
 		},
 		{
-			"file": "src/components/Login.vue",
+			"file": "src/components/Navbar.vue",
 			"settings":
 			{
-				"buffer_size": 4209,
+				"buffer_size": 3167,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/components/NoticeConsent.vue",
+			"contents": "<template>\n  <v-container id=\"home\">\n  <h4>Welcome to the Air Force Talent Marketplace</h4>  \n  <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>\n  <v-layout row>\n  <v-flex xs6 v-if=\"userRole=='officer'\">\n  <v-card>\n    <v-card-media\n              class=\"headline\"\n              height=\"300px\"\n              src=\"/static/f-15.jpg\"\n            >\n    </v-card-media>\n    <v-card-title>\n      <div class=\"headline\">Officers: Update your profile</div>\n    You're more than what's on your SURF. Your first step is to input your work experience, skills, and other relevant information in MyVector. We've provided a guide for you here. This information will be seen by billet owners as they search for officers that are most suitable for their positions. Tip: The more information you provide, the better the billet owners will be able to make an assessment on choosing specific officers. Please provide this information by 31 January 2017 so that gaining commanders have enough time to search.\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Find jobs you're interested in.</div>\n    The Find a Billet tool lets you quickly filter down to billets you'd like to fill. Thanks to the participation by billet owners, you'll see a lot more data then you would in AMS. Feel free to reach out to billet POCs who have made their contact information public!\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Submit your preference.</div>\n      Once you've found assignments that you want, fill out your dream sheet by 3 March 2017.\n    </v-card-title>\n  </v-card>\n  </v-flex>\n  <v-flex xs6>\n  <v-card v-if=\"userRole=='billet_owner'\">\n    <v-card-media\n              class=\"headline\"\n              height=\"300px\"\n              src=\"/static/iron-eagle.jpg\"\n            >\n    </v-card-media>\n    <v-card-title>\n      <div class=\"headline\">Billet Owners: Update your billets</div>\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut veritatis, repellat saepe sapiente natus. Eos beatae tenetur eligendi doloribus magnam sit quaerat nihil vitae ipsam, enim quam ipsum, quas accusamus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi optio consectetur explicabo facere molestias cumque pariatur expedita minus totam repellendus tempora, repudiandae sequi magni numquam atque. Quod aperiam dicta delectus.\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Find officers you're interested in.</div>\n    The Find a officer tool lets you quickly filter down to billets you'd like to fill. Thanks to the participation by billet owners, you'll see a lot more data then you would in AMS. Feel free to reach out to billet POCs who have made their contact information public!\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Submit your preference.</div>\n      Once you've found officers that you want, fill out your dream sheet by 3 March 2017.\n    </v-card-title>\n    </v-card>\n  </v-flex>\n  </v-layout>\n  </v-container>\n</template>\n\n<script>\nexport default {\n  name: 'home',\n  data () {\n    return {\n      title: 'Air Foce Talent Marketplace Home Page'\n    }\n  },\n  computed:{\n    userRole(){\n      return this.$store.getters.userRole\n    }\n  }\n}\n</script>\n\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\n<style scoped>\n</style>\n",
+			"file": "src/components/Home.vue",
+			"file_size": 3543,
+			"file_write_time": 131510050461870766,
 			"settings":
 			{
-				"buffer_size": 1582,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "build/dev-server.js",
-			"settings":
-			{
-				"buffer_size": 2685,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "build/webpack.prod.conf.js",
-			"settings":
-			{
-				"buffer_size": 3743,
+				"buffer_size": 3543,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -137,16 +122,7 @@
 			"file": "src/store.js",
 			"settings":
 			{
-				"buffer_size": 6375,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/components/LosingCommander.vue",
-			"settings":
-			{
-				"buffer_size": 12894,
+				"buffer_size": 6429,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -244,21 +220,23 @@
 	],
 	"file_history":
 	[
+		"/home/jh/tm/src/components/LosingCommander.vue",
+		"/home/jh/tm/src/store.js",
 		"/home/jh/tm/build/webpack.prod.conf.js",
+		"/home/jh/tm/build/dev-server.js",
+		"/home/jh/tm/src/components/NoticeConsent.vue",
+		"/home/jh/tm/src/components/Login.vue",
 		"/home/jh/tm/build/webpack.base.conf.js",
 		"/home/jh/tm/config/index.js",
 		"/home/jh/tm/TODO.md",
 		"/home/jh/tm/src/components/FindBillets.vue",
 		"/home/jh/tm/src/components/FindOfficers.vue",
 		"/home/jh/tm/src/router/index.js",
-		"/home/jh/tm/src/components/Login.vue",
 		"/home/jh/tm/node_modules/crossfilter2/crossfilter.js",
-		"/home/jh/tm/src/components/LosingCommander.vue",
 		"/home/jh/tm/src/assets/data/CGO.json",
 		"/home/jh/tm/src/assets/data/FGO.json",
 		"/home/jh/tm/src/components/Profile.vue",
 		"/home/jh/tm/src/components/Home.vue",
-		"/home/jh/tm/src/store.js",
 		"/home/jh/tm/src/format/course.js",
 		"/home/jh/tm/src/format/aac.js",
 		"/home/jh/tm/src/format/location_format.js",
@@ -317,7 +295,6 @@
 		"/home/jh/tm/src/components/ResetButton.vue",
 		"/home/jh/tm/src/components/Billet.vue",
 		"/home/jh/tm/api/app.py",
-		"/home/jh/tm/build/dev-server.js",
 		"/home/jh/tm/src/components/ResetDcChart.vue",
 		"/home/jh/tm/src/assets/data/us-states.json",
 		"/home/jh/tm/node_modules/dc/dc.js",
@@ -352,6 +329,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"VERIFY_ADMIN",
+			"userRole!='officer' && ",
+			"console.log",
+			" v-if=\"user",
+			"snackbar",
 			"click",
 			"options",
 			"server",
@@ -474,12 +456,7 @@
 			"\"location\": [\"\",\"\",\"\",\"\"],",
 			"\"location\": [\"\",\"\",\"\",\"\"]",
 			"qualOptions",
-			"console.log",
-			"\"issueRNLTD\": false,",
-			"bcrypt",
-			"sha256",
-			"sha512",
-			"\\;"
+			"console.log"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -535,7 +512,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -551,66 +528,8 @@
 						"selection":
 						[
 							[
-								2639,
-								2639
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "TODO.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 926,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								482,
-								482
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/components/Login.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4209,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								115,
-								36
+								1324,
+								1324
 							]
 						],
 						"settings":
@@ -627,138 +546,48 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/components/NoticeConsent.vue",
+					"buffer": 1,
+					"file": "TODO.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1582,
+						"buffer_size": 926,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1529,
-								1529
+								24,
+								24
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage"
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "build/dev-server.js",
+					"buffer": 2,
+					"file": "src/components/Navbar.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2685,
+						"buffer_size": 3167,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2534,
-								2534
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 554.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "build/webpack.prod.conf.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3743,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2904,
-								2904
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 714.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/store.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6375,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1098,
-								1098
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 84.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "src/components/LosingCommander.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12894,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6614,
-								6614
+								2056,
+								2056
 							]
 						],
 						"settings":
@@ -768,10 +597,70 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2878.0,
+						"translation.y": 686.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/components/Home.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3543,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1139,
+								1139
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/store.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1091,
+								1091
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1092.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
