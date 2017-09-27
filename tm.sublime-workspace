@@ -80,10 +80,28 @@
 	"buffers":
 	[
 		{
+			"file": "src/components/Login.vue",
+			"settings":
+			{
+				"buffer_size": 2902,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/Home.vue",
+			"settings":
+			{
+				"buffer_size": 1407,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "src/components/Activate.vue",
 			"settings":
 			{
-				"buffer_size": 3491,
+				"buffer_size": 3311,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -101,19 +119,16 @@
 			"file": "src/components/Navbar.vue",
 			"settings":
 			{
-				"buffer_size": 3167,
+				"buffer_size": 3326,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "<template>\n  <v-container id=\"home\">\n  <h4>Welcome to the Air Force Talent Marketplace</h4>  \n  <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>\n  <v-layout row>\n  <v-flex xs6 v-if=\"userRole=='officer'\">\n  <v-card>\n    <v-card-media\n              class=\"headline\"\n              height=\"300px\"\n              src=\"/static/f-15.jpg\"\n            >\n    </v-card-media>\n    <v-card-title>\n      <div class=\"headline\">Officers: Update your profile</div>\n    You're more than what's on your SURF. Your first step is to input your work experience, skills, and other relevant information in MyVector. We've provided a guide for you here. This information will be seen by billet owners as they search for officers that are most suitable for their positions. Tip: The more information you provide, the better the billet owners will be able to make an assessment on choosing specific officers. Please provide this information by 31 January 2017 so that gaining commanders have enough time to search.\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Find jobs you're interested in.</div>\n    The Find a Billet tool lets you quickly filter down to billets you'd like to fill. Thanks to the participation by billet owners, you'll see a lot more data then you would in AMS. Feel free to reach out to billet POCs who have made their contact information public!\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Submit your preference.</div>\n      Once you've found assignments that you want, fill out your dream sheet by 3 March 2017.\n    </v-card-title>\n  </v-card>\n  </v-flex>\n  <v-flex xs6>\n  <v-card v-if=\"userRole=='billet_owner'\">\n    <v-card-media\n              class=\"headline\"\n              height=\"300px\"\n              src=\"/static/iron-eagle.jpg\"\n            >\n    </v-card-media>\n    <v-card-title>\n      <div class=\"headline\">Billet Owners: Update your billets</div>\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut veritatis, repellat saepe sapiente natus. Eos beatae tenetur eligendi doloribus magnam sit quaerat nihil vitae ipsam, enim quam ipsum, quas accusamus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi optio consectetur explicabo facere molestias cumque pariatur expedita minus totam repellendus tempora, repudiandae sequi magni numquam atque. Quod aperiam dicta delectus.\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Find officers you're interested in.</div>\n    The Find a officer tool lets you quickly filter down to billets you'd like to fill. Thanks to the participation by billet owners, you'll see a lot more data then you would in AMS. Feel free to reach out to billet POCs who have made their contact information public!\n    </v-card-title>\n    <v-divider></v-divider>\n    <v-card-title>\n      <div class=\"headline\">Submit your preference.</div>\n      Once you've found officers that you want, fill out your dream sheet by 3 March 2017.\n    </v-card-title>\n    </v-card>\n  </v-flex>\n  </v-layout>\n  </v-container>\n</template>\n\n<script>\nexport default {\n  name: 'home',\n  data () {\n    return {\n      title: 'Air Foce Talent Marketplace Home Page'\n    }\n  },\n  computed:{\n    userRole(){\n      return this.$store.getters.userRole\n    }\n  }\n}\n</script>\n\n<!-- Add \"scoped\" attribute to limit CSS to this component only -->\n<style scoped>\n</style>\n",
-			"file": "src/components/Home.vue",
-			"file_size": 3543,
-			"file_write_time": 131510050461870766,
+			"file": "src/components/HomepageCards/LosingCommanderCard.vue",
 			"settings":
 			{
-				"buffer_size": 3543,
+				"buffer_size": 758,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -122,7 +137,24 @@
 			"file": "src/store.js",
 			"settings":
 			{
-				"buffer_size": 6429,
+				"buffer_size": 5917,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/HomepageCards/OfficerCard.vue",
+			"settings":
+			{
+				"buffer_size": 1455,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/HomepageCards/BilletOwnerCard.vue",
+			"settings":
+			{
+				"buffer_size": 1382,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -216,12 +248,17 @@
 	[
 		"/home/jh/tm",
 		"/home/jh/tm/src",
-		"/home/jh/tm/src/components"
+		"/home/jh/tm/src/components",
+		"/home/jh/tm/src/components/HomepageCards",
+		"/home/jh/tm/src/router"
 	],
 	"file_history":
 	[
-		"/home/jh/tm/src/components/LosingCommander.vue",
 		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/src/components/HomepageCards/BilletOwnerCard.vue",
+		"/home/jh/tm/src/components/HomepageCards/AdminCard.vue",
+		"/home/jh/tm/src/components/HomepageCards/OfficerCard.vue",
+		"/home/jh/tm/src/components/LosingCommander.vue",
 		"/home/jh/tm/build/webpack.prod.conf.js",
 		"/home/jh/tm/build/dev-server.js",
 		"/home/jh/tm/src/components/NoticeConsent.vue",
@@ -329,6 +366,27 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"email",
+			"admin-card",
+			"AdminCard",
+			"pending",
+			"login2",
+			"admin",
+			"verify",
+			"admin",
+			"v-show",
+			"show",
+			"transition",
+			"if",
+			"admin",
+			"autofocus",
+			"else",
+			"v-card",
+			"HomepageCards",
+			"billet-owner-card",
+			"BilletOwnerCard",
+			"officer-card",
+			"OfficerCard",
 			"VERIFY_ADMIN",
 			"userRole!='officer' && ",
 			"console.log",
@@ -435,28 +493,7 @@
 			"id",
 			"SET_ID",
 			"commit",
-			"div",
-			"input",
-			"showAboutside",
-			"2-ship",
-			"4-ship",
-			"I want to work for the fighter porch.",
-			"polyfill",
-			"babel",
-			"v-model=\"officer",
-			"label=",
-			"label=\"",
-			"label=",
-			"fgo",
-			"cgo",
-			"Maj",
-			"craig.cude",
-			"\\, ",
-			"\"slip_reason\": \"\",",
-			"\"location\": [\"\",\"\",\"\",\"\"],",
-			"\"location\": [\"\",\"\",\"\",\"\"]",
-			"qualOptions",
-			"console.log"
+			"div"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -512,24 +549,54 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/components/Activate.vue",
+					"file": "src/components/Login.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3491,
+						"buffer_size": 2902,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1324,
-								1324
+								2238,
+								2238
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 652.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/Home.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								981,
+								981
 							]
 						],
 						"settings":
@@ -542,11 +609,41 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
+					"file": "src/components/Activate.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3311,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								800,
+								809
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "TODO.md",
 					"semi_transient": false,
 					"settings":
@@ -570,24 +667,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "src/components/Navbar.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3167,
+						"buffer_size": 3326,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2056,
-								2056
+								2856,
+								2856
 							]
 						],
 						"settings":
@@ -597,27 +694,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 686.0,
+						"translation.y": 756.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/components/Home.vue",
+					"buffer": 5,
+					"file": "src/components/HomepageCards/LosingCommanderCard.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3543,
+						"buffer_size": 758,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1139,
-								1139
+								715,
+								715
 							]
 						],
 						"settings":
@@ -630,24 +727,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 6,
 					"file": "src/store.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6429,
+						"buffer_size": 5917,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1091,
-								1091
+								2657,
+								2657
 							]
 						],
 						"settings":
@@ -657,10 +754,70 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1092.0,
+						"translation.y": 1050.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/components/HomepageCards/OfficerCard.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1455
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/components/HomepageCards/BilletOwnerCard.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1382,
+								1382
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]

@@ -61,9 +61,9 @@
                           <v-card class="pa-1">
                               <table style="width: 100%">
                                   <tr>
-                                      <td style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="billet.id">{{billet.id}}
-                                              <req-sheet v-if="billet.id === clickedId" :item="dialogData" v-model="showReq"></req-sheet>
-                                          </a></td>
+                                      <td style="width 10%">
+                                      <v-btn flat primary dark :id="billet.id" @click="showReqMethod($event)" @click.native.stop="showReq = true" >
+                                      {{billet.id}}</v-btn></td>
                                       <td style="width:10%">{{billet.api}}</td>
                                       <td style="width:10%">{{billet.grade}}</td>
                                       <td style="width:10%">{{billet.aircraft}}</td>
@@ -81,7 +81,21 @@
               </transition-group>
               </draggable>
           </v-flex>
-      </v-layout>
+
+      <v-dialog v-model="showReq" width="600px" lazy absolute>
+        <v-card>
+          <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+          <v-card-text>
+            <div>{{dialogData}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="blue--text darken-1" flat="flat" @click.native="showReq = false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+            </v-layout>
+      <!-- <req-sheet :value="showReq" :item="dialogData"></req-sheet> -->
       <v-layout row>
           <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
               <v-btn primary large block v-if="faveBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
@@ -91,11 +105,6 @@
 </template>
 
 <script>
-//import $ from 'jquery'
-//import 'jquery-ui/themes/base/core.css';
-//import 'jquery-ui/themes/base/theme.css';
-//import 'jquery-ui/ui/core';
-//import 'jquery-ui/ui/widgets/sortable';
 import draggable from 'vuedraggable'
 import Req from './Req'
 import { mapGetters } from 'vuex'
@@ -150,7 +159,7 @@ export default {
     },
       showReqMethod: function(event){
         //shows req and updates (allows dialog to dynamically update values) 
-        var id = event.target.id
+        var id = event.currentTarget.id
         var billet = this.faveBillets.filter((d)=>{return d.id == id})[0]
         this.dialogData['id']=billet.id
         this.dialogData['api']=billet.api
@@ -191,7 +200,7 @@ export default {
   },
   components: {
     'draggable': draggable,
-    'req-sheet': Req
+    // 'req-sheet': Req
   }
 }
 </script>

@@ -71,7 +71,7 @@ export default{
         return [
           {name: "My Profile", link: "profile"},
           {name: "Find Billets", link: "find_billets"},
-          {name: "Rank Billets", link: "billet"},
+          {name: "Rank Billets", link: "rank_billets"},
         ]
       }
       else if (this.userRole == 'billet_owner'){
@@ -90,7 +90,7 @@ export default{
         return [
           {name: "My Profile", link: "profile"},
           {name: "Find Billets", link: "find_billets"},
-          {name: "Rank Billets", link: "billet"},
+          {name: "Rank Billets", link: "rank_billets"},
           {name: "Find Officers", link: "find_officers"},
           {name: "Rank Officers", link: "rank_officers"},
           {name: "Commander Input", link: "losing_commander"},

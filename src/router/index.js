@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Billet from '@/components/Billet'
+import RankBillets from '@/components/RankBillets'
 import Profile from '@/components/Profile'
 import FindBillets from '@/components/FindBillets'
 import FindOfficers from '@/components/FindOfficers'
@@ -39,9 +39,9 @@ export const router = new Router({
       }
     },
     {
-      path: '/billet',
-      name: 'Billet',
-      component: Billet,
+      path: '/rank_billets',
+      name: 'Rank_Billets',
+      component: RankBillets,
       meta: {
         authRequired: true
       }
