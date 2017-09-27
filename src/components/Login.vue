@@ -69,7 +69,7 @@ export default{
       this.show_password = !this.show_password  
     },
     login: function(){
-      if (this.email_valid && this.password){
+      if (this.password){
       this.$store.dispatch("login", {
               email: this.email,
               password: this.password
@@ -79,10 +79,6 @@ export default{
             //handle server side login rejection
             this.snackbar(message)
           })
-      }
-      else if (!this.email_valid){
-        //Client side email validation
-        this.snackbar('Wrong Email Format')
       }
       else if (!this.password){
         //Password is required
@@ -97,9 +93,6 @@ export default{
   computed: {
     pending(){
       return this.$store.getters.isPending
-    },
-    email_valid(){
-      return /[A-Za-z]+\.[A-Za-z]+\.\d{1,2}/.test(this.email)
     }
   },
   mounted: function(){

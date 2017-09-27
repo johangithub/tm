@@ -7,6 +7,7 @@
     <officer-card v-if="userRole=='officer'"></officer-card>
     <billet-owner-card v-if="userRole=='billet_owner'"></billet-owner-card>
     <admin-card v-if="userRole=='admin'"></admin-card>
+    <losing-commander-card v-if="userRole=='losing_commander'"></losing-commander-card>
   </v-flex>
   </v-layout>
   </v-container>
@@ -16,6 +17,7 @@
 import OfficerCard from './HomepageCards/OfficerCard'
 import BilletOwnerCard from './HomepageCards/BilletOwnerCard'
 import AdminCard from './HomepageCards/AdminCard'
+import LosingCommanderCard from './HomepageCards/LosingCommanderCard'
 export default {
   name: 'home',
   data () {
@@ -33,6 +35,7 @@ export default {
     'officer-card': OfficerCard,
     'billet-owner-card': BilletOwnerCard,
     'admin-card': AdminCard,
+    'losing-commander-card': LosingCommanderCard
   }
 }
 </script>

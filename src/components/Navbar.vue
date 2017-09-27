@@ -81,6 +81,11 @@ export default{
           {name: "Rank Officers", link: "rank_officers"},
         ]
       }
+      else if (this.userRole == 'losing_commander'){
+        return [
+          {name: "Commander Input", link:"losing_commander"}
+        ]
+      }
       else{
         return [
           {name: "My Profile", link: "profile"},
@@ -88,7 +93,7 @@ export default{
           {name: "Rank Billets", link: "billet"},
           {name: "Find Officers", link: "find_officers"},
           {name: "Rank Officers", link: "rank_officers"},
-          {name: "Losing Commander", link: "losing_commander"},
+          {name: "Commander Input", link: "losing_commander"},
         ]
       }
     },
