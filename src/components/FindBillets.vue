@@ -167,7 +167,7 @@
       <v-card>
         <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
-            <v-container fluid grid-list-xs>
+            <v-container fluid grid-list-md>
                 <v-layout row wrap>
                     <v-flex flexbox v-for="(property,key) in dialogData" :key="key">
                             <v-text-field
