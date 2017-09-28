@@ -4,6 +4,17 @@
       <v-card>
         <v-card-title class="headline">Officer<v-spacer></v-spacer><v-btn fab primary small flat @click.native.stop="close"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
+            <v-container fluid grid-list-xs>
+                <v-layout row wrap>
+                    <v-flex flexbox v-for="(property,key) in item" :key="key">
+                            <v-text-field
+                                :label="key"
+                                :value="property"
+                                readonly 
+                                ></v-text-field>
+                    </v-flex>
+                </v-layout> 
+            </v-container>
             ID: {{item.id}} <br>
             Grade: {{item.grade}} <br>
             Adjusted Year Group: {{item.adjYG}} <br>

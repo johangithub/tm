@@ -9,10 +9,15 @@ const ADD_OFFICER = "ADD_OFFICER";
 const REMOVE_OFFICER = "REMOVE_OFFICER";
 const RANK_OFFICERS = "RANK_OFFICERS";
 const SET_ROLE = "SET_ROLE";
+const BASE_URL = "http://192.168.1.85:5005/api" //pi
+//const BASE_URL = "https://locahost:5005/api" //local server
 
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+axios.defaults.baseURL = BASE_URL 
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
 Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
@@ -20,7 +25,7 @@ export const store = new Vuex.Store({
     pending: false,
     userId: localStorage.getItem("id"),
     userRole: localStorage.getItem("role"),
-    baseUrl: "https://localhost:5005/api",
+    baseUrl: BASE_URL,//pi
     //if user saved their ranked billets, pull them from local storate, 
     //else start with empty array
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
@@ -107,10 +112,7 @@ export const store = new Vuex.Store({
     login({ commit }, creds) {
       commit(LOGIN)
       return new Promise((resolve,reject) => {
-          axios.post(this.state.baseUrl+'/authenticate',{
-            headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-            },
+          axios.post('/authenticate',{
             email: creds.email+'@us.af.mil',
             password: creds.password
           })

@@ -144,20 +144,20 @@
                           selected-key="items.id">
                 <template slot="items" scope="props">
                     <!--TODO: edit for IE11 support (see vuetify docs)-->
-                    <td>
+                    <td class="text-xs-center">
                         <!--can't find a way to dynamically change material icons colors, so use two-->
                         <!--icons with v-show for now-->
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
                     <td class="text-xs-left" style="width 10%">
-                      <v-btn flat primary dark @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+                      <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
                     </td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
                     <td class="text-xs-left" style="width: 15%">{{props.item.aircraft}}</td>
-                    <td class="text-xs-left" style="width: 35%">{{props.item.unit}}</td>
+                    <td class="text-xs-left" style="width: 30%">{{props.item.unit}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
                 </template> 
             </v-data-table>
@@ -167,16 +167,27 @@
       <v-card>
         <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
-          <div>
-            ID: {{dialogData.id}} <br>
-            Api: {{dialogData.api}} <br>
-            AFSC: {{dialogData.afsc}} <br>
-            Location: {{dialogData.location}} <br>
-            Grade: O-{{dialogData.grade}} <br>
-            Aircraft: {{dialogData.aircraft}} <br>
-            Unit: {{dialogData.unit}} <br>
-            State: {{dialogData.state}} <br>
-          </div>
+            <v-container fluid grid-list-xs>
+                <v-layout row wrap>
+                    <v-flex flexbox v-for="(property,key) in dialogData" :key="key">
+                            <v-text-field
+                                :label="key"
+                                :value="property"
+                                readonly 
+                                ></v-text-field>
+                    </v-flex>
+                </v-layout> 
+            </v-container>
+          <!--<div>-->
+            <!--ID: {{dialogData.id}} <br>-->
+            <!--Api: {{dialogData.api}} <br>-->
+            <!--AFSC: {{dialogData.afsc}} <br>-->
+            <!--Location: {{dialogData.location}} <br>-->
+            <!--Grade: O-{{dialogData.grade}} <br>-->
+            <!--Aircraft: {{dialogData.aircraft}} <br>-->
+            <!--Unit: {{dialogData.unit}} <br>-->
+            <!--State: {{dialogData.state}} <br>-->
+          <!--</div>-->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -192,7 +203,11 @@ import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
 import Req from './Req'
+import { store } from '@/store'
 import { mapGetters } from 'vuex'
+import axios from 'axios'
+axios.defaults.baseURL = store.state.baseUrl
+axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default{
   data(){
@@ -347,7 +362,7 @@ export default{
         var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);
     }
     else {
-        var statesWidth = documentWidth;
+        var statesWidth = documentWidth*1.15;
     }
     var statesHeight = statesWidth/statesAspectRatio;
     var xOffset = statesWidth/statesXRatio;
@@ -388,11 +403,12 @@ export default{
     var conusGroup = conusDim.group()
     var conusMinHeight = 130
     var conusAspectRatio = 7
+    var conusSizeFactor = 0.96
     if (documentWidth > 960) {
         var conusWidth = Math.round(documentWidth*(5/12));
     }
     else {
-        var conusWidth = documentWidth*0.90;
+        var conusWidth = documentWidth*conusSizeFactor;
     }
     var conusHeight = conusWidth/conusAspectRatio;
     if (conusHeight < conusMinHeight) {
@@ -428,7 +444,8 @@ export default{
     var locationGroup = locationDim.group()
     var locMinHeight = 300
     var locAspectRatio = 4
-    var locWidth = documentWidth;
+    var locSizeFactor = 0.96
+    var locWidth = documentWidth*locSizeFactor;
     var locHeight = locWidth/locAspectRatio;
     if (locHeight < locMinHeight) {
         locHeight = locMinHeight;
@@ -468,11 +485,12 @@ export default{
     var apiGroup = apiDim.group()
     var apiMinHeight = 250
     var apiAspectRatio = 3
+    var apiSizeFactor = 0.96
     if (documentWidth > 960) {
         var apiWidth = Math.round(documentWidth*(5/12));
     }
     else {
-        var apiWidth = documentWidth*0.90;
+        var apiWidth = documentWidth*apiSizeFactor;
     }
     var apiHeight = apiWidth/apiAspectRatio;
     if (apiHeight < apiMinHeight) {
@@ -607,11 +625,12 @@ export default{
     var afscGroup = afscDim.group()
     var afscMinHeight = 200
     var afscAspectRatio = 4
+    var afscSizeFactor = 0.96
     if (documentWidth > 960) {
         var afscWidth = Math.round(documentWidth*(4/12));
     }
     else {
-        var afscWidth = documentWidth*0.90;
+        var afscWidth = documentWidth*afscSizeFactor;
     }
     var afscHeight = afscWidth/afscAspectRatio;
     if (afscHeight < afscMinHeight) {
