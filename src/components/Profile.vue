@@ -565,5 +565,9 @@ export default {
       return temp
     }
   },
+  mounted: function(){
+    this.getData2()
+    console.log(this.apiData2)
+  }
 }
 </script>

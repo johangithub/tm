@@ -1,6 +1,6 @@
 <template>
 <v-container fluid class="pa-2">
-<v-toolbar dark class="primary">
+<v-toolbar dark fixed class="primary">
     <v-toolbar-title class="white--text">
         <router-link to='/' tag="span" style="cursor: pointer">AF Talent Marketplace</router-link>
     </v-toolbar-title>
