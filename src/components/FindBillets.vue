@@ -150,7 +150,9 @@
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
-                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showReqMethod($event)"  :id="props.item.id">{{props.item.id}}<req-sheet v-if="props.item.id === clickedId" :item="dialogData" v-model="showReq"></req-sheet></a></td>
+                    <td class="text-xs-left" style="width 10%">
+                      <v-btn flat primary dark @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+                    </td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.api}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
                     <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
@@ -161,6 +163,27 @@
             </v-data-table>
         </v-card>
     </v-flex>
+    <v-dialog v-model="showReq" width="600px" lazy absolute>
+      <v-card>
+        <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+        <v-card-text>
+          <div>
+            ID: {{dialogData.id}} <br>
+            Api: {{dialogData.api}} <br>
+            AFSC: {{dialogData.afsc}} <br>
+            Location: {{dialogData.location}} <br>
+            Grade: O-{{dialogData.grade}} <br>
+            Aircraft: {{dialogData.aircraft}} <br>
+            Unit: {{dialogData.unit}} <br>
+            State: {{dialogData.state}} <br>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat="flat" @click.native="showReq = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
   </v-container>
 </template>
@@ -260,9 +283,9 @@ export default{
             this.panelOpen[key] = !this.panelOpen[key]
         }
       },
-      showReqMethod: function(event){
+      showReqMethod: function(req){
           //shows req and updates values in dialog (needed to make dialog dynamic) 
-        var id = event.target.id
+        var id = req.id
         var billet = this.items.filter((d)=>{return d.id == id})[0]
         this.dialogData['id']=billet.id
         this.dialogData['api']=billet.api

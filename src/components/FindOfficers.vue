@@ -132,7 +132,9 @@
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
-                    <td class="text-xs-left" style="width 10%"><a href="#" @click.prevent = "showOffMethod($event)"  :id="props.item.ID">{{props.item.ID}}<off-sheet v-if="props.item.ID == clickedId" :item="dialogData" v-model="showOff"></off-sheet></a></td>
+                    <td class="text-xs-left" style="width 10%">
+                      <v-btn :id="props.item.ID" flat primary dark @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.ID}}</v-btn>
+                    </td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.grade}}</td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.adjYG}}</td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.RTG}}</td>
@@ -142,6 +144,24 @@
             </v-data-table>
         </v-card>
     </v-flex>
+    <v-dialog v-model="showOff" width="600px" lazy absolute>
+      <v-card>
+        <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showOff = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+        <v-card-text>
+          <div>
+            ID: {{dialogData.id}} <br>
+            Grade: {{dialogData.grade}} <br>
+            Adjusted Year Group: {{dialogData.adjYG}} <br>
+            Rating: {{dialogData.RTG}} <br>
+            RDTM: {{dialogData.rdtm}} <br>
+            Total Flight Hours: {{Math.round(dialogData.flt_hrs_total)}} <br></div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat="flat" @click.native="showOff = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
   </v-container>
 </template>

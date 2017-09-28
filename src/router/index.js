@@ -9,6 +9,7 @@ import RankOfficers from '@/components/RankOfficers'
 import About from '@/components/About'
 import Login from '@/components/Login'
 import Activate from '@/components/Activate'
+import Diagrams from '@/components/Diagrams'
 import LosingCommander from '@/components/LosingCommander'
 import { store } from '@/store.js'
 Vue.use(Router)
@@ -92,6 +93,14 @@ export const router = new Router({
       path: '/losing_commander',
       name: 'LosingCommander',
       component: LosingCommander,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/diagrams',
+      name: 'Diagrams',
+      component: Diagrams,
       meta: {
         authRequired: true
       }

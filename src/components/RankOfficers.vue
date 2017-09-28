@@ -61,9 +61,9 @@
                           <v-card class="pa-1">
                               <table style="width: 100%">
                                   <tr>
-                                      <td style="width 10%"><a href="#" @click.prevent = "showOffMethod($event)"  :id="officer.ID">{{officer.ID}}
-                                              <off-sheet v-if="officer.ID == clickedId" :item="dialogData" v-model="showOff"></off-sheet>
-                                          </a></td>
+                                      <td style="width 10%">
+                                        <v-btn :id="officer.ID" flat primary dark @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{officer.ID}}</v-btn>
+                                      </td>
                                       <td style="width:16%">{{officer.grade}}</td>
                                       <td style="width:16%">{{officer.adjYG}}</td>
                                       <td style="width:16%">{{officer.RTG}}</td>

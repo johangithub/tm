@@ -86,7 +86,16 @@
         <v-card>
           <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
           <v-card-text>
-            <div>{{dialogData}}</div>
+            <div>
+            ID: {{dialogData.id}} <br>
+            Api: {{dialogData.api}} <br>
+            AFSC: {{dialogData.afsc}} <br>
+            Location: {{dialogData.location}} <br>
+            Grade: O-{{dialogData.grade}} <br>
+            Aircraft: {{dialogData.aircraft}} <br>
+            Unit: {{dialogData.unit}} <br>
+            State: {{dialogData.state}} <br>
+          </div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
