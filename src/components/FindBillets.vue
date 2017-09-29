@@ -259,12 +259,6 @@ export default{
     ...mapGetters([
         'faveBillets'
     ]),
-    ndx: function(){
-      return crossfilter(this.data)
-    },
-    allGroup: function(){
-      return this.ndx.groupAll()
-    }
   },
   components:{
     'reset-btn': ResetButton,
@@ -332,361 +326,369 @@ export default{
   },
   created: function(){
     console.log('created')
-    var data = require('@/assets/data/fighter_billets.csv')
-    this.data = data
-    
   },
   beforeMount: function(){
     console.log('beforeMount')
   },
   mounted: function(){
     console.log('mounted')
+    axios.get('/billet_view').then(response => {
+        this.data = response.data.data
+        renderCharts()
+    }).catch(console.error)
 
-    //Data count
-    dc.dataCount(".dc-data-count")
-      .dimension(this.ndx)
-      .group(this.allGroup)
+    //es6 arrow function
+      var renderCharts = () => {
+        //Data count
+        var ndx = crossfilter(this.data)
+        var allGroup = ndx.groupAll()
+        dc.dataCount(".dc-data-count")
+          .dimension(ndx)
+          .group(allGroup)
 
-    //State Map
-    var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
-    var states = this.ndx.dimension(function(d){return d.state})
-    var statesGroup = states.group()
-    var statesAspectRatio = 1.8
-    var statesXRatio = 2.5
-    var statesYRatio = 1.9
-    var statesSizeFactor = 1.2
-    // get document width, and if on md or larger screen, manually
-    // reduce size of first state map so fits in 7 columns
-    var documentWidth = document.documentElement.clientWidth;
-    if (documentWidth > 960) {
-        var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);
-    }
-    else {
-        var statesWidth = documentWidth*1.15;
-    }
-    var statesHeight = statesWidth/statesAspectRatio;
-    var xOffset = statesWidth/statesXRatio;
-    var yOffset = statesHeight/statesYRatio;
-
-    stateChart
-    .dimension(states)
-    .group(statesGroup)
-    .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-    .colorDomain([0, 100])
-    .minWidth(statesWidth)
-    .width(statesWidth)
-    .height(statesHeight)
-    .projection(d3.geo.albersUsa().scale(statesWidth).translate([xOffset,yOffset]))
-    .overlayGeoJson(statesJson.features, "state", function (d) {
-      return d.properties.name;
-    })
-    .on('preRedraw', function(chart) {
-        // values for width, height, and offsets are for formatting -
-        // numbers are fairly arbitrary
-        var newWidth = document.getElementById('states').offsetWidth*statesSizeFactor;
-        var newHeight = newWidth/statesAspectRatio;
-        var newxOffset = newWidth/statesXRatio;
-        var newyOffset = newHeight/statesYRatio;
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .height(newHeight)
-       .transitionDuration(0)
-       .projection(d3.geo.albersUsa().scale(newWidth).translate([newxOffset,newyOffset]))
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-
-    //CONUS
-    var conusChart = dc.rowChart("#dc-conus-rowchart")
-    var conusDim = this.ndx.dimension(function(d){return d.conus})
-    var conusGroup = conusDim.group()
-    var conusMinHeight = 130
-    var conusAspectRatio = 7
-    var conusSizeFactor = 0.96
-    if (documentWidth > 960) {
-        var conusWidth = Math.round(documentWidth*(5/12));
-    }
-    else {
-        var conusWidth = documentWidth*conusSizeFactor;
-    }
-    var conusHeight = conusWidth/conusAspectRatio;
-    if (conusHeight < conusMinHeight) {
-        conusHeight = conusMinHeight;
-    }
-
-    conusChart
-    .minWidth(conusWidth)
-    .width(conusWidth)
-    .minHeight(130)
-    .height(conusHeight)
-    .margins({top: 30, left: 30, right: 50, bottom: 40})
-    .elasticX(true)
-    .dimension(conusDim)
-    .group(conusGroup)
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('conus').offsetWidth;
-        var newHeight = newWidth/conusAspectRatio;
-        if (newHeight < conusMinHeight) {
-            newHeight = conusMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(conusMinHeight)
-       .height(newHeight)
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //Location
-    var locationChart = dc.barChart("#dc-location-barchart")
-    var locationDim = this.ndx.dimension(function(d){return d.location;})
-    var locationGroup = locationDim.group()
-    var locMinHeight = 300
-    var locAspectRatio = 4
-    var locSizeFactor = 0.96
-    var locWidth = documentWidth*locSizeFactor;
-    var locHeight = locWidth/locAspectRatio;
-    if (locHeight < locMinHeight) {
-        locHeight = locMinHeight;
-    }
-
-    locationChart
-    .minWidth(locWidth)
-    .width(locWidth)
-    .minHeight(locMinHeight)
-    .height(locHeight)
-    .margins({top: 30, right: 50, left: 40, bottom: 100})
-    .dimension(locationDim)
-    .group(locationGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .elasticX(true)
-    .colors(["orange"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('loc').offsetWidth;
-        var newHeight = newWidth/locAspectRatio;
-        if (newHeight < locMinHeight) {
-            newHeight = locMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(locMinHeight)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //API code
-    var apiChart = dc.rowChart('#dc-api-rowchart')
-    var apiDim = this.ndx.dimension(function(d){return d.api;})
-    var apiGroup = apiDim.group()
-    var apiMinHeight = 250
-    var apiAspectRatio = 3
-    var apiSizeFactor = 0.96
-    if (documentWidth > 960) {
-        var apiWidth = Math.round(documentWidth*(5/12));
-    }
-    else {
-        var apiWidth = documentWidth*apiSizeFactor;
-    }
-    var apiHeight = apiWidth/apiAspectRatio;
-    if (apiHeight < apiMinHeight) {
-        apiHeight = apiMinHeight;
-    }
-
-    apiChart
-    .minWidth(apiWidth)
-    .width(apiWidth)
-    .minHeight(apiMinHeight)
-    .height(apiHeight)
-    .margins({top: 30, left: 30, right: 50, bottom: 40})
-    .dimension(apiDim)
-    .group(apiGroup)
-    .elasticX(true)
-    .colors(d3.scale.category10())
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('api').offsetWidth;
-        var newHeight = newWidth/apiAspectRatio;
-        if (newHeight < apiMinHeight) {
-            newHeight = apiMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(apiMinHeight)
-       .height(newHeight)
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-    
-    //Aircraft
-    var aircraftChart = dc.barChart("#dc-aircraft-barchart")
-    var aircraftDim = this.ndx.dimension(function(d){return d.aircraft;})
-    var aircraftGroup = aircraftDim.group()
-    var arcftMinWidth = 200
-    var arcftAspectRatio = 3
-    if (documentWidth > 960) {
-        var arcftWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var arcftWidth = Math.round(documentWidth/2);
-    }
-    var arcftHeight = arcftWidth/arcftAspectRatio;
-    if (arcftHeight < arcftMinWidth) {
-        arcftHeight = arcftMinWidth;
-    }
-
-    aircraftChart
-    .minWidth(arcftWidth)
-    .width(arcftWidth)
-    .height(arcftHeight)
-    .minHeight(arcftMinWidth)
-    .margins({top: 30, left: 30, right: 40, bottom: 60})
-    .dimension(aircraftDim)
-    .group(aircraftGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .colors(["orange"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('arcft').offsetWidth;
-        var newHeight = newWidth/arcftAspectRatio;
-        if (newHeight < arcftMinWidth) {
-            newHeight = arcftMinWidth;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(arcftMinWidth)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //grade
-    var gradeChart = dc.barChart("#dc-grade-barchart")
-    var gradeDim = this.ndx.dimension(function(d){return d.grade;})
-    var gradeGroup = gradeDim.group()
-    var gradeMinHeight = 200
-    var gradeAspectRatio = 3
-    if (documentWidth > 960) {
-        var gradeWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var gradeWidth = Math.round(documentWidth/2);
-    }
-    var gradeHeight = gradeWidth/gradeAspectRatio;
-    if (gradeHeight < gradeMinHeight) {
-        gradeHeight = gradeMinHeight;
-    }
-
-    gradeChart
-    .minWidth(gradeWidth)
-    .width(gradeWidth)
-    .height(gradeHeight)
-    .minHeight(gradeMinHeight)
-    .margins({top: 30, left: 30, right: 40, bottom: 60})
-    .dimension(gradeDim)
-    .group(gradeGroup)
-    .x(d3.scale.ordinal())
-    .xUnits(dc.units.ordinal)
-    .elasticY(true)
-    .barPadding(0.1)
-    .outerPadding(0)
-    .colors(["#2277ff"])
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('grade').offsetWidth;
-        var newHeight = newWidth/gradeAspectRatio;
-        if (newHeight < gradeMinHeight) {
-            newHeight = gradeMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(gradeMinHeight)
-       .height(newHeight)
-       .rescale()
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    //AFSC
-    var afscChart = dc.rowChart('#dc-afsc-rowchart')
-    var afscDim = this.ndx.dimension(function(d){
-        if (d.afsc.substr(0,3)=='11F'){
-            return d.afsc.substr(0,3)
+        //State Map
+        var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
+        var states = ndx.dimension(function(d){return d.state})
+        var statesGroup = states.group()
+        var statesAspectRatio = 1.8
+        var statesXRatio = 2.5
+        var statesYRatio = 1.9
+        var statesSizeFactor = 1.2
+        // get document width, and if on md or larger screen, manually
+        // reduce size of first state map so fits in 7 columns
+        var documentWidth = document.documentElement.clientWidth;
+        if (documentWidth > 960) {
+            var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);
         }
         else {
-            return 'OTHER'
+            var statesWidth = documentWidth*1.15;
         }
-    }
-        )
-    var afscGroup = afscDim.group()
-    var afscMinHeight = 200
-    var afscAspectRatio = 4
-    var afscSizeFactor = 0.96
-    if (documentWidth > 960) {
-        var afscWidth = Math.round(documentWidth*(4/12));
-    }
-    else {
-        var afscWidth = documentWidth*afscSizeFactor;
-    }
-    var afscHeight = afscWidth/afscAspectRatio;
-    if (afscHeight < afscMinHeight) {
-        afscHeight = afscMinHeight;
-    }
+        var statesHeight = statesWidth/statesAspectRatio;
+        var xOffset = statesWidth/statesXRatio;
+        var yOffset = statesHeight/statesYRatio;
 
-    afscChart
-    .minWidth(afscWidth)
-    .width(afscWidth)
-    .minHeight(afscMinHeight)
-    .height(afscHeight)
-    .margins({top: 30, left: 30, right: 50, bottom: 40})
-    .dimension(afscDim)
-    .group(afscGroup)
-    .elasticX(true)
-    .colors(d3.scale.category10())
-    .on('preRedraw', function(chart) {
-        var newWidth = document.getElementById('afsc').offsetWidth;
-        var newHeight = afscWidth/afscAspectRatio;
-        if (newHeight < afscMinHeight) {
-            newHeight = afscMinHeight;
-        }
-       chart
-       .minWidth(newWidth)
-       .width(newWidth)
-       .minHeight(afscMinHeight)
-       .height(newHeight)
-       .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-    })
-
-    // Create data for data table
-    var vm = this
-    var itemsDim = vm.ndx.dimension(function(d) {return d;})
-    vm.items = itemsDim.top(Infinity)
-    // update rows in data table upon each chart being filtered 
-    dc.chartRegistry.list().forEach(function(chart) {
-        chart.on('filtered', function() {
-            vm.items = itemsDim.top(Infinity)
+        stateChart
+        .dimension(states)
+        .group(statesGroup)
+        .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+        .colorDomain([0, 100])
+        .minWidth(statesWidth)
+        .width(statesWidth)
+        .height(statesHeight)
+        .projection(d3.geo.albersUsa().scale(statesWidth).translate([xOffset,yOffset]))
+        .overlayGeoJson(statesJson.features, "state", function (d) {
+          return d.properties.name;
         })
-    })
+        .on('preRedraw', function(chart) {
+            // values for width, height, and offsets are for formatting -
+            // numbers are fairly arbitrary
+            var newWidth = document.getElementById('states').offsetWidth*statesSizeFactor;
+            var newHeight = newWidth/statesAspectRatio;
+            var newxOffset = newWidth/statesXRatio;
+            var newyOffset = newHeight/statesYRatio;
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .height(newHeight)
+           .transitionDuration(0)
+           .projection(d3.geo.albersUsa().scale(newWidth).translate([newxOffset,newyOffset]))
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
 
-    var temp 
-    window.onresize = function(event) {
-        clearTimeout(temp)
-        temp = setTimeout(resizeDone,200)
-    }
-    function resizeDone() {
-        // hacky way to prevent getElementById from firing when not on FindBillets page
-        if (vm.$route.name !== 'FindBillets') {
-            return
+
+        //CONUS
+        var conusChart = dc.rowChart("#dc-conus-rowchart")
+        var conusDim = ndx.dimension(function(d){return d.conus})
+        var conusGroup = conusDim.group()
+        var conusMinHeight = 130
+        var conusAspectRatio = 7
+        var conusSizeFactor = 0.96
+        if (documentWidth > 960) {
+            var conusWidth = Math.round(documentWidth*(5/12));
         }
-        // call redraw to preRedraw event on charts, which resizes charts
-        dc.redrawAll();
-    }
+        else {
+            var conusWidth = documentWidth*conusSizeFactor;
+        }
+        var conusHeight = conusWidth/conusAspectRatio;
+        if (conusHeight < conusMinHeight) {
+            conusHeight = conusMinHeight;
+        }
 
-    dc.renderAll();
+        conusChart
+        .minWidth(conusWidth)
+        .width(conusWidth)
+        .minHeight(130)
+        .height(conusHeight)
+        .margins({top: 30, left: 30, right: 50, bottom: 40})
+        .elasticX(true)
+        .dimension(conusDim)
+        .group(conusGroup)
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('conus').offsetWidth;
+            var newHeight = newWidth/conusAspectRatio;
+            if (newHeight < conusMinHeight) {
+                newHeight = conusMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(conusMinHeight)
+           .height(newHeight)
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        //Location
+        var locationChart = dc.barChart("#dc-location-barchart")
+        var locationDim = ndx.dimension(function(d){return d.location;})
+        var locationGroup = locationDim.group()
+        var locMinHeight = 300
+        var locAspectRatio = 4
+        var locSizeFactor = 0.96
+        var locWidth = documentWidth*locSizeFactor;
+        var locHeight = locWidth/locAspectRatio;
+        if (locHeight < locMinHeight) {
+            locHeight = locMinHeight;
+        }
+
+        locationChart
+        .minWidth(locWidth)
+        .width(locWidth)
+        .minHeight(locMinHeight)
+        .height(locHeight)
+        .margins({top: 30, right: 50, left: 40, bottom: 100})
+        .dimension(locationDim)
+        .group(locationGroup)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .elasticX(true)
+        .colors(["orange"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('loc').offsetWidth;
+            var newHeight = newWidth/locAspectRatio;
+            if (newHeight < locMinHeight) {
+                newHeight = locMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(locMinHeight)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        //API code
+        var apiChart = dc.rowChart('#dc-api-rowchart')
+        var apiDim = ndx.dimension(function(d){return d.api;})
+        var apiGroup = apiDim.group()
+        var apiMinHeight = 250
+        var apiAspectRatio = 3
+        var apiSizeFactor = 0.96
+        if (documentWidth > 960) {
+            var apiWidth = Math.round(documentWidth*(5/12));
+        }
+        else {
+            var apiWidth = documentWidth*apiSizeFactor;
+        }
+        var apiHeight = apiWidth/apiAspectRatio;
+        if (apiHeight < apiMinHeight) {
+            apiHeight = apiMinHeight;
+        }
+
+        apiChart
+        .minWidth(apiWidth)
+        .width(apiWidth)
+        .minHeight(apiMinHeight)
+        .height(apiHeight)
+        .margins({top: 30, left: 30, right: 50, bottom: 40})
+        .dimension(apiDim)
+        .group(apiGroup)
+        .elasticX(true)
+        .colors(d3.scale.category10())
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('api').offsetWidth;
+            var newHeight = newWidth/apiAspectRatio;
+            if (newHeight < apiMinHeight) {
+                newHeight = apiMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(apiMinHeight)
+           .height(newHeight)
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+        
+        //Aircraft
+        var aircraftChart = dc.barChart("#dc-aircraft-barchart")
+        var aircraftDim = ndx.dimension(function(d){return d.aircraft;})
+        var aircraftGroup = aircraftDim.group()
+        var arcftMinWidth = 200
+        var arcftAspectRatio = 3
+        if (documentWidth > 960) {
+            var arcftWidth = Math.round(documentWidth*(4/12));
+        }
+        else {
+            var arcftWidth = Math.round(documentWidth/2);
+        }
+        var arcftHeight = arcftWidth/arcftAspectRatio;
+        if (arcftHeight < arcftMinWidth) {
+            arcftHeight = arcftMinWidth;
+        }
+
+        aircraftChart
+        .minWidth(arcftWidth)
+        .width(arcftWidth)
+        .height(arcftHeight)
+        .minHeight(arcftMinWidth)
+        .margins({top: 30, left: 30, right: 40, bottom: 60})
+        .dimension(aircraftDim)
+        .group(aircraftGroup)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .colors(["orange"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('arcft').offsetWidth;
+            var newHeight = newWidth/arcftAspectRatio;
+            if (newHeight < arcftMinWidth) {
+                newHeight = arcftMinWidth;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(arcftMinWidth)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        //grade
+        var gradeChart = dc.barChart("#dc-grade-barchart")
+        var gradeDim = ndx.dimension(function(d){return d.grade;})
+        var gradeGroup = gradeDim.group()
+        var gradeMinHeight = 200
+        var gradeAspectRatio = 3
+        if (documentWidth > 960) {
+            var gradeWidth = Math.round(documentWidth*(4/12));
+        }
+        else {
+            var gradeWidth = Math.round(documentWidth/2);
+        }
+        var gradeHeight = gradeWidth/gradeAspectRatio;
+        if (gradeHeight < gradeMinHeight) {
+            gradeHeight = gradeMinHeight;
+        }
+
+        gradeChart
+        .minWidth(gradeWidth)
+        .width(gradeWidth)
+        .height(gradeHeight)
+        .minHeight(gradeMinHeight)
+        .margins({top: 30, left: 30, right: 40, bottom: 60})
+        .dimension(gradeDim)
+        .group(gradeGroup)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .elasticY(true)
+        .barPadding(0.1)
+        .outerPadding(0)
+        .colors(["#2277ff"])
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('grade').offsetWidth;
+            var newHeight = newWidth/gradeAspectRatio;
+            if (newHeight < gradeMinHeight) {
+                newHeight = gradeMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(gradeMinHeight)
+           .height(newHeight)
+           .rescale()
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        //AFSC
+        var afscChart = dc.rowChart('#dc-afsc-rowchart')
+        var afscDim = ndx.dimension(function(d){
+            if (d.afsc.substr(0,3)=='11F'){
+                return d.afsc.substr(0,3)
+            }
+            else {
+                return 'OTHER'
+            }
+        }
+            )
+        var afscGroup = afscDim.group()
+        var afscMinHeight = 200
+        var afscAspectRatio = 4
+        var afscSizeFactor = 0.96
+        if (documentWidth > 960) {
+            var afscWidth = Math.round(documentWidth*(4/12));
+        }
+        else {
+            var afscWidth = documentWidth*afscSizeFactor;
+        }
+        var afscHeight = afscWidth/afscAspectRatio;
+        if (afscHeight < afscMinHeight) {
+            afscHeight = afscMinHeight;
+        }
+
+        afscChart
+        .minWidth(afscWidth)
+        .width(afscWidth)
+        .minHeight(afscMinHeight)
+        .height(afscHeight)
+        .margins({top: 30, left: 30, right: 50, bottom: 40})
+        .dimension(afscDim)
+        .group(afscGroup)
+        .elasticX(true)
+        .colors(d3.scale.category10())
+        .on('preRedraw', function(chart) {
+            var newWidth = document.getElementById('afsc').offsetWidth;
+            var newHeight = afscWidth/afscAspectRatio;
+            if (newHeight < afscMinHeight) {
+                newHeight = afscMinHeight;
+            }
+           chart
+           .minWidth(newWidth)
+           .width(newWidth)
+           .minHeight(afscMinHeight)
+           .height(newHeight)
+           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        })
+
+        // Create data for data table
+        var vm = this
+        var itemsDim = ndx.dimension(function(d) {return d;})
+        vm.items = itemsDim.top(Infinity)
+        // update rows in data table upon each chart being filtered 
+        dc.chartRegistry.list().forEach(function(chart) {
+            chart.on('filtered', function() {
+                vm.items = itemsDim.top(Infinity)
+            })
+        })
+
+        var temp 
+        window.onresize = function(event) {
+            clearTimeout(temp)
+            temp = setTimeout(resizeDone,200)
+        }
+        function resizeDone() {
+            // hacky way to prevent getElementById from firing when not on FindBillets page
+            if (vm.$route.name !== 'FindBillets') {
+                return
+            }
+            // call redraw to preRedraw event on charts, which resizes charts
+            console.log('redrawn')
+            dc.redrawAll();
+        }
+
+        dc.renderAll();
+
+      }
 
   },
   beforeUpdate: function(){
