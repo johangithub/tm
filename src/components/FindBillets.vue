@@ -16,112 +16,85 @@
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
-    <v-flex d-flex xs12 md7>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.state" id="states">
-                <div slot="header" style="font-size: 140%;">States</div>          
-      <v-card>
+    <v-flex d-flex xs12 md7 id="states">
+        <v-card>
+        <v-card-title><h5 class='pa-2'>States</h5></v-card-title>          
         <v-card-media>
             <div id="dc-state-choropleth">
                 <reset-btn @reset="resetChart($event)"></reset-btn>
             </div>
         </v-card-media>
       </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
     </v-flex>
-    <v-flex d-flex xs12 md5>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.conus" id="conus">
-                <div slot="header" style="font-size: 140%;">CONUS/OCONUS</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-conus-rowchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex d-flex xs12 md5 id="conus">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>CONUS/OCONUS</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-conus-rowchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     <v-flex d-flex>
     <v-layout row wrap>
-        <v-flex d-flex xs12 class="pa-0 pt-2">
-            <v-expansion-panel expand>
-                <v-expansion-panel-content :value="panelOpen.api" id="api">
-                    <div slot="header" style="font-size: 140%;">API Code</div>
-                    <v-card>
-                      <v-card-media>
-                          <div id="dc-api-rowchart">
-                              <reset-btn @reset="resetChart($event)"></reset-btn>
-                          </div>
-                      </v-card-media>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
+        <v-flex d-flex xs12 class="pa-0 pt-2" id="api">
+          <v-card>
+          <v-card-title><h5 class='pa-2'>API Code</h5></v-card-title>
+            <v-card-media>
+                <div id="dc-api-rowchart">
+                    <reset-btn @reset="resetChart($event)"></reset-btn>
+                </div>
+            </v-card-media>
+          </v-card>
         </v-flex> 
     </v-layout>
     </v-flex>
     </v-flex>
     </v-layout>
-  <v-layout row wrap class="mt-3">
-    <v-flex xs12>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.location" id="loc">
-                <div slot="header" style="font-size: 140%;">Location</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-location-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-layout row wrap class="mt-3">
+    <v-flex xs12 id="loc">
+        <v-card>
+        <v-card-title><h5 class='pa-2'>Location</h5></v-card-title>
+          <v-card-media>
+              <div id="dc-location-barchart">
+                  <reset-btn @reset="resetChart($event)"></reset-btn>
+              </div>
+          </v-card-media>
+        </v-card>
     </v-flex>
   </v-layout>
   <v-layout wrap class="mt-3">
-    <v-flex xs6 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.aircraft" id="arcft">
-                <div slot="header" style="font-size: 140%;">Aircraft</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-aircraft-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex xs6 md3 id="arcft">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>Aircraft</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-aircraft-barchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     </v-flex>
-    <v-flex xs6 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.grade" id="grade">
-                <div slot="header" style="font-size: 140%;">Grade</div>
+    <v-flex xs6 md3 id="grade">
                 <v-card>
+                <v-card-title><h5 class='pa-2'>Grade</h5></v-card-title>
                   <v-card-media>
                       <div id="dc-grade-barchart">
                           <reset-btn @reset="resetChart($event)"></reset-btn>
                       </div>
                   </v-card-media>
                 </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.afsc" id="afsc">
-                <div slot="header" style="font-size: 140%;">AFSC</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-afsc-rowchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex xs12 md3 id="afsc">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>AFSC</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-afsc-rowchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     </v-flex>
+
   </v-layout>
   <v-layout row wrap class="mt-3" id="billets">
     <v-flex xs12>
@@ -207,7 +180,8 @@ export default{
          location: true,
          aircraft: true,
          grade: true,
-         afsc: true 
+         afsc: true,
+         temp: true,
       },
       items: [],
       search: '',
@@ -319,7 +293,14 @@ export default{
     console.log('created')
     var data = require('@/assets/data/fighter_billets.csv')
     this.data = data
-    
+    this.data.forEach(d=>{
+      var temparray = []
+      for (let i=0;i<2;i++){
+        temparray.push(Math.round(Math.random()*2))
+      }
+      d.tempData=temparray
+    })
+   
   },
   beforeMount: function(){
     console.log('beforeMount')
@@ -343,6 +324,7 @@ export default{
     // get document width, and if on md or larger screen, manually
     // reduce size of first state map so fits in 7 columns
     var documentWidth = document.documentElement.clientWidth;
+    
     if (documentWidth > 960) {
         var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);
     }
@@ -357,7 +339,7 @@ export default{
     .dimension(states)
     .group(statesGroup)
     .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-    .colorDomain([0, 100])
+    .colorDomain([0, Math.round(this.data.length/10)])
     .minWidth(statesWidth)
     .width(statesWidth)
     .height(statesHeight)
