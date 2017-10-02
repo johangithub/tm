@@ -16,112 +16,85 @@
   </v-flex>    
   </v-layout>
   <v-layout row wrap>
-    <v-flex d-flex xs12 md7>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.state" id="states">
-                <div slot="header" style="font-size: 140%;">States</div>          
-      <v-card>
+    <v-flex d-flex xs12 md7 id="states">
+        <v-card>
+        <v-card-title><h5 class='pa-2'>States</h5></v-card-title>          
         <v-card-media>
             <div id="dc-state-choropleth">
                 <reset-btn @reset="resetChart($event)"></reset-btn>
             </div>
         </v-card-media>
       </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
     </v-flex>
-    <v-flex d-flex xs12 md5>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.conus" id="conus">
-                <div slot="header" style="font-size: 140%;">CONUS/OCONUS</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-conus-rowchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex d-flex xs12 md5 id="conus">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>CONUS/OCONUS</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-conus-rowchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     <v-flex d-flex>
     <v-layout row wrap>
-        <v-flex d-flex xs12 class="pa-0 pt-2">
-            <v-expansion-panel expand>
-                <v-expansion-panel-content :value="panelOpen.api" id="api">
-                    <div slot="header" style="font-size: 140%;">API Code</div>
-                    <v-card>
-                      <v-card-media>
-                          <div id="dc-api-rowchart">
-                              <reset-btn @reset="resetChart($event)"></reset-btn>
-                          </div>
-                      </v-card-media>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
+        <v-flex d-flex xs12 class="pa-0 pt-2" id="api">
+          <v-card>
+          <v-card-title><h5 class='pa-2'>API Code</h5></v-card-title>
+            <v-card-media>
+                <div id="dc-api-rowchart">
+                    <reset-btn @reset="resetChart($event)"></reset-btn>
+                </div>
+            </v-card-media>
+          </v-card>
         </v-flex> 
     </v-layout>
     </v-flex>
     </v-flex>
     </v-layout>
-  <v-layout row wrap class="mt-3">
-    <v-flex xs12>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.location" id="loc">
-                <div slot="header" style="font-size: 140%;">Location</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-location-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-layout row wrap class="mt-3">
+    <v-flex xs12 id="loc">
+        <v-card>
+        <v-card-title><h5 class='pa-2'>Location</h5></v-card-title>
+          <v-card-media>
+              <div id="dc-location-barchart">
+                  <reset-btn @reset="resetChart($event)"></reset-btn>
+              </div>
+          </v-card-media>
+        </v-card>
     </v-flex>
   </v-layout>
   <v-layout wrap class="mt-3">
-    <v-flex xs6 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.aircraft" id="arcft">
-                <div slot="header" style="font-size: 140%;">Aircraft</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-aircraft-barchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex xs6 md3 id="arcft">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>Aircraft</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-aircraft-barchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     </v-flex>
-    <v-flex xs6 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.grade" id="grade">
-                <div slot="header" style="font-size: 140%;">Grade</div>
+    <v-flex xs6 md3 id="grade">
                 <v-card>
+                <v-card-title><h5 class='pa-2'>Grade</h5></v-card-title>
                   <v-card-media>
                       <div id="dc-grade-barchart">
                           <reset-btn @reset="resetChart($event)"></reset-btn>
                       </div>
                   </v-card-media>
                 </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 md4>
-        <v-expansion-panel expand>
-            <v-expansion-panel-content :value="panelOpen.afsc" id="afsc">
-                <div slot="header" style="font-size: 140%;">AFSC</div>
-                <v-card>
-                  <v-card-media>
-                      <div id="dc-afsc-rowchart">
-                          <reset-btn @reset="resetChart($event)"></reset-btn>
-                      </div>
-                  </v-card-media>
-                </v-card>
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+    <v-flex xs12 md3 id="afsc">
+      <v-card>
+      <v-card-title><h5 class='pa-2'>AFSC</h5></v-card-title>
+        <v-card-media>
+            <div id="dc-afsc-rowchart">
+                <reset-btn @reset="resetChart($event)"></reset-btn>
+            </div>
+        </v-card-media>
+      </v-card>
     </v-flex>
+
   </v-layout>
   <v-layout row wrap class="mt-3" id="billets">
     <v-flex xs12>
@@ -221,7 +194,8 @@ export default{
          location: true,
          aircraft: true,
          grade: true,
-         afsc: true 
+         afsc: true,
+         temp: true,
       },
       items: [],
       search: '',
@@ -345,6 +319,7 @@ export default{
         dc.dataCount(".dc-data-count")
           .dimension(ndx)
           .group(allGroup)
+
 
         //State Map
         var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
