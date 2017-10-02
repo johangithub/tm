@@ -44,7 +44,8 @@
 
 <script>
 import NoticeConsent from '@/components/NoticeConsent'
-import axios from 'axios'
+import { store } from '@/store'
+
 import ClipSpinner from './ClipSpinner'
 export default{
   name: 'Login',

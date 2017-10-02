@@ -9,25 +9,27 @@ const ADD_OFFICER = "ADD_OFFICER";
 const REMOVE_OFFICER = "REMOVE_OFFICER";
 const RANK_OFFICERS = "RANK_OFFICERS";
 const SET_ROLE = "SET_ROLE";
-const BASE_URL = "http://192.168.1.85:5005/api" //pi
-//const BASE_URL = "https://locahost:5005/api" //local server
+//const BASE_URL = "http://192.168.1.85:5005/api" //pi
+const BASE_URL = "http://localhost:5005/api" //local server
 
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-axios.defaults.baseURL = BASE_URL 
+//set defaults for axios in store, axios imports in components inherit defaults
+axios.defaults.baseURL = BASE_URL
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
-    isLoggedIn: !!localStorage.getItem("token"),
+    isLoggedIn: !!localStorage.getItem("id"),
     pending: false,
+    //need to prevent these from pulling from localStorage, need to decode token
     userId: localStorage.getItem("id"),
     userRole: localStorage.getItem("role"),
-    baseUrl: BASE_URL,//pi
-    //if user saved their ranked billets, pull them from local storate, 
-    //else start with empty array
+    baseUrl: BASE_URL,
+    //if user saved their ranked billets, pull them from local storage, 
+    //else start with empty array TODO: need to get from server first
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
     faveOfficers: localStorage.getItem('rankedOfficers') ? JSON.parse(localStorage.getItem('rankedOfficers')) : []
   },
@@ -127,8 +129,12 @@ export const store = new Vuex.Store({
                       return JSON.parse(window.atob(base64));
                     }
                     var token_decoded = parseJwt(token)
+                    //add token to axios
                     localStorage.setItem("token", token)
                     localStorage.setItem("role", token_decoded.role)
+                    localStorage.setItem("id", token_decoded.id)
+                    //make axios header reference token in localStorage, so when we remove the token from localStorage, the axios header equals an undefined variable
+                    axios.defaults.headers.common['Authorization'] = localStorage.getItem("token") 
                     commit(SET_ROLE, token_decoded.role)
                     commit(LOGIN_SUCCESS)
                     resolve()
@@ -145,6 +151,7 @@ export const store = new Vuex.Store({
       })
     },
     logout ({ commit }) {
+      //remove token on logout (axios header points to this, so when it is gone, axios Authorization property in header will be undefined)
       localStorage.removeItem("token")
       localStorage.removeItem("role")
       localStorage.removeItem("id")
