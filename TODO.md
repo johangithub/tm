@@ -6,48 +6,69 @@
 - [ ] Unit Test
 - [ ] Integration Test
 - [ ] ~~2FA for Admin~~
-- [ ] disable href highlighting
+- [ ] ~~disable href highlighting~~
 - [x] dc.js crossfilter freeze bugs
 - [x] Enforce password length, upper, lowercase
 
 ---
 
-- [ ] Change notification page
+- [ ] Integrate change notification page on the home page
 
 ---
 
-- [ ] Individual Officer View
-- [ ] Determine Layout for Officer Information
+- [ ] My Profile View
+- [x] Determine Layout for My Profile View
+- [ ] Finalize Layour for My Profile View
+- [ ] Get request when navigating
+- [ ] Put request on submit
 
 ---
 
-- [ ] Individual Billet View
-- [ ] Determine Layout for Billet Information
+- [ ] My Billet List View
+- [ ] My Billets View, a component of Billet List View
+- [ ] Determine Layout for My Billets List View
+- [ ] Determine Layout for My Billets View
+- [ ] Get request when navigating
+- [ ] Put request on submit
+- [ ] Let billet owners rank/find officers as a billet, not billet owner
 
 ---
 
-- [ ] All Billet View
+- [x] All Billet View
 - [ ] Determine which variables to show on All Billet view
+- [ ] Determine Requisition dialog layout/variables
 
 ---
 
-- [ ] All Officer View
+- [x] All Officer View
 - [ ] Determine which variables to show on All Officer view
+- [ ] Determine Officer dialog layout/variables
 
 ---
 
 - [x] Rank Officer view
+- [ ] Get request when navigating
+- [ ] Put request on submit
 
 ---
 
 - [x] Rank Billet View
+- [ ] Get request when navigating
+- [ ] Put request on submit
 
 ---
 
 - [ ] MAJCOM Owner view
+- [ ] Get request when navigating
+- [ ] Put request on submit
 
 ---
 
 - [ ] Losing commander view
 - [ ] Timestamp/username for vectoring
 - [ ] Tie in command hierarchy
+- [ ] Get request when navigating
+- [ ] Put request on submit
+
+---
+
