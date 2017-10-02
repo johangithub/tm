@@ -126,14 +126,14 @@
                           selected-key="items.ID">
                 <template slot="items" scope="props">
                     <!--TODO: edit for IE11 support (see vuetify docs)-->
-                    <td>
+                    <td class="text-xs-center">
                         <!--can't find a way to dynamically change material icons colors, so use two-->
                         <!--icons with v-show for now-->
                         <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                         <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
                     </td>
                     <td class="text-xs-left" style="width 10%">
-                      <v-btn :id="props.item.ID" flat primary dark @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.ID}}</v-btn>
+                      <v-btn :id="props.item.ID" flat primary dark right small block @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.ID}}</v-btn>
                     </td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.grade}}</td>
                     <td class="text-xs-left" style="width: 18%">{{props.item.adjYG}}</td>
@@ -148,13 +148,24 @@
       <v-card>
         <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showOff = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
-          <div>
-            ID: {{dialogData.id}} <br>
-            Grade: {{dialogData.grade}} <br>
-            Adjusted Year Group: {{dialogData.adjYG}} <br>
-            Rating: {{dialogData.RTG}} <br>
-            RDTM: {{dialogData.rdtm}} <br>
-            Total Flight Hours: {{Math.round(dialogData.flt_hrs_total)}} <br></div>
+            <v-container fluid grid-list-xs>
+                <v-layout row wrap>
+                    <v-flex flexbox v-for="(property,key) in dialogData" :key="key">
+                            <v-text-field
+                                :label="key"
+                                :value="property"
+                                readonly 
+                                ></v-text-field>
+                    </v-flex>
+                </v-layout> 
+            </v-container>
+          <!--<div>-->
+            <!--ID: {{dialogData.id}} <br>-->
+            <!--Grade: {{dialogData.grade}} <br>-->
+            <!--Adjusted Year Group: {{dialogData.adjYG}} <br>-->
+            <!--Rating: {{dialogData.RTG}} <br>-->
+            <!--RDTM: {{dialogData.rdtm}} <br>-->
+            <!--Total Flight Hours: {{Math.round(dialogData.flt_hrs_total)}} <br></div>-->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -170,10 +181,12 @@ import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
 import Off from './Off'
+import { store } from '@/store'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import { store } from '@/store'
-const BASE_URL = store.state.baseUrl
+axios.defaults.baseURL = store.state.baseUrl
+axios.defaults.headers.common['Authorization'] = localStorage.token
+
 export default{
   data(){
     return {
@@ -291,11 +304,7 @@ export default{
   },
   mounted: function(){
     console.log('mounted')
-    axios.get(BASE_URL+'/officer_view', {
-      headers: {
-        'Authorization': localStorage.token
-      }
-    }).then(response => {
+    axios.get('/officer_view').then(response => {
       this.data = response.data.data
       renderCharts()
     }).catch(e => {

@@ -84,7 +84,66 @@
 
       <v-dialog v-model="showReq" width="600px" lazy absolute>
         <v-card>
-          <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+          <v-card-title class="headline">
+              <v-container fluid grid-list-md>
+                  <v-layout row>
+                      <div>
+                          <h3 class="headline mb-0">Requisition #{{dialogData.id}}</h3>
+                      <!--<div style="font-size: 16px;">ID: {{dialogData.id}}</div>-->
+                      </div>
+                  <v-spacer></v-spacer>
+                  <v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn>
+                  </v-layout>
+                  <!--<v-layout row>-->
+                      <!--<v-flex xs1>-->
+                        <!--<v-text-field label="ID"-->
+                                      <!--:value="dialogData.id"-->
+                                      <!--readonly>-->
+                        <!--</v-text-field>-->
+                      <!--</v-flex> -->
+                  <!--</v-layout>-->
+                  <v-layout row>
+                      <v-flex xs1 class="mr-2">
+                        <v-text-field label="API"
+                                      :value="dialogData.api"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                      <v-flex xs3 class="mr-2">
+                        <v-text-field label="AFSC"
+                                      :value="dialogData.afsc"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                      <v-flex xs3 class="mr-2">
+                        <v-text-field label="Grade"
+                                      :value="dialogData.grade"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                      <v-flex xs4 class="mr-2">
+                        <v-text-field label="Aircraft"
+                                      :value="dialogData.aircraft"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                  </v-layout>
+                  <v-layout row>
+                      <v-flex xs10 class="mr-3">
+                        <v-text-field label="Unit"
+                                      :value="dialogData.unit"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                      <v-flex xs2 class="mr-3">
+                        <v-text-field label="State"
+                                      :value="dialogData.state"
+                                      readonly>
+                        </v-text-field>
+                      </v-flex>
+                  </v-layout>
+              </v-container>
+          </v-card-title>
           <v-card-text>
             <div>
             ID: {{dialogData.id}} <br>
