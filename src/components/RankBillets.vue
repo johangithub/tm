@@ -73,7 +73,6 @@
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeBillet',{'index': index})">Remove</v-btn></td>
                                   </tr>
                               </table>
-                              </h6>
                           </v-card>
                       </v-flex>
                       <v-spacer></v-spacer>
