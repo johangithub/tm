@@ -1,8 +1,6 @@
 <template>
   <v-container fluid id="profile">
   <v-layout row>
-    <v-btn primary @click.native="getData">GET</v-btn>
-    <v-btn primary @click.native="getData2">GET2</v-btn>
     <h4 v-if="dataReady">{{rank}} ID: {{this.apiData.rowid}}</h4>
   </v-layout>
   <div v-if="dataReady">
@@ -395,7 +393,7 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
   </div>
-  <v-btn v-if="dataReady" primary @click.native="snackbar = true">Submit</v-btn>
+  <v-btn v-if="dataReady" primary @click.native="submit">Submit</v-btn>
   <v-snackbar
     :timeout="1000"
     :top="true"
@@ -406,13 +404,14 @@
 
 <script>
 import { store } from '@/store'
+//axios defaults inherited from store
 import axios from 'axios'
+
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
 var aac = require('@/format/aac')
 var alc = require('@/format/alc')
 var course = require('@/format/course')
-const BASE_URL = store.state.baseUrl
 export default {
   props: ['id'],
   data(){
@@ -474,51 +473,10 @@ export default {
         {text: 'Name', value: 'name', align: 'left', sortable: false },
         {text: 'Title', value: 'date', align: 'left', sortable: false },
       ],
-      apiData: '',
-      apiData2: ''
+      apiData: ''
     }
   },
   methods: {
-    getData(){
-      axios.get(BASE_URL+'/officers',
-      {
-        headers: {
-          'Authorization': localStorage.token 
-        }
-      })
-          .then(response =>{
-            var data = response.data.data
-            this.apiData = data
-            this.general = data.general
-            this.duty_history = data.duty.history
-            this.asgn_code = data.asgn_code
-            this.service_dates = data.service_dates
-            this.rated = data.rated
-            this.pme = data.pme
-            this.degree = data.degree
-            this.language = data.language
-            this.projected = data.projected
-            this.joint = data.joint
-            this.courses = data.courses
-            this.spec_exp = data.special_experience
-            this.dataReady = true
-           })
-          .catch(e => {
-            console.error(e)
-          })
-    },
-    getData2(){
-      axios.get(BASE_URL+'/officer_view',
-      {
-        headers: {
-          'Authorization': localStorage.token 
-        }
-      }).then(response =>{
-            this.apiData2 = response.data.data
-      }).catch(e => {
-            console.error(e)
-      })
-    },
     abcFormat(value){
       return abc[value]
     },
@@ -533,6 +491,19 @@ export default {
     },
     ajh4Format(value){
       return ajh4[value]
+    },
+    submit() {
+        axios.post('/officers', {
+            comment: this.comment
+        }) 
+        .then((response)=>{
+            console.log('information sent')
+            this.snackbar = true
+        })
+        .catch((err)=>{
+            console.log(err)
+            this.snackbar = false
+        })
     }
   },
   computed: {
@@ -566,8 +537,27 @@ export default {
     }
   },
   mounted: function(){
-    this.getData2()
-    console.log(this.apiData2)
+    axios.get('/officers')
+      .then(response =>{
+        var data = response.data.data
+        this.apiData = data
+        this.general = data.general
+        this.duty_history = data.duty.history
+        this.asgn_code = data.asgn_code
+        this.service_dates = data.service_dates
+        this.rated = data.rated
+        this.pme = data.pme
+        this.degree = data.degree
+        this.language = data.language
+        this.projected = data.projected
+        this.joint = data.joint
+        this.courses = data.courses
+        this.spec_exp = data.special_experience
+        this.dataReady = true
+       })
+      .catch(e => {
+        console.error(e)
+      })
   }
 }
 </script>

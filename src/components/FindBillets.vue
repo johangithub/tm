@@ -178,9 +178,8 @@ import statesJson from '../assets/data/us-states.json'
 import Req from './Req'
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
+//axios defaults inherited from store
 import axios from 'axios'
-axios.defaults.baseURL = store.state.baseUrl
-axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default{
   data(){
@@ -306,6 +305,7 @@ export default{
   },
   mounted: function(){
     console.log('mounted')
+
     axios.get('/billet_view').then(response => {
         this.data = response.data.data
         renderCharts()
