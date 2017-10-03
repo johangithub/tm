@@ -178,8 +178,6 @@ import Req from './Req'
 import { mapGetters } from 'vuex'
 import { store } from '@/store'
 import axios from 'axios'
-axios.defaults.baseURL = store.state.baseUrl
-axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default {
   name: 'billet',
@@ -255,9 +253,10 @@ export default {
       },
       submit: function () {
         //TODO: need to add axios call
-        axios.put('/billet_fave', {
-            rankedBillets: this.faveBillets
+        axios.post('/billets_fave', {
+            rankedBillets: JSON.stringify(this.faveBillets)
         }).then(response => {
+            console.log('information sent')
             this.submitted = true; 
         }).catch(console.error)
       }
