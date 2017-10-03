@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"SET_",
+				"SET_CUR_FAV_OFFICERS"
+			],
+			[
+				"SET_FAV",
+				"SET_FAV_OFFICERS"
+			],
+			[
+				"cur",
+				"curFaveOfficers"
+			],
+			[
+				"get",
+				"getHeightWidth"
+			],
+			[
+				"favori",
+				"favoritedList"
+			],
+			[
+				"req",
+				"reqId"
+			],
+			[
+				"dial",
+				"dialogData"
+			],
+			[
 				"rank_",
 				"rank_officers"
 			],
@@ -103,6 +131,32 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "src/components/Profile.vue",
+			"settings":
+			{
+				"buffer_size": 18400,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/Login.vue",
+			"settings":
+			{
+				"buffer_size": 2909,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/store.js",
+			"settings":
+			{
+				"buffer_size": 6759,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -193,30 +247,32 @@
 		"/home/jh/tm",
 		"/home/jh/tm/src",
 		"/home/jh/tm/src/components",
-		"/home/jh/tm/src/components/Diagrams",
 		"/home/jh/tm/src/router"
 	],
 	"file_history":
 	[
+		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/src/components/ReqDialogCard.vue",
+		"/home/jh/tm/src/components/RankOfficers.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
+		"/home/jh/tm/src/components/BilletList.vue",
+		"/home/jh/tm/src/components/Profile.vue",
+		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/TODO.md",
+		"/home/jh/tm/src/components/RankBillets.vue",
+		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/components/Req.vue",
+		"/home/jh/tm/src/components/Billet.vue",
 		"/home/jh/tm/src/components/Diagrams.vue",
 		"/home/jh/tm/src/components/Diagrams/UserExperience.vue",
 		"/home/jh/tm/src/components/Diagrams/Timeline.vue",
-		"/home/jh/tm/src/router/index.js",
-		"/home/jh/tm/src/components/Navbar.vue",
 		"/home/jh/tm/src/components/Diagrams/Database.vue",
-		"/home/jh/tm/src/components/Profile.vue",
-		"/home/jh/tm/src/components/RankOfficers.vue",
 		"/home/jh/tm/build/dev-server.js",
-		"/home/jh/tm/src/components/FindOfficers.vue",
-		"/home/jh/tm/src/components/RankBillets.vue",
-		"/home/jh/tm/src/components/FindBillets.vue",
 		"/home/jh/tm/src/App.vue",
-		"/home/jh/tm/TODO.md",
-		"/home/jh/tm/src/components/Req.vue",
 		"/home/jh/tm/src/components/Login.vue",
 		"/home/jh/tm/src/components/HomepageCards/BilletOwnerCard.vue",
 		"/home/jh/tm/src/components/HomepageCards/OfficerCard.vue",
-		"/home/jh/tm/src/store.js",
 		"/home/jh/tm/src/components/HomepageCards/LosingCommanderCard.vue",
 		"/home/jh/tm/src/components/Activate.vue",
 		"/home/jh/tm/src/components/Home.vue",
@@ -284,7 +340,6 @@
 		"/home/jh/tm/src/components/About.vue",
 		"/home/jh/tm/src/components/HideButton.vue",
 		"/home/jh/tm/src/components/ResetButton.vue",
-		"/home/jh/tm/src/components/Billet.vue",
 		"/home/jh/tm/api/app.py",
 		"/home/jh/tm/src/components/ResetDcChart.vue",
 		"/home/jh/tm/src/assets/data/us-states.json",
@@ -319,6 +374,97 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"url",
+			"baseurl",
+			"BASEurl",
+			"COMMIT",
+			"\n            ",
+			"console",
+			"REMOVE_BILLET",
+			"SET_FAV_OFFICERS",
+			"faveofficers",
+			"\n    ",
+			"clickedId",
+			"grade",
+			"gradeMinHeight",
+			"AspectRatio",
+			"minwidth",
+			"documentWidth",
+			"smallScreenFactor",
+			"grade",
+			"fltHrs",
+			"fltHrsHeight",
+			"fltHrsMinHeight",
+			"fltHrsHeight",
+			"smallscreenfactor",
+			"fltHrsWidth",
+			"favorited2",
+			"this",
+			"checkbox",
+			"favorited",
+			"selected",
+			"favoritedList",
+			"favorited",
+			"v-icon",
+			"items",
+			"favorited",
+			"router",
+			"some",
+			"reqId",
+			"fave",
+			"rankOfficers",
+			"dialog",
+			"RANK_OFFICERS",
+			"RANK_BILLETS",
+			"rank_billets",
+			"  commit",
+			"reqId",
+			"<a",
+			"favorited",
+			"faveofficers",
+			"SET_ROLE",
+			"clickedId",
+			"data",
+			"value.",
+			"value",
+			"data",
+			"data.",
+			"req-dialog",
+			"ReqDialog",
+			"req-dialog",
+			"value",
+			"reqClose",
+			"dialogData",
+			"showReq",
+			"req",
+			"req-sheet",
+			"/req",
+			"faveBillets",
+			"rankBillets",
+			"faveBillets",
+			"AFSC",
+			">AFSC",
+			"HEAD",
+			">>>>",
+			"card-title",
+			"documentWidth",
+			"h5 class='ma-3'",
+			"<card-title>",
+			"card-title",
+			"/h5",
+			"location",
+			"Location",
+			"/h5",
+			"slot=\"header\"",
+			"div slot=\"header\"",
+			"id=",
+			"<v-expansion-panel ",
+			"v-expansion-panel",
+			"console.log",
+			"data",
+			"afsc",
+			"afscChart",
+			"md4",
 			"with the changes",
 			"rank_officers",
 			": 3",
@@ -355,98 +501,7 @@
 			"admin-card",
 			"AdminCard",
 			"pending",
-			"login2",
-			"admin",
-			"verify",
-			"admin",
-			"v-show",
-			"show",
-			"transition",
-			"if",
-			"admin",
-			"autofocus",
-			"else",
-			"v-card",
-			"HomepageCards",
-			"billet-owner-card",
-			"BilletOwnerCard",
-			"officer-card",
-			"OfficerCard",
-			"VERIFY_ADMIN",
-			"userRole!='officer' && ",
-			"console.log",
-			" v-if=\"user",
-			"snackbar",
-			"click",
-			"options",
-			"server",
-			"@",
-			"$/",
-			"/^",
-			"route",
-			"param",
-			"login",
-			"Login",
-			"showpassword",
-			"rdtm",
-			"data",
-			"data:",
-			"ndx",
-			"this.ndx",
-			"allgroup",
-			"ndx",
-			"this.ndx",
-			".ndx.dimension",
-			"console.log",
-			"items",
-			"vm.items",
-			"array8",
-			"require",
-			"crossfilter_arrayWiden",
-			"arraywiden",
-			"axios",
-			"console.log",
-			"  \"EFMP\": false, ",
-			"\"EFMP\": false,",
-			"efmp",
-			"officer.slip",
-			"ship",
-			"data",
-			".csv",
-			"mapgetters",
-			"div",
-			"span",
-			"course",
-			"\\\\",
-			"alc",
-			"axios",
-			"get",
-			"rowid",
-			"baseurl",
-			"span v-tooltip",
-			"abc",
-			"top",
-			"aj4",
-			"(\\w+)\\,([\\w\\s\\d\\-]+)\\n",
-			"(\\w+)\\,([\\w\\s\\d]+)\\n",
-			"LOGOUT",
-			"snackbar",
-			"spec_exp.nuclear.",
-			"nei",
-			"xs6",
-			"Unit",
-			"History",
-			"'left'",
-			"align:",
-			"},",
-			"'}",
-			"class",
-			"general_data",
-			"'",
-			"mt-3",
-			"Projected ",
-			"Projected",
-			"."
+			"login2"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -454,6 +509,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"myBillets",
 			"",
 			"ndx",
 			"",
@@ -503,8 +559,105 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/components/Profile.vue",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 18400,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/Login.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2909,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2245,
+								2245
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 966.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "src/store.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6759,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4440,
+								4443
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1276.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -525,11 +678,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.564979266748,
 			1.0
 		],
 		"rows":
@@ -541,7 +701,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 145.0
+		"height": 319.0
 	},
 	"output.find_results":
 	{
@@ -593,7 +753,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 294.0,
+	"side_bar_width": 215.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

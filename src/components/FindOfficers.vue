@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
   <v-layout row>
-  <v-flex xs6 class="text-xs-left">
-      <h2>Officers</h2>
+  <v-flex xs8 class="text-xs-left">
+      <h4>Search Officers for AFPCID {{reqId}}</h4>
       <p>Use this page to find officers. Use the following charts to filter officers based on your criteria. Once done filtering, scroll to the bottom of the page to view the officers who meet your criteria. <a @click.prevent="jumpToSection('officers')" href='#'>Jump to officers</a></p>
   </v-flex>
-  <v-flex xs6 class="dc-data-count text-xs-right">
+  <v-flex xs4 class="dc-data-count text-xs-right">
   <br>
     <span class="filter-count"></span>
     selected out of
@@ -90,20 +90,6 @@
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-flex>
-    <!--<v-flex xs12 md4>-->
-        <!--<v-expansion-panel expand>-->
-            <!--<v-expansion-panel-content :value="panelOpen.afsc" id="afsc">-->
-                <!--<div slot="header" style="font-size: 140%;">AFSC</div>-->
-                <!--<v-card>-->
-                  <!--<v-card-media>-->
-                      <!--<div id="dc-afsc-rowchart">-->
-                          <!--<reset-btn @reset="resetChart($event)"></reset-btn>-->
-                      <!--</div>-->
-                  <!--</v-card-media>-->
-                <!--</v-card>-->
-            <!--</v-expansion-panel-content>-->
-        <!--</v-expansion-panel>-->
-    <!--</v-flex>-->
   </v-layout>
   <v-layout row wrap class="mt-3" id="officers">
     <v-flex xs12>
@@ -120,18 +106,17 @@
                     v-model="search">
                 </v-text-field>
             </v-card-title>
-            <v-data-table :headers="headers" 
+            <v-data-table v-model="selected"
+                          :headers="headers" 
                           :items="items" 
                           :search="search"
-                          selected-key="items.ID">
+                          selected-key="ID">
                 <template slot="items" scope="props">
                     <!--TODO: edit for IE11 support (see vuetify docs)-->
                     <td class="text-xs-center">
-                        <!--can't find a way to dynamically change material icons colors, so use two-->
-                        <!--icons with v-show for now-->
-                        <v-icon v-show="favorited(props.item)" warning @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
-                        <v-icon v-show="!favorited(props.item)" @click="toggleFavorite(props.item)" style="cursor: pointer;">star</v-icon>
-                    </td>
+                        <v-icon :warning="props.selected" 
+                                @click="toggleFavorite(props)" 
+                                style="cursor: pointer;">star</v-icon></td>
                     <td class="text-xs-left" style="width 10%">
                       <v-btn :id="props.item.ID" flat primary dark right small block @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.ID}}</v-btn>
                     </td>
@@ -143,6 +128,10 @@
                 </template> 
             </v-data-table>
         </v-card>
+    </v-flex>
+    <v-flex>
+      <v-btn primary @click.native="nextClicked">Next</v-btn>
+      <div>{{selected}}</div>
     </v-flex>
     <v-dialog v-model="showOff" width="600px" lazy absolute>
       <v-card>
@@ -159,13 +148,6 @@
                     </v-flex>
                 </v-layout> 
             </v-container>
-          <!--<div>-->
-            <!--ID: {{dialogData.id}} <br>-->
-            <!--Grade: {{dialogData.grade}} <br>-->
-            <!--Adjusted Year Group: {{dialogData.adjYG}} <br>-->
-            <!--Rating: {{dialogData.RTG}} <br>-->
-            <!--RDTM: {{dialogData.rdtm}} <br>-->
-            <!--Total Flight Hours: {{Math.round(dialogData.flt_hrs_total)}} <br></div>-->
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -183,9 +165,6 @@ import statesJson from '../assets/data/us-states.json'
 import Off from './Off'
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
-import axios from 'axios'
-axios.defaults.baseURL = store.state.baseUrl
-axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default{
   data(){
@@ -201,6 +180,7 @@ export default{
          grade: true
       },
       items: [],
+      selected: [],
       search: '',
       clickedId: null,
       headers: [
@@ -231,7 +211,9 @@ export default{
   },
   computed: {
     ...mapGetters([
-        'faveOfficers'
+        'faveOfficers',
+        'curFaveOfficers',
+        'reqId'
     ]),
   },
   components:{
@@ -240,45 +222,42 @@ export default{
     'off-sheet': Off 
   },
   methods: {
-      jumpToSection: function(id) {
-          document.getElementById(id).scrollIntoView();
-      },
-      favorited: function(obj) {
-          //have to use some method to check if officer id exists in 
-          //faveOfficers array (includes method doesn't work)
-          return this.faveOfficers.some(function(d) {return d.ID === obj.ID})
-      },
-      toggleFavorite: function(obj) {
-          if (this.favorited(obj)) {
-            //have to use findIndex method to find index of officer, by officer id, to remove from 
-            //faveOfficers array (indexOf method doesn't work)
-            var index = this.faveOfficers.findIndex(function(d) {return d.ID === obj.ID})
-            //keep payload an object to follow convention
-            var payload = {'index': index}
-            this.$store.dispatch('removeOfficer',payload)
-          } 
-          else {
-            this.$store.dispatch('addOfficer',obj)
-          }
-      },
-      togglePanels: function() {
-        for (var key in this.panelOpen) {
-            this.panelOpen[key] = !this.panelOpen[key]
+    jumpToSection: function(id) {
+        document.getElementById(id).scrollIntoView();
+    },
+    toggleFavorite: function(props) {
+        if (!props.selected){
+          this.$store.commit('ADD_OFFICER', props.item)
+          props.selected = !props.selected
+          this.selected = this.curFaveOfficers
         }
-      },
-      showOffMethod: function(event){
-          //shows officer view and updates values in dialog (needed to make dialog dynamic) 
-        var id = event.target.id
-        var officer = this.items.filter((d)=>{return d.ID == id})[0]
-        this.dialogData['id']=officer.ID
-        this.dialogData['grade']=officer.grade
-        this.dialogData['adjYG']=officer.adjYG
-        this.dialogData['RTG']=officer.RTG
-        this.dialogData['rdtm']=officer.rdtm
-        this.dialogData['flt_hrs_total']=officer.flt_hrs_total
-        this.showOff = true
-        this.clickedId = id
-      },
+        else{
+          this.$store.commit('REMOVE_OFFICER', props.item)
+          props.selected = !props.selected
+          this.selected = this.curFaveOfficers
+        }
+    },
+    togglePanels: function(){
+      for (var key in this.panelOpen) {
+          this.panelOpen[key] = !this.panelOpen[key]
+      }
+    },
+    showOffMethod: function(event){
+        //shows officer view and updates values in dialog (needed to make dialog dynamic)
+      var id = event.target.id
+      var officer = this.items.filter((d)=>{return d.ID == id})[0]
+      this.dialogData['id']=officer.ID
+      this.dialogData['grade']=officer.grade
+      this.dialogData['adjYG']=officer.adjYG
+      this.dialogData['RTG']=officer.RTG
+      this.dialogData['rdtm']=officer.rdtm
+      this.dialogData['flt_hrs_total']=officer.flt_hrs_total
+      this.showOff = true
+      this.clickedId = id
+    },
+    nextClicked: function(){
+      this.$router.push('/rank_officers')
+    },
     resetAll: (event)=>{
       //Emulate javascript:dc.filterAll();dc.redrawAll()
       dc.filterAll()
@@ -291,25 +270,14 @@ export default{
       dc.redrawAll()
     }
   },
-  beforeCreate: function() {
-    console.log('before create');
-
-  },
-  created: function(){
-    console.log('created')
-    
-  },
-  beforeMount: function(){
-    console.log('beforeMount')
-  },
   mounted: function(){
-    console.log('mounted')
-    axios.get('/officer_view').then(response => {
+    window.axios.get('/officer_view').then(response => {
       this.data = response.data.data
       renderCharts()
     }).catch(e => {
       console.error(e)
     })
+    this.selected = (this.curFaveOfficers) ? this.curFaveOfficers : [] 
    
     // es6 arrow function 
     var renderCharts = () => {
@@ -320,8 +288,30 @@ export default{
           .dimension(ndx)
           .group(allGroup)
 
-        var documentWidth = document.documentElement.clientWidth;
-        var smallScreenFactor = 0.96
+        function getHeightWidth(minHeight, aspectRatio){
+          var documentWidth = document.documentElement.clientWidth;
+          const smallScreenFactor = 0.96
+          if (documentWidth > 960) {
+            var width = Math.round(documentWidth*(6/12));
+          }
+          else {
+            var width = Math.round(documentWidth*smallScreenFactor);
+          }
+          var height = width/aspectRatio;
+          if (height < minHeight) {
+              height = minHeight;
+          }
+          return [height, width]
+        }
+
+        function preRedraw(chart, id, aspectRatio, minHeight){
+          var newWidth = document.getElementById(id).offsetWidth;
+          var newHeight = newWidth/aspectRatio < minHeight ? minHeight : newWidth/aspectRatio;
+          chart
+         .width(newWidth)
+         .height(newHeight)
+         .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        }
 
         //grade
         var gradeChart = dc.barChart("#dc-grade-barchart")
@@ -331,16 +321,7 @@ export default{
         var gradeGroup = gradeDim.group()
         var gradeMinHeight = 200 
         var gradeAspectRatio = 3
-        if (documentWidth > 960) {
-            var gradeWidth = Math.round(documentWidth*(6/12));
-        }
-        else {
-            var gradeWidth = Math.round(documentWidth*smallScreenFactor);
-        }
-        var gradeHeight = gradeWidth/gradeAspectRatio;
-        if (gradeHeight < gradeMinHeight) {
-            gradeHeight = gradeMinHeight;
-        }
+        var [gradeHeight, gradeWidth] = getHeightWidth(gradeMinHeight, gradeAspectRatio)
 
         gradeChart
         .minWidth(gradeWidth)
@@ -356,20 +337,12 @@ export default{
         .barPadding(0.1)
         .outerPadding(0)
         .colors(["#2277ff"])
-        .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('grade').offsetWidth;
-            var newHeight = newWidth/gradeAspectRatio;
-            if (newHeight < gradeMinHeight) {
-                newHeight = gradeMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(gradeMinHeight)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        .on('preRedraw', (chart)=>{
+          preRedraw(chart, 'grade', gradeAspectRatio, gradeMinHeight)
+          //Use rescale for ordinal x-axis on redraw
+          chart.rescale()
         })
+
 
         //Rating
         var rtgChart = dc.rowChart('#dc-rtg-rowchart')
@@ -377,17 +350,8 @@ export default{
         var rtgGroup = rtgDim.group()
         var rtgMinHeight = 200 
         var rtgAspectRatio = 3
-        if (documentWidth > 960) {
-            var rtgWidth = Math.round(documentWidth*(6/12));
-        }
-        else {
-            var rtgWidth = Math.round(documentWidth*smallScreenFactor);
-        }
-        var rtgHeight = rtgWidth/rtgAspectRatio;
-        if (rtgHeight < rtgMinHeight) {
-            rtgHeight = rtgMinHeight;
-        }
-    
+        var [rtgHeight, rtgWidth] = getHeightWidth(rtgMinHeight, rtgAspectRatio)
+
         rtgChart
         .minWidth(rtgWidth)
         .width(rtgWidth)
@@ -398,18 +362,8 @@ export default{
         .group(rtgGroup)
         .elasticX(true)
         .colors(d3.scale.category10())
-        .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('rtg').offsetWidth;
-            var newHeight = newWidth/rtgAspectRatio;
-            if (newHeight < rtgMinHeight) {
-                newHeight = rtgMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(rtgMinHeight)
-           .height(newHeight)
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        .on('preRedraw', (chart)=>{
+          preRedraw(chart, 'rtg', rtgAspectRatio, rtgMinHeight)
         })
 
         // yeargroup
@@ -420,11 +374,7 @@ export default{
         var yearGroupGroup = yearGroupDim.group()
         var yearMinHeight = 330
         var yearAspectRatio = 3
-        var yearWidth = Math.round(documentWidth*smallScreenFactor);
-        var yearHeight = yearWidth/yearAspectRatio;
-        if (yearHeight < yearMinHeight) {
-            yearHeight = yearMinHeight;
-        }
+        var [yearHeight, yearWidth] = getHeightWidth(yearMinHeight, yearAspectRatio)
 
         yearGroupChart
         .minWidth(yearWidth)
@@ -439,19 +389,10 @@ export default{
         .elasticY(true)
         .elasticX(true)
         .colors(["orange"])
-        .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('year').offsetWidth;
-            var newHeight = newWidth/yearAspectRatio;
-            if (newHeight < yearMinHeight) {
-                newHeight = yearMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(yearMinHeight)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        .on('preRedraw', (chart)=>{
+          preRedraw(chart, 'year', yearAspectRatio, yearMinHeight)
+          //Use rescale for ordinal x-axis on redraw
+          chart.rescale()
         })
 
         // RDTM
@@ -460,16 +401,7 @@ export default{
         var rdtmGroup = rdtmDim.group()
         var rdtmMinHeight = 380
         var rdtmAspectRatio = 3
-        if (documentWidth > 960) {
-            var rdtmWidth = Math.round(documentWidth*(6/12));
-        }
-        else {
-            var rdtmWidth = Math.round(documentWidth*smallScreenFactor);
-        }
-        var rdtmHeight = rdtmWidth/rdtmAspectRatio;
-        if (rdtmHeight < rdtmMinHeight) {
-            rdtmHeight = rdtmMinHeight;
-        }
+        var [rdtmHeight, rdtmWidth] = getHeightWidth(rdtmMinHeight, rdtmAspectRatio)
 
         rdtmChart
         .minWidth(rdtmWidth)
@@ -481,18 +413,8 @@ export default{
         .dimension(rdtmDim)
         .group(rdtmGroup)
         .colors(d3.scale.category10())
-        .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('rdtm').offsetWidth;
-            var newHeight = newWidth/rdtmAspectRatio;
-            if (newHeight < rdtmMinHeight) {
-                newHeight = rdtmMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(rdtmMinHeight)
-           .height(newHeight)
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        .on('preRedraw', (chart)=>{
+          preRedraw(chart, 'rdtm', rdtmAspectRatio, rdtmMinHeight)
         })
         
         //Total Flight hours
@@ -504,16 +426,7 @@ export default{
         var fltHrsGroup = fltHrsDim.group()
         var fltHrsMinHeight = 380 
         var fltHrsAspectRatio = 3
-        if (documentWidth > 960) {
-            var fltHrsWidth = Math.round(documentWidth*(6/12));
-        }
-        else {
-            var fltHrsWidth = Math.round(documentWidth*smallScreenFactor);
-        }
-        var fltHrsHeight = fltHrsWidth/fltHrsAspectRatio;
-        if (fltHrsHeight < fltHrsMinHeight) {
-            fltHrsHeight = fltHrsMinHeight;
-        }
+        var [fltHrsHeight, fltHrsWidth] = getHeightWidth(fltHrsMinHeight, fltHrsAspectRatio)
 
         fltHrsChart
         .minWidth(fltHrsWidth)
@@ -530,70 +443,9 @@ export default{
         .barPadding(0)
         .elasticY(true)
         .colors(["orange"])
-        .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('fltHrs').offsetWidth;
-            var newHeight = newWidth/fltHrsAspectRatio;
-            if (newHeight < fltHrsMinHeight) {
-                newHeight = fltHrsMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(fltHrsMinHeight)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        .on('preRedraw', (chart)=>{
+          preRedraw(chart, 'fltHrs', fltHrsAspectRatio, fltHrsMinHeight)
         })
-
-//        //AFSC
-//        var afscChart = dc.rowChart('#dc-afsc-rowchart')
-//        var afscDim = ndx.dimension(function(d){
-//            var afscRegex = /\d\d\D/
-//            var afscString = d.afsc_duty
-//            var afscMatch = afscString.match(afscRegex)
-//            if (afscMatch) {
-//                return afscMatch[0] 
-//            } else {
-//                return "NONE"
-//            }
-//        })
-//        var afscGroup = afscDim.group()
-//        var afscMinHeight = 600 
-//        var afscAspectRatio = 1
-//        if (documentWidth > 960) {
-//            var afscWidth = Math.round(documentWidth*(4/12));
-//        }
-//        else {
-//            var afscWidth = documentWidth*0.90;
-//        }
-//        var afscHeight = afscWidth/afscAspectRatio;
-//        if (afscHeight < afscMinHeight) {
-//            afscHeight = afscMinHeight;
-//        }
-//
-//        afscChart
-//        .minWidth(afscWidth)
-//        .width(afscWidth)
-//        .minHeight(afscMinHeight)
-//        .height(afscHeight)
-//        .margins({top: 30, left: 30, right: 50, bottom: 40})
-//        .dimension(afscDim)
-//        .group(afscGroup)
-//        .elasticX(true)
-//        .colors(d3.scale.category10())
-//        .on('preRedraw', function(chart) {
-//            var newWidth = document.getElementById('afsc').offsetWidth;
-//            var newHeight = newWidth/afscAspectRatio;
-//            if (newHeight < afscMinHeight) {
-//                newHeight = afscMinHeight;
-//            }
-//           chart
-//           .minWidth(newWidth)
-//           .width(newWidth)
-//           .minHeight(afscMinHeight)
-//           .height(newHeight)
-//           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
-//        })
 
         // Create data for data table
         var vm = this
@@ -623,15 +475,9 @@ export default{
         }
 
         dc.renderAll();
-        
     }
-
-  },
-  beforeUpdate: function(){
-    console.log('before update')
   },
   beforeDestroy: function(){
-    console.log('before destroy')
     // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM
     dc.chartRegistry.clear()
   },
@@ -641,23 +487,6 @@ export default{
 <style src="../../node_modules/dc/dc.css">
 </style>
 <style>
-/* edit anchor tag styling so no highlighting after 
-click, also give feedback to users on click */
-a, a:visited, a:focus {
-    outline: 0;
-    position: relative;
-}
-a:hover {
-    outline: 0;
-    positon: relative;
-    color: green;
-}
-a:active {
-    outline: 0;
-    top: 1px;
-    color: red;
-}
-
 div[id*="-barchart"] .x.axis text{
     text-anchor: end !important;
     transform: rotate(-45deg);

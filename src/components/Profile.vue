@@ -404,8 +404,6 @@
 
 <script>
 import { store } from '@/store'
-//axios defaults inherited from store
-import axios from 'axios'
 
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
@@ -493,7 +491,7 @@ export default {
       return ajh4[value]
     },
     submit() {
-        axios.post('/officers', {
+        window.axios.post('/officers', {
             comment: this.comment
         }) 
         .then((response)=>{
@@ -537,7 +535,7 @@ export default {
     }
   },
   mounted: function(){
-    axios.get('/officers')
+    window.axios.get('/officers')
       .then(response =>{
         var data = response.data.data
         this.apiData = data

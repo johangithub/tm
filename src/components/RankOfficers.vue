@@ -70,10 +70,9 @@
                                       <td style="width:16%">{{officer.rdtm}}</td>
                                       <td style="width:16%">{{Math.round(officer.flt_hrs_total)}}</td>
                                       <!--payload for removeOfficer mutation is object with index as property-->
-                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
+                                      <td style="width:10%"><v-btn flat error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
                                   </tr>
                               </table>
-                              </h6>
                           </v-card>
                       </v-flex>
                       <v-spacer></v-spacer>
@@ -107,23 +106,24 @@ export default {
       delayedDragging: false,
       saved: false,
       submitted: false,
-      clickedId: null
     }
   },
   computed: {
     ...mapGetters([
-        'faveOfficers'
+        'curFaveOfficers',
+        'faveOfficers',
+        'reqId'
     ]),
     rankOfficers: {
         //need getter to be faveOfficers to get from vuex state
-        get: function () {
-            return this.faveOfficers 
-        },  
+        get: function (reqId) {
+            return this.curFaveOfficers
+        },
         //need setter to dispatch ranked officers to the store so 
         //vuex state 'faveOfficers' always has most recent rank - 
         //remember, index of each officer in array tells rank
         set: function (rankedArray) {
-            this.$store.dispatch('rankOfficers',rankedArray) 
+            this.$store.commit('SET_CUR_FAV_OFFICERS',rankedArray)
         }
     },
     dragOptions () {
@@ -143,33 +143,31 @@ export default {
         const draggedElement = draggedContext.element;
         return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
     },
-      showOffMethod: function(event){
-        //shows req and updates (allows dialog to dynamically update values) 
-        var id = event.target.id
-        var officer = this.faveOfficers.filter((d)=>{return d.ID == id})[0]
-        this.dialogData['id']=officer.ID
-        this.dialogData['grade']=officer.grade
-        this.dialogData['adjYG']=officer.adjYG
-        this.dialogData['RTG']=officer.RTG
-        this.dialogData['rdtm']=officer.rdtm
-        this.dialogData['flt_hrs_total']=Math.round(officer.flt_hrs_total)
-        this.showOff = true
-        //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
-        this.clickedId = id
-      },
-      save: function () {
-        //store vuex state 'faveOfficers' (array of officers) to local storage
-        //(faveOfficers will be ranked officers if officer ranked officers due to
-        //setter on rankedOfficers)
-        var payload = {'name': 'rankedOfficers', 'value': JSON.stringify(this.faveOfficers)}
-        //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
-        this.$store.dispatch('save',payload)
-        this.saved = true; 
-      },
-      submit: function () {
-        //TODO: need to add axios call
-        this.submitted = true; 
-      }
+    showOffMethod: function(event){
+      //shows req and updates (allows dialog to dynamically update values) 
+      var id = event.target.id
+      var officer = this.curFaveOfficers.filter((d)=>{return d.ID == id})[0]
+      this.dialogData['id']=officer.ID
+      this.dialogData['grade']=officer.grade
+      this.dialogData['adjYG']=officer.adjYG
+      this.dialogData['RTG']=officer.RTG
+      this.dialogData['rdtm']=officer.rdtm
+      this.dialogData['flt_hrs_total']=Math.round(officer.flt_hrs_total)
+      this.showOff = true
+    },
+    save: function () {
+      //store vuex state 'faveOfficers' (array of officers) to local storage
+      //(faveOfficers will be ranked officers if officer ranked officers due to
+      //setter on rankedOfficers)
+      var payload = {'name': 'rankedOfficers', 'value': JSON.stringify(this.curFaveOfficers)}
+      //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
+      this.$store.dispatch('save',payload)
+      this.saved = true; 
+    },
+    submit: function () {
+      //TODO: need to add axios call
+      this.submitted = true; 
+    }
   },
   watch: {
     isDragging (newValue) {

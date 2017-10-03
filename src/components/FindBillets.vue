@@ -136,50 +136,19 @@
             </v-data-table>
         </v-card>
     </v-flex>
-    <v-dialog v-model="showReq" width="600px" lazy absolute>
-      <v-card>
-        <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
-        <v-card-text>
-            <v-container fluid grid-list-md>
-                <v-layout row wrap>
-                    <v-flex flexbox v-for="(property,key) in dialogData" :key="key">
-                            <v-text-field
-                                :label="key"
-                                :value="property"
-                                readonly 
-                                ></v-text-field>
-                    </v-flex>
-                </v-layout> 
-            </v-container>
-          <!--<div>-->
-            <!--ID: {{dialogData.id}} <br>-->
-            <!--Api: {{dialogData.api}} <br>-->
-            <!--AFSC: {{dialogData.afsc}} <br>-->
-            <!--Location: {{dialogData.location}} <br>-->
-            <!--Grade: O-{{dialogData.grade}} <br>-->
-            <!--Aircraft: {{dialogData.aircraft}} <br>-->
-            <!--Unit: {{dialogData.unit}} <br>-->
-            <!--State: {{dialogData.state}} <br>-->
-          <!--</div>-->
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat="flat" @click.native="showReq = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-layout>
+  <v-dialog v-model="showReq" width="600px" >
+      <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
+  </v-dialog>
   </v-container>
 </template>
 <script>
 import ResetButton from './ResetButton'
 import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
-import Req from './Req'
+import ReqDialogCard from './ReqDialogCard'
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
-//axios defaults inherited from store
-import axios from 'axios'
 
 export default{
   data(){
@@ -236,7 +205,7 @@ export default{
   components:{
     'reset-btn': ResetButton,
     'hide-btn': HideButton,
-    'req-sheet': Req
+    'req-dialog-card': ReqDialogCard
   },
   methods: {
       jumpToSection: function(id) {
@@ -269,13 +238,7 @@ export default{
           //shows req and updates values in dialog (needed to make dialog dynamic) 
         var id = req.id
         var billet = this.items.filter((d)=>{return d.id == id})[0]
-        this.dialogData['id']=billet.id
-        this.dialogData['api']=billet.api
-        this.dialogData['state']=billet.state
-        this.dialogData['unit']=billet.unit
-        this.dialogData['aircraft']=billet.aircraft
-        this.dialogData['afsc']=billet.afsc
-        this.dialogData['grade']=billet.grade
+        this.dialogData = billet
         this.showReq = true
         this.clickedId = id
       },
@@ -306,7 +269,7 @@ export default{
   mounted: function(){
     console.log('mounted')
 
-    axios.get('/billet_view').then(response => {
+    window.axios.get('/billet_view').then(response => {
         this.data = response.data.data
         renderCharts()
     }).catch(console.error)
@@ -320,6 +283,14 @@ export default{
           .dimension(ndx)
           .group(allGroup)
 
+        function preRedraw(chart, id, aspectRatio, minHeight){
+          var newWidth = document.getElementById(id).offsetWidth;
+          var newHeight = newWidth/aspectRatio < minHeight ? minHeight : newWidth/aspectRatio;
+          chart
+         .width(newWidth)
+         .height(newHeight)
+         .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+        }
 
         //State Map
         var stateChart = dc.geoChoroplethChart("#dc-state-choropleth")
@@ -399,17 +370,7 @@ export default{
         .dimension(conusDim)
         .group(conusGroup)
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('conus').offsetWidth;
-            var newHeight = newWidth/conusAspectRatio;
-            if (newHeight < conusMinHeight) {
-                newHeight = conusMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(conusMinHeight)
-           .height(newHeight)
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'conus', conusAspectRatio, conusMinHeight)
         })
 
         //Location
@@ -436,21 +397,10 @@ export default{
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .elasticY(true)
-        .elasticX(true)
         .colors(["orange"])
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('loc').offsetWidth;
-            var newHeight = newWidth/locAspectRatio;
-            if (newHeight < locMinHeight) {
-                newHeight = locMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(locMinHeight)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'loc', locAspectRatio, locMinHeight)
+          chart.rescale()
         })
 
         //API code
@@ -482,17 +432,7 @@ export default{
         .elasticX(true)
         .colors(d3.scale.category10())
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('api').offsetWidth;
-            var newHeight = newWidth/apiAspectRatio;
-            if (newHeight < apiMinHeight) {
-                newHeight = apiMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(apiMinHeight)
-           .height(newHeight)
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'api', apiAspectRatio, apiMinHeight)
         })
         
         //Aircraft
@@ -502,7 +442,7 @@ export default{
         var arcftMinWidth = 200
         var arcftAspectRatio = 3
         if (documentWidth > 960) {
-            var arcftWidth = Math.round(documentWidth*(4/12));
+            var arcftWidth = Math.round(documentWidth*(3/12));
         }
         else {
             var arcftWidth = Math.round(documentWidth/2);
@@ -525,18 +465,8 @@ export default{
         .elasticY(true)
         .colors(["orange"])
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('arcft').offsetWidth;
-            var newHeight = newWidth/arcftAspectRatio;
-            if (newHeight < arcftMinWidth) {
-                newHeight = arcftMinWidth;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(arcftMinWidth)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'arcft', arcftAspectRatio, arcftMinWidth)
+          chart.rescale()
         })
 
         //grade
@@ -546,7 +476,7 @@ export default{
         var gradeMinHeight = 200
         var gradeAspectRatio = 3
         if (documentWidth > 960) {
-            var gradeWidth = Math.round(documentWidth*(4/12));
+            var gradeWidth = Math.round(documentWidth*(3/12));
         }
         else {
             var gradeWidth = Math.round(documentWidth/2);
@@ -571,18 +501,8 @@ export default{
         .outerPadding(0)
         .colors(["#2277ff"])
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('grade').offsetWidth;
-            var newHeight = newWidth/gradeAspectRatio;
-            if (newHeight < gradeMinHeight) {
-                newHeight = gradeMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(gradeMinHeight)
-           .height(newHeight)
-           .rescale()
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'grade', gradeAspectRatio, gradeMinHeight)
+          chart.rescale()
         })
 
         //AFSC
@@ -601,7 +521,7 @@ export default{
         var afscAspectRatio = 4
         var afscSizeFactor = 0.96
         if (documentWidth > 960) {
-            var afscWidth = Math.round(documentWidth*(4/12));
+            var afscWidth = Math.round(documentWidth*(3/12));
         }
         else {
             var afscWidth = documentWidth*afscSizeFactor;
@@ -622,17 +542,7 @@ export default{
         .elasticX(true)
         .colors(d3.scale.category10())
         .on('preRedraw', function(chart) {
-            var newWidth = document.getElementById('afsc').offsetWidth;
-            var newHeight = afscWidth/afscAspectRatio;
-            if (newHeight < afscMinHeight) {
-                newHeight = afscMinHeight;
-            }
-           chart
-           .minWidth(newWidth)
-           .width(newWidth)
-           .minHeight(afscMinHeight)
-           .height(newHeight)
-           .root().select('svg').attr('width',newWidth).attr('height',newHeight)
+          preRedraw(chart, 'afsc', afscAspectRatio, afscMinHeight)
         })
 
         // Create data for data table
@@ -668,8 +578,6 @@ export default{
   },
   beforeUpdate: function(){
     console.log('before update')
-    //window.dispatchEvent( new Event('resize') )
-
   },
   beforeDestroy: function(){
     // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM

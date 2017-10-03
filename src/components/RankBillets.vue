@@ -81,86 +81,8 @@
               </draggable>
           </v-flex>
 
-      <v-dialog v-model="showReq" width="600px" lazy absolute>
-        <v-card>
-          <v-card-title class="headline">
-              <v-container fluid grid-list-md>
-                  <v-layout row>
-                      <div>
-                          <h3 class="headline mb-0">Requisition #{{dialogData.id}}</h3>
-                      <!--<div style="font-size: 16px;">ID: {{dialogData.id}}</div>-->
-                      </div>
-                  <v-spacer></v-spacer>
-                  <v-btn fab primary small flat @click.native="showReq = false"><v-icon dark >clear</v-icon></v-btn>
-                  </v-layout>
-                  <!--<v-layout row>-->
-                      <!--<v-flex xs1>-->
-                        <!--<v-text-field label="ID"-->
-                                      <!--:value="dialogData.id"-->
-                                      <!--readonly>-->
-                        <!--</v-text-field>-->
-                      <!--</v-flex> -->
-                  <!--</v-layout>-->
-                  <v-layout row>
-                      <v-flex xs1 class="mr-2">
-                        <v-text-field label="API"
-                                      :value="dialogData.api"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                      <v-flex xs3 class="mr-2">
-                        <v-text-field label="AFSC"
-                                      :value="dialogData.afsc"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                      <v-flex xs3 class="mr-2">
-                        <v-text-field label="Grade"
-                                      :value="dialogData.grade"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                      <v-flex xs4 class="mr-2">
-                        <v-text-field label="Aircraft"
-                                      :value="dialogData.aircraft"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                  </v-layout>
-                  <v-layout row>
-                      <v-flex xs10 class="mr-3">
-                        <v-text-field label="Unit"
-                                      :value="dialogData.unit"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                      <v-flex xs2 class="mr-3">
-                        <v-text-field label="State"
-                                      :value="dialogData.state"
-                                      readonly>
-                        </v-text-field>
-                      </v-flex>
-                  </v-layout>
-              </v-container>
-          </v-card-title>
-          <v-card-text>
-            <div>
-            ID: {{dialogData.id}} <br>
-            Api: {{dialogData.api}} <br>
-            AFSC: {{dialogData.afsc}} <br>
-            Location: {{dialogData.location}} <br>
-            Grade: O-{{dialogData.grade}} <br>
-            Aircraft: {{dialogData.aircraft}} <br>
-            Unit: {{dialogData.unit}} <br>
-            State: {{dialogData.state}} <br>
-          </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn class="blue--text darken-1" flat="flat" @click.native="showReq = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+
+
             </v-layout>
       <!-- <req-sheet :value="showReq" :item="dialogData"></req-sheet> -->
       <v-layout row>
@@ -168,17 +90,17 @@
               <v-btn primary large block v-if="faveBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
           </v-flex>
       </v-layout>
+    <v-dialog v-model="showReq" width="600px">
+        <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
-import Req from './Req'
+import ReqDialogCard from './ReqDialogCard'
 import { mapGetters } from 'vuex'
 import { store } from '@/store'
-import axios from 'axios'
-axios.defaults.baseURL = store.state.baseUrl
-axios.defaults.headers.common['Authorization'] = localStorage.token
 
 export default {
   name: 'billet',
@@ -232,14 +154,15 @@ export default {
         //shows req and updates (allows dialog to dynamically update values) 
         var id = event.currentTarget.id
         var billet = this.faveBillets.filter((d)=>{return d.id == id})[0]
-        this.dialogData['id']=billet.id
-        this.dialogData['api']=billet.api
-        this.dialogData['state']=billet.state
-        this.dialogData['unit']=billet.unit
-        this.dialogData['aircraft']=billet.aircraft
-        this.dialogData['afsc']=billet.afsc
-        this.dialogData['grade']=billet.grade
-        this.showReq = true
+        this.dialogData = billet
+        // this.dialogData['id']=billet.id
+        // this.dialogData['api']=billet.api
+        // this.dialogData['state']=billet.state
+        // this.dialogData['unit']=billet.unit
+        // this.dialogData['aircraft']=billet.aircraft
+        // this.dialogData['afsc']=billet.afsc
+        // this.dialogData['grade']=billet.grade
+         this.showReq = true
         //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
         this.clickedId = id
       },
@@ -253,8 +176,7 @@ export default {
         this.saved = true; 
       },
       submit: function () {
-        //TODO: need to add axios call
-        axios.put('/billet_fave', {
+        window.axios.put('/billet_fave', {
             rankedBillets: this.faveBillets
         }).then(response => {
             this.submitted = true; 
@@ -275,7 +197,7 @@ export default {
   },
   components: {
     'draggable': draggable,
-    // 'req-sheet': Req
+    'req-dialog-card': ReqDialogCard
   }
 }
 </script>

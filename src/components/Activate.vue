@@ -46,7 +46,6 @@
 
 <script>
 import NoticeConsent from '@/components/NoticeConsent'
-import axios from 'axios'
 import ClipSpinner from './ClipSpinner'
 
 export default{

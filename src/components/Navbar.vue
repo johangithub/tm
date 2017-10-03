@@ -86,14 +86,24 @@ export default{
           {name: "Commander Input", link:"losing_commander"}
         ]
       }
+      else if (this.userRole == 'assignment_officer'){
+        return [
+          {name: "My Profile", link: "profile"},
+          {name: "AO Dashboard", link: "#"},
+          {name: "Manage Officers", link: "find_officers"},
+          {name: "Manage Billets", link: "find_billets"},
+        ]
+      }
       else{
         return [
           {name: "My Profile", link: "profile"},
           {name: "Find Billets", link: "find_billets"},
           {name: "Rank Billets", link: "rank_billets"},
+          {name: "My Billets", link: "billet_list"},
           {name: "Find Officers", link: "find_officers"},
           {name: "Rank Officers", link: "rank_officers"},
           {name: "Commander Input", link: "losing_commander"},
+          {name: "AO Dashboard", link: "#"},
           {name: "Diagrams", link: "diagrams"},
         ]
       }
