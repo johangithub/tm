@@ -98,7 +98,7 @@
 
 <script>
 import draggable from 'vuedraggable'
-import ReqDialogCard from './ReqDialogCard'
+import ReqDialogCard from '@/components/ReqDialogCard'
 import { mapGetters } from 'vuex'
 import { store } from '@/store'
 
@@ -162,7 +162,6 @@ export default {
         // this.dialogData['aircraft']=billet.aircraft
         // this.dialogData['afsc']=billet.afsc
         // this.dialogData['grade']=billet.grade
-         this.showReq = true
         //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
         this.clickedId = id
       },

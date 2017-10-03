@@ -1,11 +1,5 @@
 <template>
-<v-container id="billet_list">
-  <v-layout row v-if="myBillets.length===0">
-      <v-flex xs12>
-          <v-alert warning value="true">You do not own any billets
-          </v-alert>
-      </v-flex>
-  </v-layout>
+<v-container>
   <v-layout row v-if="myBillets.length!==0">
       <v-flex xs12>
         <v-layout row v-for="(billet,index) in myBillets" class="list-group-item" :key="billet.id">
@@ -14,7 +8,10 @@
                     <table style="width: 100%">
                         <tr>
                             <td style="width 10%">
-                            <v-btn flat primary dark :id="billet.id" @click="showReqMethod($event)">
+                            <v-btn flat primary dark :id="billet.id" 
+                            @click="showReqMethod($event)"
+                            @click.native.stop="showReq = true"
+                            >
                             {{billet.id}}</v-btn></td>
                             <td style="width:10%">{{billet.api}}</td>
                             <td style="width:10%">{{billet.grade}}</td>
@@ -31,14 +28,15 @@
         </v-layout>
       </v-flex>
   </v-layout>
-  <v-layout row>
+
+<!--   <v-layout row>
       <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
           <v-btn primary large block v-if="myBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
       </v-flex>
-  </v-layout>
-  <v-dialog v-model="showReq" width="600px">
-      <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
-  </v-dialog>
+  </v-layout> -->
+    <v-dialog v-model="showReq" width="600px">
+        <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
+    </v-dialog>
 </v-container>
 </template>
 
@@ -64,7 +62,6 @@ export default{
       var billet = this.myBillets.filter((d)=>{return d.id == id})[0]
       this.dialogData = billet
       //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
-      this.showReq = true
     },
     bidOfficers: function(event){
       //when clicked, go to find officers view that is associated with this particular id,
@@ -81,7 +78,7 @@ export default{
   },
   mounted: function(){
     //Retrieve only the billets I own
-    window.axios.get('/billet_view2').then(response => {
+    window.axios.get('/billet_view').then(response => {
         this.myBillets = response.data.data
     }).catch(console.error)
   }

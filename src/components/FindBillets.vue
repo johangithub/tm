@@ -239,8 +239,6 @@ export default{
         var id = req.id
         var billet = this.items.filter((d)=>{return d.id == id})[0]
         this.dialogData = billet
-        this.showReq = true
-        this.clickedId = id
       },
     resetAll: (event)=>{
       //Emulate javascript:dc.filterAll();dc.redrawAll()
