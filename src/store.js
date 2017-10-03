@@ -9,8 +9,8 @@ const ADD_OFFICER = "ADD_OFFICER";
 const REMOVE_OFFICER = "REMOVE_OFFICER";
 const RANK_OFFICERS = "RANK_OFFICERS";
 const SET_ROLE = "SET_ROLE";
-const BASE_URL = "http://192.168.1.85:5005/api" //pi
-//const BASE_URL = "https://locahost:5005/api" //local server
+// const BASE_URL = "http://192.168.1.85:5005/api" //pi
+const BASE_URL = "http://localhost:5005/api" //local server
 
 import Vue from 'vue'
 import Vuex from 'vuex'
