@@ -176,9 +176,10 @@ export default {
         this.saved = true; 
       },
       submit: function () {
-        window.axios.put('/billet_fave', {
-            rankedBillets: this.faveBillets
+        window.axios.post('/billets_fave', {
+            rankedBillets: JSON.stringify(this.faveBillets)
         }).then(response => {
+            console.log('information sent')
             this.submitted = true; 
         }).catch(console.error)
       }

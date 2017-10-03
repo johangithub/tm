@@ -1,19 +1,19 @@
 <template>
   <v-container fluid id="profile">
   <v-layout row>
-    <h4 v-if="dataReady">{{rank}} ID: {{this.apiData.rowid}}</h4>
+      <h4 v-if="dataReady">{{rank}} {{firstName}} {{lastName}}</h4>
   </v-layout>
   <div v-if="dataReady">
-  <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
-      <div slot="header">Test Data</div>
-      <v-card>
-        <v-card-text class="grey lighten-3">
-        <pre>{{pretty_apiData}}</pre>
-        </v-card-text>
-      </v-card>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+  <!--<v-expansion-panel class="mt-2">-->
+    <!--<v-expansion-panel-content>-->
+      <!--<div slot="header">Test Data</div>-->
+      <!--<v-card>-->
+        <!--<v-card-text class="grey lighten-3">-->
+        <!--<pre>{{pretty_apiData}}</pre>-->
+        <!--</v-card-text>-->
+      <!--</v-card>-->
+    <!--</v-expansion-panel-content>-->
+  <!--</v-expansion-panel>-->
 
 <v-layout row>
   <v-flex xs3>
@@ -294,7 +294,7 @@
         <div>Desired Departure Date</div>
         <v-menu
                   lazy
-                  :close-on-content-click="false"
+                  :close-on-content-click="true"
                   v-model="showDDD"
                   transition="scale-transition"
                   offset-y
@@ -310,15 +310,15 @@
                     readonly
                   ></v-text-field>
                   <v-date-picker 
-                  v-model="desiredDepartureDate"
+                    :value="desiredDepartureDate"
+                    @input="updateDates($event)"
                   no-title
                   scrollable
                   actions
                   :allowed-dates="allowedDepartureDates">
-                    <template scope="{ save, cancel }">
+                    <template scope="{ cancel }">
                       <v-card-actions>
                         <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                        <v-btn flat primary @click.native="save()">Save</v-btn>
                       </v-card-actions>
                     </template>
                   </v-date-picker>
@@ -328,7 +328,7 @@
         <div>Desired RNLTD</div>
         <v-menu
                   lazy
-                  :close-on-content-click="false"
+                  :close-on-content-click="true"
                   v-model="showRNLTD"
                   transition="scale-transition"
                   offset-y
@@ -344,15 +344,14 @@
                     readonly
                   ></v-text-field>
                   <v-date-picker 
-                  v-model="desiredRNLTD"
+                    v-model="desiredRNLTD"
                   no-title
                   scrollable
                   actions
                   :allowed-dates="allowedRNLTD">
-                    <template scope="{ save, cancel }">
+                    <template scope="{ cancel }">
                       <v-card-actions>
                         <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                        <v-btn flat primary @click.native="save()">Save</v-btn>
                       </v-card-actions>
                     </template>
                   </v-date-picker>
@@ -415,6 +414,8 @@ export default {
   data(){
     return {
       snackbar: false,
+      firstName: '',
+      lastName: '',
       comment: '',
       qualifications: [],
       interests: [],
@@ -435,13 +436,7 @@ export default {
       'Squadron Snacko'      
       ],
       desiredDepartureDate: new Date('2018/05/30').toISOString().split('T')[0],
-      allowedDepartureDates:function(date){
-        return date < new Date('2018/09/30') & date > new Date('2018/05/30')
-      },
-      desiredRNLTD: new Date('2018/05/30').toISOString().split('T')[0],
-      allowedRNLTD: function(date){
-        return date < new Date('2018/09/30') & date > new Date('2018/05/30')
-      },
+      desiredRNLTD: new Date('2018/05/31').toISOString().split('T')[0],
       showDDD: false,
       showRNLTD: false,
       dataReady: false,
@@ -475,6 +470,32 @@ export default {
     }
   },
   methods: {
+      //make selectable departure dates dynamic: force departure date to always be less than desired RNLTD
+      allowedDepartureDates: function(date){
+          var datePart = date.toISOString().split('T')[0]
+          return datePart < '2018-09-30' & datePart > '2018-05-30'
+      },
+      //make selectable RNLTDs dynamic: force RNLTD to be after desired departure date
+      allowedRNLTD: function(date){
+          var datePart = date.toISOString().split('T')[0]
+          return datePart < '2018-09-30' & datePart > this.desiredDepartureDate 
+      },
+      //use this function to automatically update desired RNLTD to day after chosen desiredDepartureDate
+      updateDates(event) {
+          //event is chosen desired Departure Date
+          this.desiredDepartureDate = event
+
+          //if chosen desiredDepartureDate is greater than current desiredRNLTD, 
+          //must update desiredRNLTD automatically (update to selected date plus one)
+          if (event >= this.desiredRNLTD) {
+              //disgusting way to increment date by one day and return string form of date - can't find a better way
+              var desiredDDPlusOne = new Date(this.desiredDepartureDate)
+              desiredDDPlusOne.setDate(desiredDDPlusOne.getDate() + 1)
+              var desiredDDPlusOne_t = desiredDDPlusOne.toISOString().split('T')[0] 
+              //set desiredRNLTD to day after chosen desiredDepartureDate 
+              this.desiredRNLTD = desiredDDPlusOne_t
+          } 
+      },
     abcFormat(value){
       return abc[value]
     },
@@ -491,8 +512,13 @@ export default {
       return ajh4[value]
     },
     submit() {
+        console.log(this.desiredDepartureDate)
         window.axios.post('/officers', {
-            comment: this.comment
+            comment: this.comment,
+            desiredDepartureDate: this.desiredDepartureDate,
+            desiredRNLTD: this.desiredRNLTD,
+            qualifications: JSON.stringify(this.qualifications),
+            interests: JSON.stringify(this.interests)
         }) 
         .then((response)=>{
             console.log('information sent')
@@ -539,6 +565,8 @@ export default {
       .then(response =>{
         var data = response.data.data
         this.apiData = data
+        this.firstName = data.firstName
+        this.lastName = data.lastName
         this.general = data.general
         this.duty_history = data.duty.history
         this.asgn_code = data.asgn_code
@@ -551,6 +579,14 @@ export default {
         this.joint = data.joint
         this.courses = data.courses
         this.spec_exp = data.special_experience
+        //do not know if user selected dates, if so, use data from get call, else, use default
+        this.desiredDepartureDate = data.departureDate || this.desiredDepartureDate
+        this.desiredRNLTD = data.desiredRNLTD || this.desiredRNLTD
+        //do not know if user inputted qualifications or interests, if they so, parse the stringified arrays, 
+        //if not, keep default value 
+        this.qualifications = data.qualifications ? JSON.parse(data.qualifications) : this.qualifications 
+        this.interests = data.interests ? JSON.parse(data.interests) : this.interests 
+        this.comment = data.comment
         this.dataReady = true
        })
       .catch(e => {
