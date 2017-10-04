@@ -60,6 +60,7 @@ export const store = new Vuex.Store({
         if (state.faveBillets.some(function(d) {d.id === payload.id})) {
             return
         } else {
+            console.log(payload)
             state.faveBillets.push(payload)    
         }
     },
