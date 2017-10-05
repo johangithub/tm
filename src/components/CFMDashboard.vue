@@ -147,12 +147,8 @@
   </v-container>
 </template>
 <script>
-import ResetButton from './ResetButton'
-import HideButton from './HideButton'
 import statesJson from '../assets/data/us-states.json'
 import Off from './Off'
-import { store } from '@/store'
-import { mapGetters } from 'vuex'
 
 export default{
   data(){
@@ -166,7 +162,7 @@ export default{
       headers: [
             // value must be exact name of property for column!!!
         {
-            text: 'ID', align: 'left', sortable: false
+            text: 'ID', align: 'center', sortable: false
         },
         {
             text: 'Name', value: 'name', align: 'left' 
@@ -193,20 +189,27 @@ export default{
     }
   },
   components:{
-    'reset-btn': ResetButton,
-    'hide-btn': HideButton,
     'off-sheet': Off 
+  },
+  computed: {
+    ndx(){
+      return crossfilter(this.data)
+    },
+    idDim(){
+      return this.ndx.dimension(function(d){return d.dod_id})
+    }
   },
   methods: {
     toggleVML: function(officer) {
       officer.vml = !officer.vml
-      var ind = this.data.findIndex(d=>{return d.dod_id == officer.dod_id})
-      this.data[ind].vml = officer.vml
-      console.log('Num on VML: ',this.data.filter(d=>{return d.vml}).length)
-      var chart = dc.chartRegistry.list().filter(chart=>{
-        return chart.anchorName() == 'dc-VML-rowchart'
-      })[0]
-      //VML change is NOT propagated to 
+      // var ind = this.data.findIndex(d=>{return d.dod_id == officer.dod_id})
+      var off = this.data.filter(d=>{return d.dod_id == officer.dod_id})[0]
+      off.vml = officer.vml
+      this.idDim.filter(officer.dod_id)
+      this.ndx.remove()
+      this.idDim.filterAll()
+      this.ndx.add([off])
+      dc.redrawAll()
     },
     showOffMethod: function(event){
         //shows officer view and updates values in dialog (needed to make dialog dynamic)
@@ -268,15 +271,15 @@ export default{
         }
 
         //Data count
-        var ndx =  crossfilter(this.data)
-        var allGroup = ndx.groupAll()
+        // var ndx =  crossfilter(this.data)
+        var allGroup = this.ndx.groupAll()
         dc.dataCount(".dc-data-count")
-          .dimension(ndx)
+          .dimension(this.ndx)
           .group(allGroup)
 
         //grade
         var gradeChart = dc.rowChart("#dc-grade-rowchart")
-        var gradeDim = ndx.dimension(function(d){
+        var gradeDim = this.ndx.dimension(function(d){
             return d.general.grade;
         })
         var gradeGroup = gradeDim.group()
@@ -299,7 +302,7 @@ export default{
 
         //Rating
         var rtgChart = dc.rowChart('#dc-rtg-rowchart')
-        var rtgDim = ndx.dimension(function(d){return d.duty.core_group;})
+        var rtgDim = this.ndx.dimension(function(d){return d.duty.core_group;})
         var rtgGroup = rtgDim.group()
         var rtgChartConfig = getChartConfig(150, 3, 2)
 
@@ -319,7 +322,7 @@ export default{
 
         //WIC
         var wicChart = dc.rowChart('#dc-WIC-rowchart')
-        var wicDim = ndx.dimension(function(d){return d.special_experience.WIC || 'NONE';})
+        var wicDim = this.ndx.dimension(function(d){return d.special_experience.WIC || 'NONE';})
         var wicGroup = wicDim.group()
         var wicChartConfig = getChartConfig(150, 3, 3)
 
@@ -339,8 +342,8 @@ export default{
 
         //VML
         var vmlChart = dc.rowChart('#dc-VML-rowchart')
-        var vmlDim = ndx.dimension(function(d){ return d.vml })
-        var vmlGroup = vmlDim.group()
+        // var vmlDim = this.ndx.dimension(function(d){ return d.vml })
+        var vmlGroup = this.vmlDim.group()
         var vmlChartConfig = getChartConfig(150, 3, 3)
         vmlChart
         .minWidth(vmlChartConfig.width)
@@ -348,9 +351,10 @@ export default{
         .minHeight(vmlChartConfig.minHeight)
         .height(vmlChartConfig.height)
         .margins({top: 10, left: 10, right: 20, bottom: 20})
-        .dimension(vmlDim)
+        .dimension(this.vmlDim)
         .group(vmlGroup)
         .elasticX(true)
+        .ordering(function(d){return -d.key})
         .colors(d3.scale.category10())
         .on('preRedraw', (chart)=>{
           preRedraw(chart, 'vml', vmlChartConfig.aspectRatio)
@@ -359,7 +363,7 @@ export default{
 
         // RDTM
         var rdtmChart = dc.rowChart("#dc-rdtm-rowchart")
-        var rdtmDim = ndx.dimension(function(d){return d.rated.rdtm ? d.rated.rdtm : 'NONE'})
+        var rdtmDim = this.ndx.dimension(function(d){return d.rated.rdtm ? d.rated.rdtm : 'NONE'})
         var rdtmGroup = rdtmDim.group()
         var rdtmChartConfig = getChartConfig(150, 3, 3)
 
@@ -379,7 +383,7 @@ export default{
 
         // yeargroup
         var yearGroupChart = dc.barChart("#dc-yearGroup-barchart")
-        var yearGroupDim = ndx.dimension(function(d){
+        var yearGroupDim = this.ndx.dimension(function(d){
             return d.general.adjYG    
         })
         var yearGroupGroup = yearGroupDim.group()
@@ -408,7 +412,7 @@ export default{
         //Total Flight hours
         var fltHrsMax = 4000
         var fltHrsChart = dc.barChart("#dc-fltHrs-barchart")
-        var fltHrsDim = ndx.dimension(function(d){
+        var fltHrsDim = this.ndx.dimension(function(d){
             //round to nearest 500
             return Math.min(fltHrsMax- 100, Math.round(d.rated.flt_hrs_total/100)*100);
         })
@@ -450,7 +454,7 @@ export default{
 
         // Create data for data table
         var vm = this
-        var itemDim = ndx.dimension(function(d) {return d;})
+        var itemDim = this.ndx.dimension(function(d) {return d;})
         vm.items = itemDim.top(Infinity).map((d)=>{return tableData(d)})
         // update rows in data table upon each chart being filtered 
         dc.chartRegistry.list().forEach(function(chart) {
@@ -460,7 +464,7 @@ export default{
         })
 
 
-        var temp 
+        var temp
         window.onresize = function(event) {
             console.log('resize')
             clearTimeout(temp)
