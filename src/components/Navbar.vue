@@ -103,7 +103,7 @@ export default{
           {name: "Find Officers", link: "find_officers"},
           {name: "Rank Officers", link: "rank_officers"},
           {name: "Commander Input", link: "losing_commander"},
-          {name: "AO Dashboard", link: "#"},
+          {name: "CFM Dashboard", link: "cfm_dashboard"},
           {name: "Diagrams", link: "diagrams"},
         ]
       }

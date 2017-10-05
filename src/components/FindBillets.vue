@@ -269,6 +269,7 @@ export default{
 
     window.axios.get('/billet_view').then(response => {
         this.data = response.data.data
+        
         renderCharts()
     }).catch(console.error)
 

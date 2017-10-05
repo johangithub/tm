@@ -4,6 +4,62 @@
 		"selected_items":
 		[
 			[
+				"flt",
+				"fltHrsChartConfig"
+			],
+			[
+				"fltHrsChart",
+				"dc-fltHrs-barchart"
+			],
+			[
+				"fltHrsCha",
+				"fltHrsChartConfig"
+			],
+			[
+				"year",
+				"yearChartConfig"
+			],
+			[
+				"rdtmChart",
+				"rdtmChartConfig"
+			],
+			[
+				"wic",
+				"wicChartConfig"
+			],
+			[
+				"wicChart",
+				"dc-WIC-rowchart"
+			],
+			[
+				"rtgCha",
+				"rtgChartConfig"
+			],
+			[
+				"get",
+				"getChartConfig"
+			],
+			[
+				"grad",
+				"gradeChartConfig"
+			],
+			[
+				"vmlC",
+				"vmlChart"
+			],
+			[
+				"vml",
+				"vmlChartConfig"
+			],
+			[
+				"pre",
+				"preRedraw"
+			],
+			[
+				"base",
+				"baseURL"
+			],
+			[
 				"SET_",
 				"SET_CUR_FAV_OFFICERS"
 			],
@@ -14,10 +70,6 @@
 			[
 				"cur",
 				"curFaveOfficers"
-			],
-			[
-				"get",
-				"getHeightWidth"
 			],
 			[
 				"favori",
@@ -132,10 +184,11 @@
 	"buffers":
 	[
 		{
-			"file": "src/components/Profile.vue",
+			"file": "src/components/CFMDashboard.vue",
 			"settings":
 			{
-				"buffer_size": 18400,
+				"buffer_size": 16887,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -144,7 +197,6 @@
 			"settings":
 			{
 				"buffer_size": 2909,
-				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -152,7 +204,7 @@
 			"file": "src/store.js",
 			"settings":
 			{
-				"buffer_size": 6759,
+				"buffer_size": 6589,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -251,17 +303,20 @@
 	],
 	"file_history":
 	[
-		"/home/jh/tm/src/components/Navbar.vue",
 		"/home/jh/tm/src/components/ReqDialogCard.vue",
-		"/home/jh/tm/src/components/RankOfficers.vue",
-		"/home/jh/tm/src/components/FindOfficers.vue",
 		"/home/jh/tm/src/components/BilletList.vue",
-		"/home/jh/tm/src/components/Profile.vue",
-		"/home/jh/tm/src/router/index.js",
-		"/home/jh/tm/src/store.js",
-		"/home/jh/tm/TODO.md",
-		"/home/jh/tm/src/components/RankBillets.vue",
 		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/src/components/RankBillets.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
+		"/home/jh/tm/src/components/Profile.vue",
+		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/src/components/RankOfficers.vue",
+		"/home/jh/tm/src/components/Activate.vue",
+		"/home/jh/tm/src/main.js",
+		"/home/jh/tm/src/components/Login.vue",
+		"/home/jh/tm/TODO.md",
 		"/home/jh/tm/src/components/Req.vue",
 		"/home/jh/tm/src/components/Billet.vue",
 		"/home/jh/tm/src/components/Diagrams.vue",
@@ -270,11 +325,9 @@
 		"/home/jh/tm/src/components/Diagrams/Database.vue",
 		"/home/jh/tm/build/dev-server.js",
 		"/home/jh/tm/src/App.vue",
-		"/home/jh/tm/src/components/Login.vue",
 		"/home/jh/tm/src/components/HomepageCards/BilletOwnerCard.vue",
 		"/home/jh/tm/src/components/HomepageCards/OfficerCard.vue",
 		"/home/jh/tm/src/components/HomepageCards/LosingCommanderCard.vue",
-		"/home/jh/tm/src/components/Activate.vue",
 		"/home/jh/tm/src/components/Home.vue",
 		"/home/jh/tm/src/components/HomepageCards/AdminCard.vue",
 		"/home/jh/tm/src/components/LosingCommander.vue",
@@ -314,7 +367,6 @@
 		"/home/jh/tm-api/public/index.html",
 		"/home/jh/tm-api/index.ejs",
 		"/home/jh/tm/build/webpack.dev.conf.js",
-		"/home/jh/tm/src/main.js",
 		"/home/jh/tm/src/components/ClipSpinner.vue",
 		"/home/jh/tm/temp.js",
 		"/home/jh/tm/package.json",
@@ -364,9 +416,12 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 99.0,
 		"where_history":
 		[
+			"/home/jh/tm/src/components",
+			"/home/jh/tm/src",
+			""
 		]
 	},
 	"find_state":
@@ -374,6 +429,104 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"      \n",
+			"props.selected",
+			"checkbox",
+			"getheight",
+			"preRedraw(chart",
+			"fltHrsMinHeight",
+			"fltHrsHeight",
+			"yearHeight",
+			"yearMinHeight",
+			"yearWidth",
+			"rdtmHeight",
+			"rdtmMinHeight",
+			"rdtmWidth",
+			"wicHeight",
+			"wicMinHeight",
+			"wicWidth",
+			"rtgHeight",
+			"rtgWidth",
+			"rtgMinHeight",
+			"gradeMinHeight",
+			"gradeHeight",
+			"gradeWidth",
+			"mounted",
+			"height",
+			"vmlHeight",
+			"vmlMinHeight",
+			"vmlWidth",
+			"wic",
+			"<v-card-title>",
+			"id",
+			"dod_id",
+			"m.",
+			"general",
+			"rating",
+			"items",
+			"rtg",
+			"<!-- <reset-btn",
+			"reset-btn",
+			"VML",
+			"d\\.id",
+			"general",
+			"id",
+			"selected",
+			"orange",
+			"clicked",
+			"style=\"width: 18%\"",
+			"core_group",
+			"rdtm",
+			"<reset-btn",
+			"reset-btn",
+			"top: 30",
+			"bottom: ",
+			"md4",
+			"md6",
+			"slot=\"header\" style=\"font-size: 140%;\"",
+			"slot=\"header\"",
+			"div slot=\"header\"",
+			"div",
+			"toggleFavorite",
+			"v-icon",
+			"fave",
+			"vm.items",
+			">>>",
+			"HEAD",
+			"showReq",
+			"clickedId",
+			"dialogData",
+			"reqclose",
+			"vm.items",
+			"dialogData",
+			"documentWidth\\*",
+			"loc",
+			"conus",
+			"sizeFactor",
+			"before update",
+			"axios",
+			"token",
+			"axios",
+			"axio",
+			"console.log",
+			"[S",
+			"[",
+			"baseurl",
+			"localhost",
+			"\n    ",
+			"baseurl",
+			"token",
+			"store",
+			"axios",
+			"BASE_URL",
+			"SET_CUR_FAV_OFFICERS",
+			"(state",
+			" (state",
+			"(state",
+			"\n",
+			"    ",
+			"axios",
+			"window",
 			"url",
 			"baseurl",
 			"BASEurl",
@@ -403,105 +556,7 @@
 			"checkbox",
 			"favorited",
 			"selected",
-			"favoritedList",
-			"favorited",
-			"v-icon",
-			"items",
-			"favorited",
-			"router",
-			"some",
-			"reqId",
-			"fave",
-			"rankOfficers",
-			"dialog",
-			"RANK_OFFICERS",
-			"RANK_BILLETS",
-			"rank_billets",
-			"  commit",
-			"reqId",
-			"<a",
-			"favorited",
-			"faveofficers",
-			"SET_ROLE",
-			"clickedId",
-			"data",
-			"value.",
-			"value",
-			"data",
-			"data.",
-			"req-dialog",
-			"ReqDialog",
-			"req-dialog",
-			"value",
-			"reqClose",
-			"dialogData",
-			"showReq",
-			"req",
-			"req-sheet",
-			"/req",
-			"faveBillets",
-			"rankBillets",
-			"faveBillets",
-			"AFSC",
-			">AFSC",
-			"HEAD",
-			">>>>",
-			"card-title",
-			"documentWidth",
-			"h5 class='ma-3'",
-			"<card-title>",
-			"card-title",
-			"/h5",
-			"location",
-			"Location",
-			"/h5",
-			"slot=\"header\"",
-			"div slot=\"header\"",
-			"id=",
-			"<v-expansion-panel ",
-			"v-expansion-panel",
-			"console.log",
-			"data",
-			"afsc",
-			"afscChart",
-			"md4",
-			"with the changes",
-			"rank_officers",
-			": 3",
-			"false",
-			"set_password",
-			"'smooth': {'type': 'c",
-			"12",
-			"\\\\n",
-			"\\n",
-			"Activate",
-			"submitted",
-			"item",
-			"dialog",
-			"id",
-			"click\\.",
-			"click.",
-			".stop",
-			"showReq",
-			"clickedId",
-			"showReq",
-			"\"billet\"",
-			"billet",
-			"xs8",
-			"projected.",
-			"xs4",
-			"ajh4",
-			"snackbar",
-			"div",
-			"service_dates",
-			"._",
-			"_",
-			"service_dates",
-			"email",
-			"admin-card",
-			"AdminCard",
-			"pending",
-			"login2"
+			"favoritedList"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -559,24 +614,54 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/components/Profile.vue",
-					"semi_transient": true,
+					"file": "src/components/CFMDashboard.vue",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18400,
+						"buffer_size": 16887,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								7181,
+								7181
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2756.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/Login.vue",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2909,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								201,
+								201
 							]
 						],
 						"settings":
@@ -589,60 +674,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
-				{
-					"buffer": 1,
-					"file": "src/components/Login.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2909,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2245,
-								2245
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 966.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
 				{
 					"buffer": 2,
 					"file": "src/store.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6759,
+						"buffer_size": 6589,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4440,
-								4443
+								5587,
+								5587
 							]
 						],
 						"settings":
@@ -652,10 +701,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1276.0,
+						"translation.y": 1801.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -678,18 +727,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.564979266748,
 			1.0
 		],
 		"rows":
@@ -753,7 +795,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 215.0,
+	"side_bar_width": 254.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

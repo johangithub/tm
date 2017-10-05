@@ -13,6 +13,7 @@ import Diagrams from '@/components/Diagrams'
 import Billet from '@/components/Billet'
 import BilletList from '@/components/BilletList'
 import LosingCommander from '@/components/LosingCommander'
+import CFMDashboard from '@/components/CFMDashboard'
 import { store } from '@/store.js'
 Vue.use(Router)
 export const router = new Router({
@@ -95,6 +96,14 @@ export const router = new Router({
       path: '/losing_commander',
       name: 'LosingCommander',
       component: LosingCommander,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/cfm_dashboard',
+      name: 'CFMDashboard',
+      component: CFMDashboard,
       meta: {
         authRequired: true
       }
