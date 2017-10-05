@@ -5,52 +5,117 @@
   </v-layout>
   <div>
 
-<v-layout row>
-  <v-flex xs3>
+<v-layout row wrap>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">General</div>
+        <div slot="header" class="title">General</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-            <div>Grade: {{ profileData.general.grade }}</div>
-            <div>Component: {{ profileData.general.component }}</div>
-            <div>Functional Category: {{ profileData.general.func_cat }}</div>
-            <div>Competitive Cateogry: {{ profileData.general.comp_cat }}</div>
-            <div>Record Status: {{ profileData.general.record_status }}</div>
-            <div>Accounting Status: {{ profileData.general.accounting_status }}</div>
-            <div>Short Tour Number: {{ profileData.general.short_tour_num }}</div>
+              <v-layout row>
+              <v-flex xs4>
+                  <text-field :value="profileData.general.grade">Grade:</text-field>
+              </v-flex>
+              <v-flex xs8>
+                  <text-field :value="profileData.general.component">Component:</text-field>
+              </v-flex>
+              </v-layout>
+              <v-layout row>
+              <v-flex xs6>
+                  <text-field :value="profileData.general.comp_cat">Funct. Category:</text-field>
+              </v-flex>
+              <v-flex xs6>
+                  <text-field :value="profileData.general.comp_cat">Comp. Category:</text-field>
+              </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                  <v-flex xs6>
+                      <text-field :value="profileData.general.record_status">Record Status:</text-field>
+                  </v-flex xs6>
+                  <v-flex xs6>
+                      <text-field :value="profileData.general.short_tour_num">Short Tour:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex>
+                      <text-field :value="profileData.general.accounting_status">Accounting Status:</text-field>
+                  </v-flex>
+              </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs3>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Current</div>
+        <div slot="header" class="title">Current</div>
+        <!--show CAFSC or PAFSC?-->
         <v-card>
           <v-card-text class="grey lighten-3">
-           <div>PAS: {{}}</div>
-            <div>AFSC: {{}}</div>
-            <div>Duty Status: {{}}</div>
-            <div>Duty Title: {{}}</div>
-            <div>Command Level: {{}}</div>
+              <v-layout row>
+                  <v-flex xs6>
+                      <text-field :value="profileData.duty.pas">PASCODE:</text-field>
+                  </v-flex>
+                  <v-flex xs6>
+                      <text-field :value="profileData.duty.dafsc">Duty AFSC:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.duty.status_ct">Duty Status:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.duty.title">Duty Title:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.duty.unit">Unit:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.duty.org_level">Organization Level:</text-field>
+                  </v-flex> 
+              </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs3>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Projected</div>
+        <div slot="header" class="title">Projected</div>
         <v-card>
-          <v-card-text class="grey lighten-3">
-           <div>PAS: {{profileData.projected.assignment.pas}}</div>
-            <div>AFSC: {{profileData.projected.assignment.afsc}}</div>
-            <div>Assignment Selection Date: {{profileData.projected.assignment.asd}}</div>
-            <div>Projected Departure Date: {{profileData.projected.assignment.pdd}}</div>
-            <div>RNLTD: {{profileData.projected.assignment.rnltd}}</div>
+          <v-card-text v-if="profileData.projected.assignment.pas" class="grey lighten-3">
+              <v-layout row>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.assignment.pas">PASCODE:</text-field>
+                  </v-flex>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.assignment.afsc">Projected AFSC:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.assignment.asd">Assignment Selection Date:</text-field>
+                  </v-flex>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.assignment.pdd">PDD:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.assignment.rnltd">RNLTD:</text-field>
+                  </v-flex>
+                  <v-flex xs6>
+                      <text-field :value="profileData.projected.duty.eff_date">Duty Effective Date:</text-field>
+                  </v-flex>
+              </v-layout>
             <div>Duty Effective Date: {{profileData.projected.duty.eff_date}}</div>
             <div>Duty Expiration Date: {{profileData.projected.duty.exp_date}}</div>
             <div>Duty Status: {{profileData.projected.duty.status}}</div>
@@ -63,11 +128,14 @@
             </div>
             </div>
           </v-card-text>
+          <v-card-text v-else class="grey lighten-3">
+            No projected assignments 
+          </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs3>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Assignment Codes</div>
@@ -91,8 +159,8 @@
     </v-expansion-panel>
   </v-flex>
 </v-layout>
-<v-layout row>
-  <v-flex xs3>
+<v-layout row wrap>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Courses</div>
@@ -106,7 +174,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs3>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Service Dates</div>
@@ -122,7 +190,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
-    <v-flex xs3>
+    <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">PME</div>
@@ -136,7 +204,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs3>
+  <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
         <div slot="header">Joint</div>
@@ -155,8 +223,8 @@
     </v-expansion-panel>
   </v-flex>
 </v-layout>
-  <v-layout row>
-  <v-flex xs6>
+  <v-layout row wrap>
+  <v-flex xs12 md6>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
       <div slot="header">Degrees</div>
@@ -170,7 +238,7 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
   </v-flex>
-  <v-flex xs6>
+  <v-flex xs12 md6>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
       <div slot="header">Language</div>
@@ -186,25 +254,8 @@
   </v-expansion-panel>
   </v-flex>
   </v-layout>
-  <v-layout row>
-  <v-flex xs4>
-  <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
-      <div slot="header">Aircraft Data</div>
-      <v-card>
-        <v-card-text class="grey lighten-3">
-        <div>Aircraft // Hours // Date Last Flown</div>
-        <div v-for="ac in profileData.rated.aircraft_history">
-        {{ ac.aircraft }} //
-        {{ ac.hours }} //
-        {{ ac.aircraft_date_flown }}
-        </div>
-        </v-card-text>
-      </v-card>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
-  </v-flex>
-  <v-flex xs4>
+  <v-layout row wrap>
+  <v-flex xs12 sm12 md4>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
       <div slot="header">Rated Data</div>
@@ -230,7 +281,24 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
   </v-flex>
-  <v-flex xs4>
+  <v-flex xs12 sm6 md4>
+  <v-expansion-panel class="mt-2">
+    <v-expansion-panel-content>
+      <div slot="header">Aircraft Data</div>
+      <v-card>
+        <v-card-text class="grey lighten-3">
+        <div>Aircraft // Hours // Date Last Flown</div>
+        <div v-for="ac in profileData.rated.aircraft_history">
+        {{ ac.aircraft }} //
+        {{ ac.hours }} //
+        {{ ac.aircraft_date_flown }}
+        </div>
+        </v-card-text>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+  </v-flex>
+  <v-flex xs12 sm6 md4>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
       <div slot="header">Exp Identifier</div>
@@ -407,6 +475,7 @@
 <script>
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
+import TextField from '@/components/TextField'
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
 var aac = require('@/format/aac')
@@ -554,9 +623,18 @@ export default {
       return temp
     }
   },
+  components: {
+    'text-field': TextField
+  },
   mounted: function(){
       console.log('mounted profile')
       console.log(this.profileData)
   }
 }
 </script>
+
+<style scoped>
+    .title {
+        font-size: 18px;
+    }
+</style>
