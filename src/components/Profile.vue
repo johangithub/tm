@@ -57,8 +57,11 @@
                   <v-flex xs6>
                       <text-field :value="profileData.duty.pas">PASCODE:</text-field>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex xs3>
                       <text-field :value="profileData.duty.dafsc">Duty AFSC:</text-field>
+                  </v-flex>
+                  <v-flex xs3>
+                      <text-field :value="profileData.duty.core_afsc">Core AFSC:</text-field>
                   </v-flex>
               </v-layout>
               <v-layout row>
