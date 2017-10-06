@@ -58,10 +58,10 @@
                       <text-field :value="profileData.duty.pas">PASCODE:</text-field>
                   </v-flex>
                   <v-flex xs3>
-                      <text-field :value="profileData.duty.dafsc">Duty AFSC:</text-field>
+                      <text-field :value="profileData.duty.dafsc">DAFSC:</text-field>
                   </v-flex>
                   <v-flex xs3>
-                      <text-field :value="profileData.duty.core_afsc">Core AFSC:</text-field>
+                      <text-field :value="profileData.duty.core_afsc">CAFSC:</text-field>
                   </v-flex>
               </v-layout>
               <v-layout row>
@@ -115,16 +115,38 @@
                   <v-flex xs6>
                       <text-field :value="profileData.projected.assignment.rnltd">RNLTD:</text-field>
                   </v-flex>
-                  <v-flex xs6>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs5>
                       <text-field :value="profileData.projected.duty.eff_date">Duty Effective Date:</text-field>
                   </v-flex>
+                  <v-flex xs5>
+                      <text-field :value="profileData.projected.duty.exp_date">Duty Expiration Date:</text-field>
+                  </v-flex>
+                  <v-flex xs2>
+                      <text-field :value="profileData.projected.duty.afsc_pending">Duty AFSC:</text-field>
+                  </v-flex>
               </v-layout>
-            <div>Duty Effective Date: {{profileData.projected.duty.eff_date}}</div>
-            <div>Duty Expiration Date: {{profileData.projected.duty.exp_date}}</div>
-            <div>Duty Status: {{profileData.projected.duty.status}}</div>
-            <div>Duty Title: {{profileData.projected.duty.title_pending}}</div>
-            <div>Command Level: {{profileData.projected.duty.cmd_lvl_pending}}</div>
-            <div>DAFSC: {{profileData.projected.duty.afsc_pending}}</div>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.projected.duty.status">Duty Status:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.projected.duty.title_pending">Duty Title:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.projected.duty.cmd_lvl_pending">Organization Level:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.projected.course">Projected Courses</block-text-field> 
+                  </v-flex>
+              </v-layout>
             <div>Projected Course
             <div v-for="course in profileData.projected.course">
                 <span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span>:{{course.start_date}}--{{course.grad_date}}
@@ -144,6 +166,11 @@
         <div slot="header">Assignment Codes</div>
         <v-card>
           <v-card-text class="grey lighten-3">
+          <v-layout row>
+              <v-flex xs12>
+                  <block-text-field :value="profileData.asgn_code.block_code" :numProps="2">Assignment Codes</block-text-field> 
+              </v-flex>
+          </v-layout>
           <div v-for="abc in profileData.asgn_code.block_code">
             <div>Block code: 
               <span v-tooltip:right="{ html: abcFormat(abc.code) }">{{abc.code}}</span> ({{abc.date}})</div>
@@ -479,6 +506,7 @@
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
 import TextField from '@/components/TextField'
+import BlockTextField from '@/components/BlockTextField'
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
 var aac = require('@/format/aac')
@@ -627,7 +655,8 @@ export default {
     }
   },
   components: {
-    'text-field': TextField
+    'text-field': TextField,
+    'block-text-field': BlockTextField
   },
   mounted: function(){
       console.log('mounted profile')

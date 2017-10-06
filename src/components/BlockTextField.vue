@@ -3,14 +3,30 @@
         <label><slot></slot></label> 
         <br>
         <input type="text"
-               :value="value"
+               v-for="string in readableArray"
+               :value="string"
                disabled>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['value']
+        props: ['value', 'numProps'],
+        computed: {
+            readableArray: function() {
+                var outArray = []
+                for (var index in this.value) {
+                    var outString = ''
+                    var obj = this.value[index]
+                    for (let j = 0; j < this.numProps; j++) {
+                        outString += String(obj[Object.keys(obj)[j]]) + ' ' 
+                        console.log(obj[Object.keys(obj)[j]])
+                    }
+                    outArray.push(outString)
+                }
+                return outArray
+            }
+        }
     }
     
 </script>
