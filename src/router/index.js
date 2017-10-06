@@ -14,6 +14,9 @@ import Billet from '@/components/Billet'
 import BilletList from '@/components/BilletList'
 import LosingCommander from '@/components/LosingCommander'
 import CFMDashboard from '@/components/CFMDashboard'
+import OfficerStepper from '@/components/OfficerStepper'
+import BilletOwnerStepper from '@/components/BilletOwnerStepper'
+import MajcomOwnerStepper from '@/components/MajcomOwnerStepper'
 import { store } from '@/store.js'
 Vue.use(Router)
 export const router = new Router({
@@ -120,6 +123,30 @@ export const router = new Router({
       path: '/diagrams',
       name: 'Diagrams',
       component: Diagrams,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/stepper_officer',
+      name: 'OfficerStepper',
+      component: OfficerStepper,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/stepper_billetowner',
+      name: 'BilletOwnerStepper',
+      component: BilletOwnerStepper,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
+      path: '/stepper_majcom',
+      name: 'MAJCOMOwnerStepper',
+      component: MajcomOwnerStepper,
       meta: {
         authRequired: true
       }

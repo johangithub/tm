@@ -1,6 +1,5 @@
 <template>
   <v-container id="home">
-  <h4>Welcome to the Air Force Talent Marketplace</h4>  
   <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>
   <v-layout row justify-center>
   <v-flex xs6>
@@ -39,7 +38,3 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>

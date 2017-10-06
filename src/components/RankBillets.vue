@@ -1,11 +1,6 @@
 <template>
   <v-container fluid>
       <v-layout row>
-          <v-flex xs6 class="text-xs-left">
-              <h2>Rank Billets</h2>
-          </v-flex>
-      </v-layout>
-      <v-layout row>
           <v-flex xs12>
               <v-snackbar top v-model="submitted">
                   <div style="color: DeepSkyBlue">Submitted!</div>

@@ -3,7 +3,6 @@
   <v-layout row>
       <h4>{{rank}} {{profileData.firstName}} {{profileData.lastName}}</h4>
   </v-layout>
-  <div>
 
 <v-layout row wrap>
   <v-flex xs12 sm6 md3>
@@ -513,7 +512,7 @@ var aac = require('@/format/aac')
 var alc = require('@/format/alc')
 var course = require('@/format/course')
 export default {
-  props: ['id'],
+  props: ['id', 'value'],
   data(){
     return {
       snackbar: false,

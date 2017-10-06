@@ -91,7 +91,7 @@
 
 <script>
 import draggable from 'vuedraggable'
-import Off from './Off'
+import OfficerDialogCard from '@/components/OfficerDialogCard'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -183,7 +183,7 @@ export default {
   },
   components: {
     'draggable': draggable,
-    'off-sheet': Off 
+    'off-dialog-card': OfficerDialogCard 
   }
 }
 </script>

@@ -1,5 +1,17 @@
 ### TODO, as it comes up
 
+#### Demo day TODO
+- [ ] Workout the UX flow of officer, billet owner, MAJCOM owner, AO/CFM
+- [ ] Tighten layout and chart selection on dcjs pages
+- [ ] Pair VML toggle functionality from CFM dashboard to the backend, so the change propagates
+- [ ] Add notification for VML toggle before submission (i.e., changes from previous) 
+- [ ] Tighten layout for My Profile view
+- [ ] Tighten layout for edit My Billet view
+- [ ] intro.js or shepherd.js for the instruction
+- [ ] Practice brief. Keep in under 10 min
+- [ ] Check Screen Resolution
+---
+
 - [ ] Export Format Table to client side into /src/format
 - [x] Format Profile page including duty history table
 - [ ] Debug Losing Commander Page (something to do with garbage collection)
@@ -9,6 +21,7 @@
 - [ ] ~~disable href highlighting~~
 - [x] dc.js crossfilter freeze bugs
 - [x] Enforce password length, upper, lowercase
+- [ ] Refactor into vuetify:latest? We use 0.14 and 0.16 is current
 
 ---
 
