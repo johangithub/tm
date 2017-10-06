@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
@@ -15,6 +16,10 @@ export const store = new Vuex.Store({
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
     faveOfficers: localStorage.getItem('rankedOfficers') ? JSON.parse(localStorage.getItem('rankedOfficers')) : {},
     curFaveOfficers: [],
+    //dates for cycle
+    startCycle:  localStorage.getItem("startCycle"),
+    firstRNLTD: localStorage.getItem("firstRNLTD"),
+    endCycle: localStorage.getItem("endCycle") 
   },
   getters: {
     isLoggedIn: state => {
@@ -40,6 +45,15 @@ export const store = new Vuex.Store({
     },
     reqId: state => {
       return state.reqId
+    },
+    startCycle: state=> {
+      return state.startCycle
+    },
+    firstRNLTD: state=> {
+      return state.firstRNLTD
+    },
+    endCycle: state=> {
+      return state.endCycle
     }
   },
   mutations: {
@@ -55,14 +69,8 @@ export const store = new Vuex.Store({
       state.pending = false
     },
     ADD_BILLET (state,payload) {
-        //payload is object for billet, and only add billet to faveBillets if not
-        //already in faveBillets array
-        if (state.faveBillets.some(function(d) {d.id === payload.id})) {
-            return
-        } else {
-            console.log(payload)
-            state.faveBillets.push(payload)    
-        }
+        //payload is object for billet
+        state.faveBillets.push(payload)    
     },
     REMOVE_BILLET (state,payload) {
         //payload is object and index property is index of billet to remove
@@ -99,6 +107,14 @@ export const store = new Vuex.Store({
         state.curFaveOfficers = payload
         state.faveOfficers[state.reqId] = payload
     },
+    SET_CYCLE_DATES (state, dates) {
+        state.startCycle = dates.startCycle
+        state.firstRNLTD = dates.firstRNLTD
+        state.endCycle = dates.endCycle
+        localStorage.setItem("startCycle", state.startCycle)
+        localStorage.setItem("firstRNLTD", state.firstRNLTD)
+        localStorage.setItem("endCycle", state.endCycle)
+    },
     SET_ROLE (state, role){
       state.userRole = role
     },
@@ -108,7 +124,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     // this is a fake login system. Will replace with axios call to the serverside
-    login({ commit }, creds) {
+    login({ commit, dispatch }, creds) {
       commit("LOGIN")
       return new Promise((resolve,reject) => {
           window.axios.post('authenticate',{
@@ -131,7 +147,12 @@ export const store = new Vuex.Store({
                     window.axios.defaults.headers.common.Authorization = token
                     localStorage.setItem("role", token_decoded.role)
                     localStorage.setItem("id", token_decoded.id)
-                    //make axios header reference token in localStorage, so when we remove the token from localStorage, the axios header equals an undefined variable
+                    //get favorite billets if officer is logging in
+                    dispatch('getCycleDates')
+                    if (token_decoded.role === "officer") {
+                       dispatch('loadOfficerProfile')
+                       dispatch('loadFaveBillets') 
+                    }
                     commit("SET_ROLE", token_decoded.role)
                     commit("LOGIN_SUCCESS")
                     resolve()
@@ -152,17 +173,56 @@ export const store = new Vuex.Store({
       localStorage.removeItem("token")
       localStorage.removeItem("role")
       localStorage.removeItem("id")
+      localStorage.removeItem("rankedBillets")
+      //since profileData is sensitive, we may need to be better about removing the profile data - maybe use sessionStorage? 
+      localStorage.removeItem("profileData")
       window.axios.defaults.headers.common.Authorization = null
       commit("LOGOUT")
     },
-    addBillet ({ commit },payload) {
+    addBillet ({ commit, state, dispatch },payload) {
       commit("ADD_BILLET",payload)
+      //save favorited billets to localStorage (retains during refresh)
+      dispatch('save',{'name': 'rankedBillets', 'value': JSON.stringify(state.faveBillets)})  
     },
-    removeBillet( { commit },payload) {
+    removeBillet( { commit, state, dispatch },payload) {
       commit("REMOVE_BILLET",payload)
+      //save favorited billets to localStorage (retains during refresh)
+      dispatch('save',{'name': 'rankedBillets', 'value': JSON.stringify(state.faveBillets)})  
     },
-    rankBillets( { commit },payload) {
+    rankBillets( { commit, state, dispatch },payload) {
       commit("SET_FAV_BILLETS",payload)
+      //save ranked billets to localStorage (retains during refresh)
+      dispatch('save',{'name': 'rankedBillets', 'value': JSON.stringify(state.faveBillets)})  
+    },
+    getCycleDates({ commit }) {
+        window.axios.get('/cycle_dates')
+            .then(response => {
+                var dates = response.data.data
+                commit('SET_CYCLE_DATES',dates)
+            })
+            .catch(console.error)
+    },
+    //load favorite Billets in store, but submit fave billets in RankBillets component
+    loadOfficerProfile({ dispatch }) {
+        window.axios.get('/officers')
+           .then(response => {
+                var profileData = response.data.data
+                console.log('store axios officer get')
+                console.log(profileData)
+                dispatch('save',{'name': 'profileData', 'value': JSON.stringify(profileData)})
+           }) 
+           .catch(console.error)
+    },
+    loadFaveBillets({ commit, state, dispatch }) {
+        window.axios.get('/billets_fave')
+            .then(response => {
+                var billetString = response.data.data.rankedBillets
+                var loadedFaveBillets = billetString ? JSON.parse(billetString) : []
+                commit("SET_FAV_BILLETS", loadedFaveBillets) 
+                //save ranked billets to localStorage (retains during refresh)
+                dispatch('save',{'name': 'rankedBillets', 'value': JSON.stringify(state.faveBillets)})  
+            })
+            .catch(console.error)
     },
     addOfficer({ commit },payload) {
       commit("ADD_OFFICER", payload)

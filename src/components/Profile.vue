@@ -1,7 +1,7 @@
 <template>
   <v-container fluid id="profile">
   <v-layout row>
-      <h4 v-if="dataReady">{{rank}} {{firstName}} {{lastName}}</h4>
+      <h4>{{rank}} {{profileData.firstName}} {{profileData.lastName}}</h4>
   </v-layout>
   <div v-if="dataReady">
   <!--<v-expansion-panel class="mt-2">-->
@@ -14,6 +14,7 @@
       <!--</v-card>-->
     <!--</v-expansion-panel-content>-->
   <!--</v-expansion-panel>-->
+  <div>
 <v-layout row>
   <v-flex xs3>
     <v-expansion-panel class="mt-2">
@@ -21,13 +22,13 @@
         <div slot="header">General</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-            <div>Grade: {{ general.grade }}</div>
-            <div>Component: {{ general.component }}</div>
-            <div>Functional Category: {{ general.func_cat }}</div>
-            <div>Competitive Cateogry: {{ general.comp_cat }}</div>
-            <div>Record Status: {{ general.record_status }}</div>
-            <div>Accounting Status: {{ general.accounting_status }}</div>
-            <div>Short Tour Number: {{ general.short_tour_num }}</div>
+            <div>Grade: {{ profileData.general.grade }}</div>
+            <div>Component: {{ profileData.general.component }}</div>
+            <div>Functional Category: {{ profileData.general.func_cat }}</div>
+            <div>Competitive Cateogry: {{ profileData.general.comp_cat }}</div>
+            <div>Record Status: {{ profileData.general.record_status }}</div>
+            <div>Accounting Status: {{ profileData.general.accounting_status }}</div>
+            <div>Short Tour Number: {{ profileData.general.short_tour_num }}</div>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -55,19 +56,19 @@
         <div slot="header">Projected</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-           <div>PAS: {{projected.assignment.pas}}</div>
-            <div>AFSC: {{projected.assignment.afsc}}</div>
-            <div>Assignment Selection Date: {{projected.assignment.asd}}</div>
-            <div>Projected Departure Date: {{projected.assignment.pdd}}</div>
-            <div>RNLTD: {{projected.assignment.rnltd}}</div>
-            <div>Duty Effective Date: {{projected.duty.eff_date}}</div>
-            <div>Duty Expiration Date: {{projected.duty.exp_date}}</div>
-            <div>Duty Status: {{projected.duty.status}}</div>
-            <div>Duty Title: {{projected.duty.title_pending}}</div>
-            <div>Command Level: {{projected.duty.cmd_lvl_pending}}</div>
-            <div>DAFSC: {{projected.duty.afsc_pending}}</div>
+           <div>PAS: {{profileData.projected.assignment.pas}}</div>
+            <div>AFSC: {{profileData.projected.assignment.afsc}}</div>
+            <div>Assignment Selection Date: {{profileData.projected.assignment.asd}}</div>
+            <div>Projected Departure Date: {{profileData.projected.assignment.pdd}}</div>
+            <div>RNLTD: {{profileData.projected.assignment.rnltd}}</div>
+            <div>Duty Effective Date: {{profileData.projected.duty.eff_date}}</div>
+            <div>Duty Expiration Date: {{profileData.projected.duty.exp_date}}</div>
+            <div>Duty Status: {{profileData.projected.duty.status}}</div>
+            <div>Duty Title: {{profileData.projected.duty.title_pending}}</div>
+            <div>Command Level: {{profileData.projected.duty.cmd_lvl_pending}}</div>
+            <div>DAFSC: {{profileData.projected.duty.afsc_pending}}</div>
             <div>Projected Course
-            <div v-for="course in projected.course">
+            <div v-for="course in profileData.projected.course">
                 <span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span>:{{course.start_date}}--{{course.grad_date}}
             </div>
             </div>
@@ -82,15 +83,15 @@
         <div slot="header">Assignment Codes</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div v-for="abc in asgn_code.block_code">
+          <div v-for="abc in profileData.asgn_code.block_code">
             <div>Block code: 
               <span v-tooltip:right="{ html: abcFormat(abc.code) }">{{abc.code}}</span> ({{abc.date}})</div>
           </div>
-          <div v-for="aac in asgn_code.avail_code">
+          <div v-for="aac in profileData.asgn_code.avail_code">
             <div>Avail code: 
               <span v-tooltip:right="{ html: aacFormat(aac.code) }">{{aac.code}}</span> ({{aac.date}})</div>
           </div>
-          <div v-for="alc in asgn_code.limit_code">
+          <div v-for="alc in profileData.asgn_code.limit_code">
             <div>Limit code: 
               <span v-tooltip:right="{ html: alcFormat(alc.code) }">{{alc.code}}</span> ({{alc.date}})</div>
           </div>
@@ -107,7 +108,7 @@
         <div slot="header">Courses</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div v-for="course in courses">
+          <div v-for="course in profileData.courses">
             <div><span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span> ({{course.date}})</div>
           </div>
           </v-card-text>
@@ -137,8 +138,8 @@
         <div slot="header">PME</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>PME Highest: {{pme.pme_highest}}</div>
-          <div v-for="item in pme.history">{{item.level}} - {{item.course}} / {{item.method}} / {{item.date}}
+          <div>PME Highest: {{profileData.pme.pme_highest}}</div>
+          <div v-for="item in profileData.pme.history">{{item.level}} - {{item.course}} / {{item.method}} / {{item.date}}
           </div>
           </v-card-text>
         </v-card>
@@ -151,10 +152,10 @@
         <div slot="header">Joint</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>JDA Flag: {{joint.jda_flag}}</div>
-          <div>JSO Code: {{joint.jso_code}}</div>
-          <div>JSO_NUM Status: {{joint.jso_jsonum_status}}</div>
-          <div v-for="tour in joint.history">
+          <div>JDA Flag: {{profileData.joint.jda_flag}}</div>
+          <div>JSO Code: {{profileData.joint.jso_code}}</div>
+          <div>JSO_NUM Status: {{profileData.joint.jso_jsonum_status}}</div>
+          <div v-for="tour in profileData.joint.history">
           {{tour.type}}//{{tour.credit}}//{{tour.reason}}//{{tour.posn}}//{{tour.start_date}} - {{tour.stop_date}}
           </div>
           </v-card-text>
@@ -171,7 +172,7 @@
       <div slot="header">Degrees</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div v-for="deg in degree.history">
+        <div v-for="deg in profileData.degree.history">
           {{deg.degree_ct}}//{{deg.level}}//{{deg.method}}//{{deg.school}}//{{deg.date}}            
         </div>
         </v-card-text>
@@ -185,8 +186,8 @@
       <div slot="header">Language</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div v-if="language.dlab_score">DLAB Score(Date): {{language.dlab_score}} ({{language.dlab_date}})</div>
-        <div v-for="lang in language.list">
+        <div v-if="profileData.language.dlab_score">DLAB Score(Date): {{profileData.language.dlab_score}} ({{profileData.language.dlab_date}})</div>
+        <div v-for="lang in profileData.language.list">
           {{lang.id}}//{{lang.listen}}//{{lang.read}}//{{lang.date}}
         </div>
         </v-card-text>
@@ -203,7 +204,7 @@
       <v-card>
         <v-card-text class="grey lighten-3">
         <div>Aircraft // Hours // Date Last Flown</div>
-        <div v-for="ac in rated.aircraft_history">
+        <div v-for="ac in profileData.rated.aircraft_history">
         {{ ac.aircraft }} //
         {{ ac.hours }} //
         {{ ac.aircraft_date_flown }}
@@ -219,21 +220,21 @@
       <div slot="header">Rated Data</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-          <div>Aero Rating: {{rated.aero_rating_ct}}</div>
-          <div>Flight Activity Code: {{rated.flt_activity_code}}</div>
-          <div>Gates Current: {{rated.gates_curr}}</div>
-          <div>Flight Hours(Combat): {{rated.flt_hrs_combat}}</div>
-          <div>Flight Hours(Inst): {{rated.flt_hrs_instr}}</div>
-          <div>Flight Hours(Total): {{rated.flt_hrs_total}}</div>
-          <div>Aviation Service Code: {{rated.avn_service_code_ct}}</div>
-          <div>RDTM: {{rated.rdtm}}</div>
-          <div>Aircrew Position ID: {{rated.aircrew_position_id}}</div>
-          <div>Aviation Service Date: {{rated.avn_service_date}}</div>
-          <div>Aero Rating Date: {{rated.aero_rating_date}}</div>
-          <div>Return To Fly Date: {{rated.return_to_fly_date}}</div>
-          <div>ACP Eligible Date: {{rated.acp_elig_date}}</div>
-          <div>ACP Effective Date: {{rated.acp_effective_date}}</div>
-          <div>ACP Stop Date: {{rated.acp_stop_date}}</div>
+          <div>Aero Rating: {{profileData.rated.aero_rating_ct}}</div>
+          <div>Flight Activity Code: {{profileData.rated.flt_activity_code}}</div>
+          <div>Gates Current: {{profileData.rated.gates_curr}}</div>
+          <div>Flight Hours(Combat): {{profileData.rated.flt_hrs_combat}}</div>
+          <div>Flight Hours(Inst): {{profileData.rated.flt_hrs_instr}}</div>
+          <div>Flight Hours(Total): {{profileData.rated.flt_hrs_total}}</div>
+          <div>Aviation Service Code: {{profileData.rated.avn_service_code_ct}}</div>
+          <div>RDTM: {{profileData.rated.rdtm}}</div>
+          <div>Aircrew Position ID: {{profileData.rated.aircrew_position_id}}</div>
+          <div>Aviation Service Date: {{profileData.rated.avn_service_date}}</div>
+          <div>Aero Rating Date: {{profileData.rated.aero_rating_date}}</div>
+          <div>Return To Fly Date: {{profileData.rated.return_to_fly_date}}</div>
+          <div>ACP Eligible Date: {{profileData.rated.acp_elig_date}}</div>
+          <div>ACP Effective Date: {{profileData.rated.acp_effective_date}}</div>
+          <div>ACP Stop Date: {{profileData.rated.acp_stop_date}}</div>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
@@ -245,17 +246,17 @@
       <div slot="header">Exp Identifier</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div>{{spec_exp}}</div>
+        <div>{{profileData.special_experience}}</div>
         <div>Nuclear Experience</div>
-        <div v-for="item in spec_exp.nuclear">
+        <div v-for="item in profileData.special_experience.nuclear">
         {{item.nei}}//{{item.start_date}}//{{item.stop_date}}
         </div>
         <div>SEI</div>
-        <div v-for="item in spec_exp.sei">
+        <div v-for="item in profileData.special_experience.sei">
         {{item.sei}}
         </div>
         <div>Acquisition</div>
-        <div>{{spec_exp.acquisitions}}</div>
+        <div>{{profileData.special_experience.acquisitions}}</div>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
@@ -267,7 +268,7 @@
       <div slot="header">Duty History</div>
             <v-data-table
           :headers="duty_history_headers"
-          :items="duty_history"
+          :items="profileData.duty.history"
           hide-actions>
           <template slot="items" scope="props">
             <td>{{props.item.duty_title}}</td>
@@ -286,7 +287,16 @@
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
       <div slot="header">Self Advertise</div>
-      <v-card>
+      <v-card class="grey lighten-3">
+          <v-layout row class="pr-2 pt-2">
+              <v-spacer></v-spacer>
+              <v-btn small success @click.native="save">Save</v-btn>
+              <v-snackbar
+                :timeout="1000"
+                :top="true"
+                v-model="snackbarSave"
+              >Saved!<v-btn flat class="green--text" @click.native="snackbarSave = false">Close</v-btn></v-snackbar>
+         </v-layout>
         <v-card-text class="grey lighten-3">
         <v-layout row>
         <v-flex xs3>
@@ -304,12 +314,12 @@
                   <v-text-field
                     slot="activator"
                     label="Select a date"
-                    v-model="desiredDepartureDate"
+                    v-model="profileData.desiredDepartureDate"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
                   <v-date-picker 
-                    :value="desiredDepartureDate"
+                    :value="profileData.desiredDepartureDate"
                     @input="updateDates($event)"
                   no-title
                   scrollable
@@ -338,12 +348,12 @@
                   <v-text-field
                     slot="activator"
                     label="Select a date"
-                    v-model="desiredRNLTD"
+                    v-model="profileData.desiredRNLTD"
                     prepend-icon="event"
                     readonly
                   ></v-text-field>
                   <v-date-picker 
-                    v-model="desiredRNLTD"
+                    v-model="profileData.desiredRNLTD"
                   no-title
                   scrollable
                   actions
@@ -360,7 +370,7 @@
         <div>Quals</div>
         <v-select
           :items="qualList"
-          v-model="qualifications"
+          v-model="profileData.qualifications"
           label="Qualifications"
           multiple
           single-line
@@ -371,7 +381,7 @@
         <div>Interest</div>
         <v-select
           :items="interestList"
-          v-model="interests"
+          v-model="profileData.interests"
           label="Interests"
           multiple
           single-line
@@ -383,7 +393,7 @@
         <v-text-field
               name="officer-comment"
               label="Insert comment"
-              v-model="comment"
+              v-model="profileData.comment"
               textarea
         ></v-text-field>
         </v-card-text>
@@ -391,18 +401,22 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
   </div>
-  <v-btn v-if="dataReady" primary @click.native="submit">Submit</v-btn>
-  <v-snackbar
-    :timeout="1000"
-    :top="true"
-    v-model="snackbar"
-  >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
+  <v-layout row class="mt-2">
+      <v-flex xs12 offset-sm3 sm6 offset-md4 md4 class="text-xs-center">
+      <v-btn block large primary @click.native="submit">Submit</v-btn>
+      <v-snackbar
+        :timeout="1000"
+        :top="true"
+        v-model="snackbar"
+      >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
+      </v-flex>
+  </v-layout>
   </v-container>
 </template>
 
 <script>
 import { store } from '@/store'
-
+import { mapGetters } from 'vuex'
 var ajh4 = require('@/format/location_format')
 var abc = require('@/format/abc')
 var aac = require('@/format/aac')
@@ -413,11 +427,8 @@ export default {
   data(){
     return {
       snackbar: false,
-      firstName: '',
-      lastName: '',
-      comment: '',
-      qualifications: [],
-      interests: [],
+      snackbarSave: false,
+      profileData: JSON.parse(localStorage.getItem("profileData")),
       qualList:[
       'SEFE',
       'WIC',
@@ -434,24 +445,8 @@ export default {
       'Separate',
       'Squadron Snacko'      
       ],
-      desiredDepartureDate: new Date('2018/05/30').toISOString().split('T')[0],
-      desiredRNLTD: new Date('2018/05/31').toISOString().split('T')[0],
       showDDD: false,
       showRNLTD: false,
-      dataReady: false,
-      errors: [],
-      general: '',
-      projected: '',
-      rated: '',
-      asgn_code: '',
-      service_dates: '',
-      duty_history: '',
-      pme: '',
-      degree: '',
-      language: '',
-      jonit: '',
-      courses: '',
-      spec_exp: '',
       duty_history_headers: [
         {text: 'Duty Title', value: 'duty_title', align: 'left', sortable: false },
         {text: 'Unit', value: 'unit', align: 'left', sortable: false },
@@ -465,34 +460,33 @@ export default {
         {text: 'Name', value: 'name', align: 'left', sortable: false },
         {text: 'Title', value: 'date', align: 'left', sortable: false },
       ],
-      apiData: ''
     }
   },
   methods: {
       //make selectable departure dates dynamic: force departure date to always be less than desired RNLTD
       allowedDepartureDates: function(date){
           var datePart = date.toISOString().split('T')[0]
-          return datePart < '2018-09-30' & datePart > '2018-05-30'
+          return datePart <= this.endCycle & datePart >= this.startCycle 
       },
       //make selectable RNLTDs dynamic: force RNLTD to be after desired departure date
       allowedRNLTD: function(date){
           var datePart = date.toISOString().split('T')[0]
-          return datePart < '2018-09-30' & datePart > this.desiredDepartureDate 
+          return datePart <= this.endCycle & datePart > this.profileData.desiredDepartureDate 
       },
       //use this function to automatically update desired RNLTD to day after chosen desiredDepartureDate
       updateDates(event) {
           //event is chosen desired Departure Date
-          this.desiredDepartureDate = event
+          this.profileData.desiredDepartureDate = event
 
           //if chosen desiredDepartureDate is greater than current desiredRNLTD, 
           //must update desiredRNLTD automatically (update to selected date plus one)
-          if (event >= this.desiredRNLTD) {
+          if (event >= this.profileData.desiredRNLTD) {
               //disgusting way to increment date by one day and return string form of date - can't find a better way
-              var desiredDDPlusOne = new Date(this.desiredDepartureDate)
+              var desiredDDPlusOne = new Date(this.profileData.desiredDepartureDate)
               desiredDDPlusOne.setDate(desiredDDPlusOne.getDate() + 1)
               var desiredDDPlusOne_t = desiredDDPlusOne.toISOString().split('T')[0] 
               //set desiredRNLTD to day after chosen desiredDepartureDate 
-              this.desiredRNLTD = desiredDDPlusOne_t
+              this.profileData.desiredRNLTD = desiredDDPlusOne_t
           } 
       },
     abcFormat(value){
@@ -510,14 +504,20 @@ export default {
     ajh4Format(value){
       return ajh4[value]
     },
+    save() {
+        localStorage.setItem("profileData", JSON.stringify(this.profileData))
+        this.snackbarSave = true
+        
+    },
     submit() {
-        console.log(this.desiredDepartureDate)
+        //must stringify profileData before setting to localStorage
+        localStorage.setItem("profileData", JSON.stringify(this.profileData))
         window.axios.post('/officers', {
-            comment: this.comment,
-            desiredDepartureDate: this.desiredDepartureDate,
-            desiredRNLTD: this.desiredRNLTD,
-            qualifications: JSON.stringify(this.qualifications),
-            interests: JSON.stringify(this.interests)
+            comment: this.profileData.comment,
+            desiredDepartureDate: this.profileData.desiredDepartureDate,
+            desiredRNLTD: this.profileData.desiredRNLTD,
+            qualifications: this.profileData.qualifications,
+            interests: this.profileData.interests
         }) 
         .then((response)=>{
             console.log('information sent')
@@ -530,12 +530,17 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+        'startCycle',
+        'firstRNLTD',
+        'endCycle'
+    ]),
     profileId(){
       return this.id ? this.id : store.getters.userId
     },
-    pretty_apiData(){
-      if (this.apiData2){
-        return JSON.stringify(this.apiData2, null, 2);
+    prettyData(){
+      if (this.profileData){
+        return JSON.stringify(this.profileData, null, 2);
       }
       else{
         return ""
@@ -549,48 +554,19 @@ export default {
         "04": "MAJ",
         "05": "LTC",
       }
-      return rank_obj[this.general.grade]
+      return rank_obj[this.profileData.general.grade]
     },
     service_dates_array(){
       var temp = []
-      for (name in this.service_dates){
-        temp.push({"name": name.toUpperCase(), "date": this.service_dates[name]})
+      for (name in this.profileData.service_dates){
+        temp.push({"name": name.toUpperCase(), "date": this.profileData.service_dates[name]})
       }
       return temp
     }
   },
   mounted: function(){
-    window.axios.get('/officers')
-      .then(response =>{
-        var data = response.data.data
-        this.apiData = data
-        this.firstName = data.firstName
-        this.lastName = data.lastName
-        this.general = data.general
-        this.duty_history = data.duty.history
-        this.asgn_code = data.asgn_code
-        this.service_dates = data.service_dates
-        this.rated = data.rated
-        this.pme = data.pme
-        this.degree = data.degree
-        this.language = data.language
-        this.projected = data.projected
-        this.joint = data.joint
-        this.courses = data.courses
-        this.spec_exp = data.special_experience
-        //do not know if user selected dates, if so, use data from get call, else, use default
-        this.desiredDepartureDate = data.departureDate || this.desiredDepartureDate
-        this.desiredRNLTD = data.desiredRNLTD || this.desiredRNLTD
-        //do not know if user inputted qualifications or interests, if they so, parse the stringified arrays, 
-        //if not, keep default value 
-        this.qualifications = data.qualifications ? JSON.parse(data.qualifications) : this.qualifications 
-        this.interests = data.interests ? JSON.parse(data.interests) : this.interests 
-        this.comment = data.comment
-        this.dataReady = true
-       })
-      .catch(e => {
-        console.error(e)
-      })
+      console.log('mounted profile')
+      console.log(this.profileData)
   }
 }
 </script>

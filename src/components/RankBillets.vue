@@ -2,10 +2,6 @@
   <v-container fluid>
       <v-layout row>
           <v-flex xs12>
-              <v-snackbar top v-model="saved">
-                  <div style="color: LimeGreen;">Saved!</div>
-                  <v-btn dark flat error @click.native="saved = false">Close</v-btn>
-              </v-snackbar>
               <v-snackbar top v-model="submitted">
                   <div style="color: DeepSkyBlue">Submitted!</div>
                   <v-btn dark flat error @click.native="submitted = false">Close</v-btn>
@@ -104,7 +100,6 @@ export default {
       editable: true,
       isDragging: false,
       delayedDragging: false,
-      saved: false,
       submitted: false,
       clickedId: null
     }
@@ -156,15 +151,6 @@ export default {
         // this.dialogData['grade']=billet.grade
         //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
         this.clickedId = id
-      },
-      save: function () {
-        //store vuex state 'faveBillets' (array of billets) to local storage
-        //(faveBillets will be ranked billets if officer ranked billets due to
-        //setter on rankedBillets)
-        var payload = {'name': 'rankedBillets', 'value': JSON.stringify(this.faveBillets)}
-        //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
-        this.$store.dispatch('save',payload)
-        this.saved = true; 
       },
       submit: function () {
         window.axios.post('/billets_fave', {
