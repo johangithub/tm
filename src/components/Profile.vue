@@ -14,7 +14,6 @@
       <!--</v-card>-->
     <!--</v-expansion-panel-content>-->
   <!--</v-expansion-panel>-->
-
 <v-layout row>
   <v-flex xs3>
     <v-expansion-panel class="mt-2">
@@ -410,7 +409,7 @@ var aac = require('@/format/aac')
 var alc = require('@/format/alc')
 var course = require('@/format/course')
 export default {
-  props: ['id'],
+  props: ['id', 'value'],
   data(){
     return {
       snackbar: false,

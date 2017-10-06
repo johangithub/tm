@@ -18,8 +18,8 @@
                             <td style="width:10%">{{billet.aircraft}}</td>
                             <td style="width:35%">{{billet.unit}}</td>
                             <td style="width:10%">{{billet.state}}</td>
+                            <td style="width:10%"><v-btn primary flat small :id="billet.id" @click="viewBids($event)">View Current Bids</v-btn></td>
                             <td style="width:10%"><v-btn primary flat small :id="billet.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
-                            <td style="width:10%"><v-btn primary flat small :id="billet.id" @click="viewBids($event)">View Bids</v-btn></td>
                         </tr>
                     </table>
                 </v-card>
@@ -28,12 +28,6 @@
         </v-layout>
       </v-flex>
   </v-layout>
-
-<!--   <v-layout row>
-      <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
-          <v-btn primary large block v-if="myBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
-      </v-flex>
-  </v-layout> -->
     <v-dialog v-model="showReq" width="600px">
         <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
     </v-dialog>
@@ -69,7 +63,7 @@ export default{
       //and then serve up the rank officers view
       var id = event.currentTarget.id
       this.$store.dispatch('bidOfficer',id)
-      this.$router.push('/find_officers')
+      this.$emit('next')
     },
     viewBids: function(event){
       var id = event.currentTarget.id
@@ -79,7 +73,7 @@ export default{
   mounted: function(){
     //Retrieve only the billets I own
     window.axios.get('/billet_view').then(response => {
-        this.myBillets = response.data.data
+        this.myBillets = response.data.data.slice(0,10)
     }).catch(console.error)
   }
 }

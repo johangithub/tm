@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"flthrs",
+				"fltHrsMax"
+			],
+			[
 				"flt",
 				"fltHrsChartConfig"
 			],
@@ -184,27 +188,39 @@
 	"buffers":
 	[
 		{
-			"file": "src/components/CFMDashboard.vue",
+			"contents": "<template>\n  <v-container fluid>\n  <v-layout row>\n  <v-spacer></v-spacer>\n  <v-flex xs6 class=\"dc-data-count text-xs-right\">\n    <span class=\"filter-count\"></span>\n    selected out of\n    <span class=\"total-count\"></span>\n    billets | \n    <v-btn small error round @click.prevent=\"resetAll\">Reset All</v-btn>\n    <v-btn small warning round @click.prevent=\"togglePanels\">Toggle</v-btn>\n  </v-flex>    \n  </v-layout>\n  <v-layout row wrap>\n    <v-flex xs12 md7 id=\"states\">\n        <v-card>\n        <v-card-title class='pb-0'><span>State</span></v-card-title>\n        <v-card-media>\n            <div id=\"dc-state-choropleth\"></div>\n        </v-card-media>\n      </v-card>\n    </v-flex>\n    <v-flex xs12 md5 id=\"conus\">\n      <v-card>\n      <v-card-title class='pb-0'><span>CONUS/OCONUS</span></v-card-title>\n        <v-card-media>\n            <div id=\"dc-conus-rowchart\"></div>\n        </v-card-media>\n      </v-card>\n    <v-layout row wrap>\n        <v-flex xs12 class=\"pa-0 pt-2\" id=\"api\">\n          <v-card>\n          <v-card-title class='pb-0'><span>API Code</span></v-card-title>\n            <v-card-media>\n                <div id=\"dc-api-rowchart\"></div>\n            </v-card-media>\n          </v-card>\n        </v-flex> \n    </v-layout>\n    </v-flex>\n    </v-layout>\n    <v-layout row wrap class=\"mt-3\">\n    <v-flex xs12 id=\"loc\">\n        <v-card>\n        <v-card-title class='pb-0'><span>Location</span></v-card-title>\n          <v-card-media>\n              <div id=\"dc-location-barchart\"></div>\n          </v-card-media>\n        </v-card>\n    </v-flex>\n  </v-layout>\n  <v-layout wrap class=\"mt-3\">\n    <v-flex xs6 md3 id=\"arcft\">\n      <v-card>\n      <v-card-title class='pb-0'><span>Aircraft</span></v-card-title>\n        <v-card-media>\n            <div id=\"dc-aircraft-barchart\"></div>\n        </v-card-media>\n      </v-card>\n    </v-flex>\n    <v-flex xs6 md3 id=\"grade\">\n                <v-card>\n                <v-card-title class='pb-0'><span>Grade</span></v-card-title>\n                  <v-card-media>\n                      <div id=\"dc-grade-barchart\"></div>\n                  </v-card-media>\n                </v-card>\n    </v-flex>\n    <v-flex xs12 md3 id=\"afsc\">\n      <v-card>\n      <v-card-title class='pb-0'><span>AFSC</span></v-card-title>\n        <v-card-media>\n            <div id=\"dc-afsc-rowchart\"></div>\n        </v-card-media>\n      </v-card>\n    </v-flex>\n\n  </v-layout>\n  <v-layout row wrap class=\"mt-3\" id=\"billets\">\n    <v-flex xs12>\n        <!--doesn't have to be on card, but easier to add search bar with card-->\n        <v-card elevation-3>\n            <v-card-title><span>Billets</span>\n                <v-spacer></v-spacer>\n                <!--search bar , remove append-icon for IE-->\n                <v-text-field\n                     append-icon=\"search\"\n                    label=\"Search\"\n                    single-line\n                    hide-details\n                    v-model=\"search\">\n                </v-text-field>\n            </v-card-title>\n            <v-data-table :headers=\"headers\" \n                          :items=\"items\" \n                          :search=\"search\"\n                          selected-key=\"items.id\">\n                <template slot=\"items\" scope=\"props\">\n                    <!--TODO: edit for IE11 support (see vuetify docs)-->\n                    <td class=\"text-xs-center\">\n                        <!--can't find a way to dynamically change material icons colors, so use two-->\n                        <!--icons with v-show for now-->\n                        <v-icon v-show=\"favorited(props.item)\" warning @click=\"toggleFavorite(props.item)\" style=\"cursor: pointer;\">star</v-icon>\n                        <v-icon v-show=\"!favorited(props.item)\" @click=\"toggleFavorite(props.item)\" style=\"cursor: pointer;\">star</v-icon>\n                    </td>\n                    <td class=\"text-xs-left\" style=\"width 10%\">\n                      <v-btn flat primary dark right small block @click=\"showReqMethod(props.item)\" @click.native.stop=\"showReq = true\" >{{props.item.id}}</v-btn>\n                    </td>\n                    <td class=\"text-xs-left\" style=\"width: 10%\">{{props.item.api}}</td>\n                    <td class=\"text-xs-left\" style=\"width: 10%\">{{props.item.afsc}}</td>\n                    <td class=\"text-xs-left\" style=\"width: 10%\">{{props.item.grade}}</td>\n                    <td class=\"text-xs-left\" style=\"width: 15%\">{{props.item.aircraft}}</td>\n                    <td class=\"text-xs-left\" style=\"width: 30%\">{{props.item.unit}}</td>\n                    <td class=\"text-xs-left\" style=\"width: 10%\">{{props.item.state}}</td>\n                </template> \n            </v-data-table>\n        </v-card>\n    </v-flex>\n  </v-layout>\n  <v-dialog v-model=\"showReq\" width=\"600px\" >\n      <req-dialog-card v-if=\"showReq\" :dialogData=\"dialogData\" @reqClose=\"showReq = false\"></req-dialog-card>\n  </v-dialog>\n  </v-container>\n</template>\n<script>\nimport ResetButton from './ResetButton'\nimport HideButton from './HideButton'\nimport statesJson from '../assets/data/us-states.json'\nimport ReqDialogCard from './ReqDialogCard'\nimport { store } from '@/store'\nimport { mapGetters } from 'vuex'\n\nexport default{\n  data(){\n    return {\n      data: [],\n      showReq: false,\n      dialogData: {},\n      panelOpen: {\n         state: true,\n         conus: true,\n         api: true,\n         location: true,\n         aircraft: true,\n         grade: true,\n         afsc: true,\n         temp: true,\n      },\n      items: [],\n      search: '',\n      clickedId: null,\n      headers: [\n        {\n            text: 'Favorite', sortable: false  \n        },\n        {\n            text: 'ID', value: 'id', align: 'left'\n        },\n        {\n            text: 'API code', value: 'api', align: 'left' \n        },\n        {\n            text: 'AFSC', value: 'afsc', align: 'left'\n        },\n        {\n            text: 'Grade', value: 'grade', align: 'left'\n        },\n        {\n            text: 'MWS', value: 'aircraft', align: 'left'\n        },\n        {\n            text: 'Unit', value: 'unit', align: 'left'\n        },\n        {\n            text: 'State', value: 'state', align: 'left'\n        }\n      ]\n    }\n  },\n  computed: {\n    ...mapGetters([\n        'faveBillets'\n    ]),\n  },\n  components:{\n    'reset-btn': ResetButton,\n    'hide-btn': HideButton,\n    'req-dialog-card': ReqDialogCard\n  },\n  methods: {\n      jumpToSection: function(id) {\n          document.getElementById(id).scrollIntoView();\n      },\n      favorited: function(obj) {\n          //have to use some method to check if billet id exists in \n          //faveBillets array (includes method doesn't work)\n          return this.faveBillets.some(function(d) {return d.id === obj.id})\n      },\n      toggleFavorite: function(obj) {\n          if (this.favorited(obj)) {\n            //have to use findIndex method to find index of billet, by billet id, to remove from \n            //faveBillets array (indexOf method doesn't work)\n            var index = this.faveBillets.findIndex(function(d) {return d.id === obj.id})\n            //keep payload an object to follow convention\n            var payload = {'index': index}\n            this.$store.dispatch('removeBillet',payload)\n          } \n          else {\n            this.$store.dispatch('addBillet',obj)\n          }\n      },\n      togglePanels: function() {\n        for (var key in this.panelOpen) {\n            this.panelOpen[key] = !this.panelOpen[key]\n        }\n      },\n      showReqMethod: function(req){\n          //shows req and updates values in dialog (needed to make dialog dynamic) \n        var id = req.id\n        var billet = this.items.filter((d)=>{return d.id == id})[0]\n        this.dialogData = billet\n      },\n    resetAll: (event)=>{\n      //Emulate javascript:dc.filterAll();dc.redrawAll()\n      dc.filterAll()\n      dc.redrawAll()\n    },\n    resetChart: (id)=>{\n      dc.chartRegistry.list().filter(chart=>{\n        return chart.anchorName() == id\n      }).forEach(chart=>{\n        chart.filterAll()\n      })\n      dc.redrawAll()\n    } \n  },\n  beforeCreate: function() {\n    console.log('before create');\n\n  },\n  created: function(){\n    console.log('created')\n  },\n  beforeMount: function(){\n    console.log('beforeMount')\n  },\n  mounted: function(){\n    console.log('mounted')\n\n    window.axios.get('/billet_view').then(response => {\n        this.data = response.data.data\n        \n        renderCharts()\n    }).catch(console.error)\n\n    //es6 arrow function\n      var renderCharts = () => {\n        //Data count\n        var ndx = crossfilter(this.data)\n        var allGroup = ndx.groupAll()\n        dc.dataCount(\".dc-data-count\")\n          .dimension(ndx)\n          .group(allGroup)\n\n        function preRedraw(chart, id, aspectRatio, minHeight){\n          var newWidth = document.getElementById(id).offsetWidth;\n          var newHeight = newWidth/aspectRatio < minHeight ? minHeight : newWidth/aspectRatio;\n          chart\n         .width(newWidth)\n         .height(newHeight)\n         .root().select('svg').attr('width',newWidth).attr('height',newHeight)\n        }\n\n        //State Map\n        var stateChart = dc.geoChoroplethChart(\"#dc-state-choropleth\")\n        var states = ndx.dimension(function(d){return d.state})\n        var statesGroup = states.group()\n        var statesAspectRatio = 1.8\n        var statesXRatio = 2.5\n        var statesYRatio = 1.9\n        var statesSizeFactor = 1.2\n        // get document width, and if on md or larger screen, manually\n        // reduce size of first state map so fits in 7 columns\n        var documentWidth = document.documentElement.clientWidth;\n        if (documentWidth > 960) {\n            var statesWidth = Math.round(documentWidth*(7/12)*statesSizeFactor);\n        }\n        else {\n            var statesWidth = documentWidth*1.15;\n        }\n        var statesHeight = statesWidth/statesAspectRatio;\n        var xOffset = statesWidth/statesXRatio;\n        var yOffset = statesHeight/statesYRatio;\n\n        stateChart\n        .dimension(states)\n        .group(statesGroup)\n        .colors(d3.scale.quantize().range([\"#E2F2FF\", \"#C4E4FF\", \"#9ED2FF\", \"#81C5FF\", \"#6BBAFF\", \"#51AEFF\", \"#36A2FF\", \"#1E96FF\", \"#0089FF\", \"#0061B5\"]))\n        .colorDomain([0, 100])\n        .minWidth(statesWidth)\n        .width(statesWidth)\n        .height(statesHeight)\n        .projection(d3.geo.albersUsa().scale(statesWidth).translate([xOffset,yOffset]))\n        .overlayGeoJson(statesJson.features, \"state\", function (d) {\n          return d.properties.name;\n        })\n        .on('preRedraw', function(chart) {\n            // values for width, height, and offsets are for formatting -\n            // numbers are fairly arbitrary\n            var newWidth = document.getElementById('states').offsetWidth*statesSizeFactor;\n            var newHeight = newWidth/statesAspectRatio;\n            var newxOffset = newWidth/statesXRatio;\n            var newyOffset = newHeight/statesYRatio;\n           chart\n           .minWidth(newWidth)\n           .width(newWidth)\n           .height(newHeight)\n           .transitionDuration(0)\n           .projection(d3.geo.albersUsa().scale(newWidth).translate([newxOffset,newyOffset]))\n           .root().select('svg').attr('width',newWidth).attr('height',newHeight)\n        })\n\n\n        //CONUS\n        var conusChart = dc.rowChart(\"#dc-conus-rowchart\")\n        var conusDim = ndx.dimension(function(d){return d.conus})\n        var conusGroup = conusDim.group()\n        var conusMinHeight = 130\n        var conusAspectRatio = 7\n        var conusSizeFactor = 0.96\n        if (documentWidth > 960) {\n            var conusWidth = Math.round(documentWidth*(5/12));\n        }\n        else {\n            var conusWidth = documentWidth*conusSizeFactor;\n        }\n        var conusHeight = conusWidth/conusAspectRatio;\n        if (conusHeight < conusMinHeight) {\n            conusHeight = conusMinHeight;\n        }\n\n        conusChart\n        .minWidth(conusWidth)\n        .width(conusWidth)\n        .minHeight(130)\n        .height(conusHeight)\n        .margins({top: 30, left: 30, right: 50, bottom: 40})\n        .elasticX(true)\n        .dimension(conusDim)\n        .group(conusGroup)\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'conus', conusAspectRatio, conusMinHeight)\n        })\n\n        //Location\n        var locationChart = dc.barChart(\"#dc-location-barchart\")\n        var locationDim = ndx.dimension(function(d){return d.location;})\n        var locationGroup = locationDim.group()\n        var locMinHeight = 300\n        var locAspectRatio = 4\n        var locSizeFactor = 0.96\n        var locWidth = documentWidth*locSizeFactor;\n        var locHeight = locWidth/locAspectRatio;\n        if (locHeight < locMinHeight) {\n            locHeight = locMinHeight;\n        }\n\n        locationChart\n        .minWidth(locWidth)\n        .width(locWidth)\n        .minHeight(locMinHeight)\n        .height(locHeight)\n        .margins({top: 30, right: 50, left: 40, bottom: 100})\n        .dimension(locationDim)\n        .group(locationGroup)\n        .x(d3.scale.ordinal())\n        .xUnits(dc.units.ordinal)\n        .elasticY(true)\n        .colors([\"orange\"])\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'loc', locAspectRatio, locMinHeight)\n          chart.rescale()\n        })\n\n        //API code\n        var apiChart = dc.rowChart('#dc-api-rowchart')\n        var apiDim = ndx.dimension(function(d){return d.api;})\n        var apiGroup = apiDim.group()\n        var apiMinHeight = 250\n        var apiAspectRatio = 3\n        var apiSizeFactor = 0.96\n        if (documentWidth > 960) {\n            var apiWidth = Math.round(documentWidth*(5/12));\n        }\n        else {\n            var apiWidth = documentWidth*apiSizeFactor;\n        }\n        var apiHeight = apiWidth/apiAspectRatio;\n        if (apiHeight < apiMinHeight) {\n            apiHeight = apiMinHeight;\n        }\n\n        apiChart\n        .minWidth(apiWidth)\n        .width(apiWidth)\n        .minHeight(apiMinHeight)\n        .height(apiHeight)\n        .margins({top: 30, left: 30, right: 50, bottom: 40})\n        .dimension(apiDim)\n        .group(apiGroup)\n        .elasticX(true)\n        .colors(d3.scale.category10())\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'api', apiAspectRatio, apiMinHeight)\n        })\n        \n        //Aircraft\n        var aircraftChart = dc.barChart(\"#dc-aircraft-barchart\")\n        var aircraftDim = ndx.dimension(function(d){return d.aircraft;})\n        var aircraftGroup = aircraftDim.group()\n        var arcftMinWidth = 200\n        var arcftAspectRatio = 3\n        if (documentWidth > 960) {\n            var arcftWidth = Math.round(documentWidth*(3/12));\n        }\n        else {\n            var arcftWidth = Math.round(documentWidth/2);\n        }\n        var arcftHeight = arcftWidth/arcftAspectRatio;\n        if (arcftHeight < arcftMinWidth) {\n            arcftHeight = arcftMinWidth;\n        }\n\n        aircraftChart\n        .minWidth(arcftWidth)\n        .width(arcftWidth)\n        .height(arcftHeight)\n        .minHeight(arcftMinWidth)\n        .margins({top: 30, left: 30, right: 40, bottom: 60})\n        .dimension(aircraftDim)\n        .group(aircraftGroup)\n        .x(d3.scale.ordinal())\n        .xUnits(dc.units.ordinal)\n        .elasticY(true)\n        .colors([\"orange\"])\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'arcft', arcftAspectRatio, arcftMinWidth)\n          chart.rescale()\n        })\n\n        //grade\n        var gradeChart = dc.barChart(\"#dc-grade-barchart\")\n        var gradeDim = ndx.dimension(function(d){return d.grade;})\n        var gradeGroup = gradeDim.group()\n        var gradeMinHeight = 200\n        var gradeAspectRatio = 3\n        if (documentWidth > 960) {\n            var gradeWidth = Math.round(documentWidth*(3/12));\n        }\n        else {\n            var gradeWidth = Math.round(documentWidth/2);\n        }\n        var gradeHeight = gradeWidth/gradeAspectRatio;\n        if (gradeHeight < gradeMinHeight) {\n            gradeHeight = gradeMinHeight;\n        }\n\n        gradeChart\n        .minWidth(gradeWidth)\n        .width(gradeWidth)\n        .height(gradeHeight)\n        .minHeight(gradeMinHeight)\n        .margins({top: 30, left: 30, right: 40, bottom: 60})\n        .dimension(gradeDim)\n        .group(gradeGroup)\n        .x(d3.scale.ordinal())\n        .xUnits(dc.units.ordinal)\n        .elasticY(true)\n        .barPadding(0.1)\n        .outerPadding(0)\n        .colors([\"#2277ff\"])\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'grade', gradeAspectRatio, gradeMinHeight)\n          chart.rescale()\n        })\n\n        //AFSC\n        var afscChart = dc.rowChart('#dc-afsc-rowchart')\n        var afscDim = ndx.dimension(function(d){\n            if (d.afsc.substr(0,3)=='11F'){\n                return d.afsc.substr(0,3)\n            }\n            else {\n                return 'OTHER'\n            }\n        }\n            )\n        var afscGroup = afscDim.group()\n        var afscMinHeight = 200\n        var afscAspectRatio = 4\n        var afscSizeFactor = 0.96\n        if (documentWidth > 960) {\n            var afscWidth = Math.round(documentWidth*(3/12));\n        }\n        else {\n            var afscWidth = documentWidth*afscSizeFactor;\n        }\n        var afscHeight = afscWidth/afscAspectRatio;\n        if (afscHeight < afscMinHeight) {\n            afscHeight = afscMinHeight;\n        }\n\n        afscChart\n        .minWidth(afscWidth)\n        .width(afscWidth)\n        .minHeight(afscMinHeight)\n        .height(afscHeight)\n        .margins({top: 30, left: 30, right: 50, bottom: 40})\n        .dimension(afscDim)\n        .group(afscGroup)\n        .elasticX(true)\n        .colors(d3.scale.category10())\n        .on('preRedraw', function(chart) {\n          preRedraw(chart, 'afsc', afscAspectRatio, afscMinHeight)\n        })\n\n        // Create data for data table\n        var vm = this\n        var itemsDim = ndx.dimension(function(d) {return d;})\n        vm.items = itemsDim.top(Infinity)\n        // update rows in data table upon each chart being filtered \n        dc.chartRegistry.list().forEach(function(chart) {\n            chart.on('filtered', function() {\n                vm.items = itemsDim.top(Infinity)\n            })\n        })\n\n        var temp \n        window.onresize = function(event) {\n            clearTimeout(temp)\n            temp = setTimeout(resizeDone,200)\n        }\n        function resizeDone() {\n            // hacky way to prevent getElementById from firing when not on FindBillets page\n            if (vm.$route.name !== 'FindBillets') {\n                return\n            }\n            // call redraw to preRedraw event on charts, which resizes charts\n            console.log('redrawn')\n            dc.redrawAll();\n        }\n\n        dc.renderAll();\n\n      }\n\n  },\n  beforeUpdate: function(){\n    console.log('before update')\n  },\n  beforeDestroy: function(){\n    // This clears all registered chart. Otherwise, it'll keep appending charts on top of empty DOM\n    dc.chartRegistry.clear()\n  },\n}\n\n</script>\n<style src=\"../../node_modules/dc/dc.css\">\n</style>\n<style>\n\n/* edit anchor tag styling so no highlighting after \nclick, also give feedback to users on click */\na, a:visited, a:focus {\n    outline: 0;\n    position: relative;\n}\na:hover {\n    outline: 0;\n    positon: relative;\n    color: green;\n}\na:active {\n    outline: 0;\n    top: 1px;\n    color: red;\n}\n\ndiv[id*=\"-barchart\"] .x.axis text{\n    text-anchor: end !important;\n    transform: rotate(-45deg);\n  }\n\ndiv[id*=\"-rowchart\"] g.row text{\n    fill: black;\n}\n</style> \n",
+			"file": "src/components/FindBillets.vue",
+			"file_size": 19573,
+			"file_write_time": 131517100850747884,
 			"settings":
 			{
-				"buffer_size": 16887,
+				"buffer_size": 19574,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/components/Login.vue",
+			"file": "src/components/Profile.vue",
 			"settings":
 			{
-				"buffer_size": 2909,
+				"buffer_size": 20566,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/store.js",
+			"file": "src/format/rdtm.js",
 			"settings":
 			{
-				"buffer_size": 6589,
+				"buffer_size": 1378,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/CFMDashboard.vue",
+			"settings":
+			{
+				"buffer_size": 23990,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -303,15 +319,20 @@
 	],
 	"file_history":
 	[
-		"/home/jh/tm/src/components/ReqDialogCard.vue",
-		"/home/jh/tm/src/components/BilletList.vue",
-		"/home/jh/tm/src/components/FindBillets.vue",
-		"/home/jh/tm/src/router/index.js",
-		"/home/jh/tm/src/components/Navbar.vue",
-		"/home/jh/tm/src/components/RankBillets.vue",
-		"/home/jh/tm/src/components/FindOfficers.vue",
+		"/home/jh/tm/src/components/OfficerStepper.vue",
 		"/home/jh/tm/src/components/Profile.vue",
 		"/home/jh/tm/src/store.js",
+		"/home/jh/tm/src/router/index.js",
+		"/home/jh/tm/src/components/Home.vue",
+		"/home/jh/tm/src/components/FindBillets.vue",
+		"/home/jh/tm/src/components/BilletList.vue",
+		"/home/jh/tm/src/components/BilletOwnerStepper.vue",
+		"/home/jh/tm/src/components/MajcomOwnerStepper.vue",
+		"/home/jh/tm/src/components/HomepageCards/AdminCard.vue",
+		"/home/jh/tm/src/components/RankBillets.vue",
+		"/home/jh/tm/src/components/ReqDialogCard.vue",
+		"/home/jh/tm/src/components/Navbar.vue",
+		"/home/jh/tm/src/components/FindOfficers.vue",
 		"/home/jh/tm/src/components/RankOfficers.vue",
 		"/home/jh/tm/src/components/Activate.vue",
 		"/home/jh/tm/src/main.js",
@@ -328,8 +349,6 @@
 		"/home/jh/tm/src/components/HomepageCards/BilletOwnerCard.vue",
 		"/home/jh/tm/src/components/HomepageCards/OfficerCard.vue",
 		"/home/jh/tm/src/components/HomepageCards/LosingCommanderCard.vue",
-		"/home/jh/tm/src/components/Home.vue",
-		"/home/jh/tm/src/components/HomepageCards/AdminCard.vue",
 		"/home/jh/tm/src/components/LosingCommander.vue",
 		"/home/jh/tm/build/webpack.prod.conf.js",
 		"/home/jh/tm/src/components/NoticeConsent.vue",
@@ -429,6 +448,63 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"axios",
+			"class='pa-2'",
+			"h5",
+			"d-flex",
+			"<reset-btn",
+			"event",
+			"d-flex",
+			"\",\"",
+			"\\n\\n",
+			"md3",
+			"150",
+			"S",
+			"B",
+			"RDTM",
+			"rdtm",
+			"console.log",
+			";",
+			"v-layout row",
+			"class=\"mt-3\"",
+			"year",
+			"console.log",
+			"year",
+			"id",
+			"Previous",
+			"ow",
+			"o",
+			"BilletownerStepper",
+			"Previous",
+			"v-layout row",
+			"class=\"pa-0\"",
+			"find-billets",
+			"FindBillets",
+			"rank-billets",
+			"Billets",
+			"profile",
+			"Officer",
+			"TestStepper",
+			"profile",
+			"editable",
+			"stepper-step ",
+			"submit",
+			"div",
+			"e1",
+			"e6",
+			"CFMDashboard",
+			"tos",
+			"yAxis().tickFormat(d3.format(\"d\"))",
+			"fltHrs",
+			"md6",
+			"200, 5, 6",
+			"year",
+			"yearGroup",
+			"search",
+			"ordering",
+			"vml",
+			"vmldim",
+			"console.log",
 			"      \n",
 			"props.selected",
 			"checkbox",
@@ -499,64 +575,7 @@
 			"reqclose",
 			"vm.items",
 			"dialogData",
-			"documentWidth\\*",
-			"loc",
-			"conus",
-			"sizeFactor",
-			"before update",
-			"axios",
-			"token",
-			"axios",
-			"axio",
-			"console.log",
-			"[S",
-			"[",
-			"baseurl",
-			"localhost",
-			"\n    ",
-			"baseurl",
-			"token",
-			"store",
-			"axios",
-			"BASE_URL",
-			"SET_CUR_FAV_OFFICERS",
-			"(state",
-			" (state",
-			"(state",
-			"\n",
-			"    ",
-			"axios",
-			"window",
-			"url",
-			"baseurl",
-			"BASEurl",
-			"COMMIT",
-			"\n            ",
-			"console",
-			"REMOVE_BILLET",
-			"SET_FAV_OFFICERS",
-			"faveofficers",
-			"\n    ",
-			"clickedId",
-			"grade",
-			"gradeMinHeight",
-			"AspectRatio",
-			"minwidth",
-			"documentWidth",
-			"smallScreenFactor",
-			"grade",
-			"fltHrs",
-			"fltHrsHeight",
-			"fltHrsMinHeight",
-			"fltHrsHeight",
-			"smallscreenfactor",
-			"fltHrsWidth",
-			"favorited2",
-			"this",
-			"checkbox",
-			"favorited",
-			"selected",
-			"favoritedList"
+			"documentWidth\\*"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -564,6 +583,8 @@
 		"regex": true,
 		"replace_history":
 		[
+			"\":\"",
+			"\\n",
 			"myBillets",
 			"",
 			"ndx",
@@ -619,19 +640,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/components/CFMDashboard.vue",
+					"file": "src/components/FindBillets.vue",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16887,
+						"buffer_size": 19574,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7181,
-								7181
+								14829,
+								14829
 							]
 						],
 						"settings":
@@ -641,7 +662,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2756.0,
+						"translation.y": 5496.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -649,19 +670,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "src/components/Login.vue",
+					"file": "src/components/Profile.vue",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 2909,
+						"buffer_size": 20566,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								201,
-								201
+								14230,
+								14230
 							]
 						],
 						"settings":
@@ -671,40 +692,74 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5509.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "src/store.js",
+					"file": "src/format/rdtm.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6589,
+						"buffer_size": 1378,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5587,
-								5587
+								520,
+								520
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "src/components/CFMDashboard.vue",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 23990,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1491,
+								1491
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Vue Syntax Highlight/vue.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1801.0,
+						"translation.y": 596.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -727,11 +782,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.819213313162,
 			1.0
 		],
 		"rows":
@@ -795,7 +857,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 254.0,
+	"side_bar_width": 213.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
