@@ -247,7 +247,7 @@ export default{
       dc.redrawAll()
     },
     showOffMethod: function(event){
-        //shows officer view and updates values in dialog (needed to make dialog dynamic)
+      //shows officer view and updates values in dialog (needed to make dialog dynamic)
       var id = event.currentTarget.id
       var officer = this.data.filter((d)=>{return d.dod_id == id})[0]
       this.dialogData = officer.general
@@ -352,7 +352,7 @@ export default{
 
         var prefixConfig = {}
         prefixConfig.id = 'prefix'
-        prefixConfig.dim = this.ndx.dimension(function(d){return "PCBKTWQSR".indexOf(d.duty.dafsc[0]) >= 0 ? dafsc_prefix[d.duty.dafsc[0]] : 'NONE'})
+        prefixConfig.dim = this.ndx.dimension(function(d){ return (d.duty.dafsc) ? "PCBKTWQSR".indexOf(d.duty.dafsc[0]) >= 0 ? dafsc_prefix[d.duty.dafsc[0]] : 'NONE' : 'NONE'})
         prefixConfig.group = prefixConfig.dim.group()
         prefixConfig.minHeight = 200
         prefixConfig.aspectRatio = 3
@@ -403,7 +403,6 @@ export default{
         tosConfig.colors = ["#1976d2"]
         var tosChart = dchelpers.getBrushBarChart(tosConfig)
 
-
         //Time in service
         var tisMax = 24
         var tisConfig = {}
@@ -419,7 +418,6 @@ export default{
         tisConfig.margins = {top: 30, left: 40, right: 50, bottom: 40}
         tisConfig.colors = ["#1976d2"]
         var tisChart = dchelpers.getBrushBarChart(tisConfig)
-
 
         // location
         var locationConfig = {}

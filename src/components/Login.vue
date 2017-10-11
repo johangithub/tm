@@ -75,7 +75,15 @@ export default{
               email: this.email,
               password: this.password
             }).then(() => {
-                this.$router.push({path: "/"})
+                if(localStorage.getItem("role")=='officer'){
+                  this.$router.push({path: "/stepper_officer"})
+                }
+                else if(localStorage.getItem("role")=='billet_owner'){
+                  this.$router.push({path: "/stepper_billetowner"})
+                }
+                else{
+                  this.$router.push({path: "/"})
+                }
             }).catch((message)=>{
             //handle server side login rejection
             this.snackbar(message)

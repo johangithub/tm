@@ -1,14 +1,6 @@
 <template>
   <v-container fluid>
       <v-layout row>
-          <v-flex xs6 class="text-xs-left">
-              <h2>Rank Officers</h2>
-          </v-flex>
-          <v-flex xs6 class="text-xs-right">
-              <v-btn v-if="faveOfficers.length!==0" success small @click.prevent="save">Save</v-btn>  
-          </v-flex>
-      </v-layout>
-      <v-layout row>
           <v-flex xs12>
               <v-snackbar top v-model="saved">
                   <div style="color: LimeGreen;">Saved!</div>
@@ -18,34 +10,6 @@
                   <div style="color: DeepSkyBlue">Submitted!</div>
                   <v-btn dark flat error @click.native="submitted = false">Close</v-btn>
               </v-snackbar>
-          </v-flex>
-      </v-layout>
-      <v-layout row v-if="faveOfficers.length===0">
-          <v-flex xs12>
-              <v-alert warning value="true">Please favorite some officers!
-              </v-alert>
-          </v-flex>
-      </v-layout>
-      <v-layout row v-else>
-          <v-flex class="pt-1 text-xs-right" xs1 offset-md1 md1>
-              <!--rank to left of drag and drop area, could find better way-->
-              <b>Rank</b> 
-          </v-flex>
-          <v-flex xs10 md8 class="pb-1 text-xs-center">
-              <!--need to make header better, quick hack for now-->
-              <table style="width: 100%">
-                  <thead>
-                  <tr>
-                      <th style="width:10%">ID</th>
-                      <th style="width:16%">Grade</th>
-                      <th style="width:16%">Year Group</th>
-                      <th style="width:16%">Rating</th>
-                      <th style="width:16%">RDTM</th>
-                      <th style="width:16%">Total Hours</th>
-                      <th style="width:10%"></th>
-                  </tr>
-                  </thead>
-              </table>
           </v-flex>
       </v-layout>
       <v-layout row v-if="faveOfficers.length!==0">
@@ -79,11 +43,6 @@
                   </v-layout>
               </transition-group>
               </draggable>
-          </v-flex>
-      </v-layout>
-      <v-layout row>
-          <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
-              <v-btn primary large block v-if="faveOfficers.length!==0" @click.prevent="submit">Submit</v-btn>  
           </v-flex>
       </v-layout>
   </v-container>

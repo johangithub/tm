@@ -1,36 +1,26 @@
 <template>
 <v-container>
-  <v-layout row v-if="myBillets.length!==0">
-      <v-flex xs12>
-        <v-layout row v-for="(billet,index) in myBillets" class="list-group-item" :key="billet.id">
-            <v-flex xs10 md8 class="text-xs-center">
-                <v-card class="pa-1">
-                    <table style="width: 100%">
-                        <tr>
-                            <td style="width 10%">
-                            <v-btn flat primary dark :id="billet.id" 
-                            @click="showReqMethod($event)"
-                            @click.native.stop="showReq = true"
-                            >
-                            {{billet.id}}</v-btn></td>
-                            <td style="width:10%">{{billet.api}}</td>
-                            <td style="width:10%">{{billet.grade}}</td>
-                            <td style="width:10%">{{billet.aircraft}}</td>
-                            <td style="width:35%">{{billet.unit}}</td>
-                            <td style="width:10%">{{billet.state}}</td>
-                            <td style="width:10%"><v-btn primary flat small :id="billet.id" @click="viewBids($event)">View Current Bids</v-btn></td>
-                            <td style="width:10%"><v-btn primary flat small :id="billet.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
-                        </tr>
-                    </table>
-                </v-card>
-            </v-flex>
-            <v-spacer></v-spacer>
-        </v-layout>
-      </v-flex>
-  </v-layout>
-    <v-dialog v-model="showReq" width="600px">
-        <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
-    </v-dialog>
+  <v-data-table 
+    v-model="selected"
+    :headers="headers" 
+    :items="myBillets" 
+    :search="search"
+    selected-key="id">
+    <template slot="items" scope="props">
+      <!--TODO: edit for IE11 support (see vuetify docs)-->
+      <td class="text-xs-left">
+        <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+      </td>
+      <td>{{props.item.unit}}</td>
+      <td>{{props.item.state}}</td>
+      <td><v-icon class="red--text text--darken-2">thumb_down</v-icon></td>
+      <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Current Bids</v-btn></td>
+      <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
+  </template>
+  </v-data-table> 
+  <v-dialog v-model="showReq" width="600px">
+      <req-dialog-card v-if="showReq" :dialogData="dialogData" @reqClose="showReq = false"></req-dialog-card>
+  </v-dialog>
 </v-container>
 </template>
 
@@ -42,6 +32,23 @@ export default{
   },
   data(){
     return {
+      selected: [],
+      headers: [
+        {
+            text: '', value: 'id', align: 'center', sortable: false
+        },
+        {
+            text: 'Unit', value: 'unit', align: 'left'
+        },
+        {
+            text: 'State', value: 'state', align: 'left'
+        },
+        {
+            text: 'Status', value: 'status', align: 'left', sortable: false
+        },
+      ],
+      items: [],
+      search: '',
       myBillets: [],
       dialogData: {},
       isDragging: false,
@@ -50,9 +57,9 @@ export default{
     }
   },
   methods: {
-    showReqMethod: function(event){
+    showReqMethod: function(billet){
       //shows req and updates (allows dialog to dynamically update values) 
-      var id = event.currentTarget.id
+      var id = billet.id
       var billet = this.myBillets.filter((d)=>{return d.id == id})[0]
       this.dialogData = billet
       //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
@@ -66,6 +73,8 @@ export default{
       this.$emit('next')
     },
     viewBids: function(event){
+      console.log(event)
+
       var id = event.currentTarget.id
       console.log('View Bids for ',id)
     }

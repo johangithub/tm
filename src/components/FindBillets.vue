@@ -2,7 +2,7 @@
   <v-container fluid>
   <v-layout row>
   <v-spacer></v-spacer>
-  <v-flex xs6 class="dc-data-count text-xs-right">
+  <v-flex xs6 class="dc-data-count text-xs-right mt-0">
     <span class="filter-count"></span>
     selected out of
     <span class="total-count"></span>
@@ -19,8 +19,8 @@
         </v-card-media>
       </v-card>
     </v-flex>
-  </v-layout>
-    <v-layout row class="mt-3">
+    <v-flex xs12 md6>
+    <v-layout row>
     <v-flex xs12 md12 id="location">
         <v-card>
         <v-card-title class='pb-0'><span>Location</span></v-card-title>
@@ -29,17 +29,9 @@
           </v-card-media>
         </v-card>
     </v-flex>
-  </v-layout>
-  <v-layout row class="mt-3">
-    <v-flex xs6 md3 id="aircraft">
-      <v-card>
-      <v-card-title class='pb-0'><span>Aircraft</span></v-card-title>
-        <v-card-media>
-            <div id="dc-aircraft-rowchart"></div>
-        </v-card-media>
-      </v-card>
-    </v-flex>
-    <v-flex xs4 md1 id="grade">
+    </v-layout>
+  <v-layout row class="mt-2">
+    <v-flex xs4 md3 id="grade">
       <v-card>
       <v-card-title class='pb-0'><span>Grade</span></v-card-title>
         <v-card-media>
@@ -47,7 +39,7 @@
         </v-card-media>
       </v-card>
     </v-flex>
-    <v-flex xs4 md1 id="afsc">
+    <v-flex xs4 md3 id="afsc">
       <v-card>
       <v-card-title class='pb-0'><span>AFSC</span></v-card-title>
         <v-card-media>
@@ -55,62 +47,67 @@
         </v-card-media>
       </v-card>
     </v-flex>
-      <v-flex xs4 md1 id="conus">
+      <v-flex xs4 md3 id="conus">
       <v-card>
-      <v-card-title class='pb-0'><span>CONUS/OCONUS</span></v-card-title>
+      <v-card-title class='pb-0'><span>CONUS</span></v-card-title>
         <v-card-media>
             <div id="dc-conus-rowchart"></div>
         </v-card-media>
       </v-card>
       </v-flex>
-        <v-flex xs4 md1 id="flying">
+        <v-flex xs4 md3 id="flying">
           <v-card>
           <v-card-title class='pb-0'><span>Flying</span></v-card-title>
             <v-card-media>
                 <div id="dc-flying-rowchart"></div>
             </v-card-media>
           </v-card>
-        </v-flex> 
+        </v-flex>
     </v-layout>
+  </v-flex>
+  </v-layout>
   <v-layout row wrap class="mt-3" id="billets">
     <v-flex xs12>
-        <!--doesn't have to be on card, but easier to add search bar with card-->
-        <v-card elevation-3>
-                 <v-card-title class="pb-0"><h5>Billets Available</h5>
-                <v-spacer></v-spacer>
-                <!--search bar , remove append-icon for IE-->
-                <v-text-field
-                    append-icon="search"
-                    label="Search"
-                    single-line
-                    hide-details
-                    v-model="search">
-                </v-text-field>
-            </v-card-title>
-            <v-data-table 
-                          v-model="selected"
-                          :headers="headers" 
-                          :items="items" 
-                          :search="search"
-                          selected-key="id">
-                <template slot="items" scope="props">
-                    <!--TODO: edit for IE11 support (see vuetify docs)-->
-                    <td class="text-xs-left" style="width 10%">
-                      <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
-                    </td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.afsc}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.grade}}</td>
-                    <td class="text-xs-left" style="width: 30%">{{props.item.unit}}</td>
-                    <td class="text-xs-left" style="width: 15%">{{props.item.location}}</td>
-                    <td class="text-xs-left" style="width: 10%">{{props.item.state}}</td>
-                    <td class="text-xs-center">
-                      <v-icon :warning="props.selected" 
-                              @click="toggleFavorite(props)" 
-                              style="cursor: pointer;">star</v-icon></td>
-                    </td>
-                </template> 
-            </v-data-table>
-        </v-card>
+      <v-card elevation-3>
+        <v-card-title class="pb-0">
+          <v-flex md2>
+            <v-select @input="toggleShowFavorite" :items="['Show All', 'Only Favorites']" v-model="showFavorite"></v-select>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-text-field
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+              v-model="search">
+          </v-text-field>
+        </v-card-title>
+          <v-data-table 
+            v-model="selected"
+            :headers="headers" 
+            :items="items" 
+            :search="search"
+            selected-key="id"
+            :rows-per-page-items="[5,10,25,{text: 'All', value: -1}]">
+            <template slot="items" scope="props">
+              <!--TODO: edit for IE11 support (see vuetify docs)-->
+              <td class="text-xs-left">
+                <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+              </td>
+              <td class="text-xs-left">{{props.item.afsc}}</td>
+              <td class="text-xs-left">{{props.item.grade}}</td>
+              <td class="text-xs-left">{{props.item.unit}}</td>
+              <td class="text-xs-left">{{props.item.duty_title}}</td>
+              <td class="text-xs-left">{{props.item.location}}</td>
+              <td class="text-xs-left">{{props.item.state}}</td>
+              <td class="text-xs-center">
+                <v-icon :warning="props.item.favorited" 
+                        @click="toggleFavorite(props.item)"
+                        style="cursor: pointer;">star</v-icon>
+              </td>
+          </template> 
+          </v-data-table>
+      </v-card>
     </v-flex>
   </v-layout>
   <v-dialog v-model="showReq" width="600px" >
@@ -119,18 +116,19 @@
   </v-container>
 </template>
 <script>
-import ResetButton from './ResetButton'
-import HideButton from './HideButton'
+import dchelpers from '@/dchelpers'
 import statesJson from '../assets/data/us-states.json'
-import ReqDialogCard from './ReqDialogCard'
 import { store } from '@/store'
 import { mapGetters } from 'vuex'
-import dchelpers from '@/dchelpers'
+import showReqMixin from '@/components/showReqMixin'
 export default{
+  mixins: [showReqMixin],
+  props: ['step'],
   data(){
     return {
       data: [],
       showReq: false,
+      showFavorite: 'Show All',
       dialogData: {},
       items: [],
       search: '',
@@ -149,77 +147,101 @@ export default{
             text: 'Unit', value: 'unit', align: 'left'
         },
         {
+            text: 'Title', value: 'duty_title', align: 'left'
+        },
+        {
             text: 'Location', value: 'location', align: 'left'
         },
         {
             text: 'State', value: 'state', align: 'left'
         },
         {
-            text: 'Favorite', align: 'center', sortable: false 
+            text: 'Favorite', value: 'favorited', align: 'center' 
         },
       ]
     }
   },
+  watch: {
+    step: function(){
+      if (this.step==3){
+        dc.redrawAll()
+      }
+    },
+  },
   computed: {
-    ...mapGetters([
-        'faveBillets'
-    ]),
     ndx(){
       return crossfilter(this.data)
     },
     idDim(){
       return this.ndx.dimension(function(d){return d.id})
-    }
-  },
-  components:{
-    'reset-btn': ResetButton,
-    'hide-btn': HideButton,
-    'req-dialog-card': ReqDialogCard
+    },
+    faveDim(){
+      return this.ndx.dimension(function(d){return d.favorited})
+    },
+    itemDim(){
+      return this.ndx.dimension(function(d){return d})
+    },
+    ...mapGetters([
+        'faveBillets'
+    ]),
   },
   methods: {
-      favorited: function(obj) {
-          //have to use some method to check if billet id exists in 
-          //faveBillets array (includes method doesn't work)
-          return this.faveBillets.some(function(d) {return d.id === obj.id})
-      },
-      
-    //TODO: Currently toggle favorite is broken. No vuex is emitted 
-    toggleFavorite: function(props) {
-      console.log(props)
-        if (!props.selected){
-          props.selected = !props.selected
-          this.selected = this.faveBillets
+    setTableData: function(){
+      this.items = this.itemDim.top(Infinity).map((d)=>{
+        return {          
+          id: d.id,
+          afsc: d.afsc,
+          grade: d.grade,
+          aircraft: d.aircraft,
+          unit: d.unit,
+          duty_title: d.actual_duty_title,
+          location: d.location,
+          state: d.state,
+          favorited: d.favorited
         }
-        else{
-          props.selected = !props.selected
-          this.selected = this.faveBillets
-        }
+        })
     },
-      showReqMethod: function(req){
-          //shows req and updates values in dialog (needed to make dialog dynamic) 
-        var id = req.id
-        var billet = this.items.filter((d)=>{return d.id == id})[0]
-        this.dialogData = billet
-      },
+    toggleFavorite: function(billet) {
+      billet.favorited = !billet.favorited
+      var bill = this.data.filter(d=>{
+        return d.id == billet.id 
+      })[0]
+      bill.favorited = billet.favorited
+      this.idDim.filter(billet.id)
+      this.ndx.remove()
+      this.idDim.filterAll()
+      this.ndx.add([bill])
+      dc.redrawAll()
+
+      //Dispatch to Vuex
+      var favorited = this.data.filter(d=>{return d.favorited}).map(d=>{return d.id})
+      this.$store.dispatch('updateFavoriteBillets', favorited)
+    },
+    toggleShowFavorite: function(){
+      if(this.showFavorite == 'Only Favorites'){
+        this.faveDim.filterFunction(function(d){
+          return d
+        })
+      }
+      else{
+        this.faveDim.filterAll()
+      }
+
+      this.setTableData()
+      dc.redrawAll()
+    },
     resetAll: (event)=>{
       dc.filterAll()
       dc.redrawAll()
     },
-    resetChart: (id)=>{
-      dc.chartRegistry.list().filter(chart=>{
-        return chart.anchorName() == id
-      }).forEach(chart=>{
-        chart.filterAll()
-      })
-      dc.redrawAll()
-    } 
   },
   mounted: function(){
-    console.log('mounted')
-
     window.axios.get('/billet_view').then(response => {
         this.data = response.data.data
         window.billet = this.data[0]
+        this.data.forEach(d=>{
+          d.favorited = (this.faveBillets.indexOf(d.id) >= 0) ? true : false  
+        })
         renderCharts()
     }).catch(console.error)
 
@@ -260,6 +282,7 @@ export default{
         .minWidth(statesWidth)
         .width(statesWidth)
         .height(statesHeight)
+        .minHeight(150)
         .projection(d3.geo.albersUsa().scale(statesWidth).translate([xOffset,yOffset]))
         .overlayGeoJson(statesJson.features, "state", function (d) {
           return d.properties.name
@@ -285,24 +308,19 @@ export default{
         locationConfig.id = 'location'
         locationConfig.dim = this.ndx.dimension(function(d){return d.location ? d.location : 'NONE'})
         locationConfig.group = locationConfig.dim.group()
-        locationConfig.minHeight = 150
+        locationConfig.minHeight = 300
         locationConfig.aspectRatio = 5
         locationConfig.margins = {top: 30, left: 40, right: 50, bottom: 100}
         locationConfig.colors = ["#1976d2"]
         var locationChart = dchelpers.getOrdinalBarChart(locationConfig)
 
-        //aircraft
-        var aircraftConfig = {}
-        aircraftConfig.id = 'aircraft'
-        aircraftConfig.dim = this.ndx.dimension(function(d){return d.aircraft ? d.aircraft[0]=='A' && d.aircraft.length == 2 ? d.aircraft : 'OTHER' : 'OTHER'})
-        aircraftConfig.group = aircraftConfig.dim.group()
-        aircraftConfig.minHeight = 150
-        aircraftConfig.aspectRatio = 2
-        aircraftConfig.margins = {top: 10, left: 10, right: 20, bottom: 20}
-        aircraftConfig.colors = d3.scale.category10()
-        var aircraftChart = dchelpers.getRowChart(aircraftConfig)
-
         //grade
+        var gradeOrder = {
+          "LTC": 4,
+          "MAJ": 3,
+          "CPT": 2,
+          "1LT": 1
+        }
         var gradeConfig = {}
         gradeConfig.id = 'grade'
         gradeConfig.dim = this.ndx.dimension(function(d){return d.grade})
@@ -312,7 +330,10 @@ export default{
         gradeConfig.margins = {top: 10, left: 10, right: 20, bottom: 20}
         gradeConfig.colors = d3.scale.category10()
         var gradeChart = dchelpers.getRowChart(gradeConfig)
-
+        gradeChart
+        .ordering(function(d){
+          return gradeOrder[d.key]
+        })
         //afsc
         var afscConfig = {}
         afscConfig.id = 'afsc'
@@ -338,7 +359,7 @@ export default{
         //flying
         var flyingConfig = {}
         flyingConfig.id = 'flying'
-        flyingConfig.dim = this.ndx.dimension(function(d){return ['1','3','6'].indexOf(d.api) >= 0 ? 'Flying' : 'Non-flying'})
+        flyingConfig.dim = this.ndx.dimension(function(d){return ['1','2','3','6'].indexOf(d.api) >= 0 ? 'Flying' : 'Non-flying'})
         flyingConfig.group = flyingConfig.dim.group()
         flyingConfig.minHeight = 150
         flyingConfig.aspectRatio = 2
@@ -346,27 +367,12 @@ export default{
         flyingConfig.colors = d3.scale.category10()
         var flyingChart = dchelpers.getRowChart(flyingConfig)
 
-        function tableData(d){
-          var obj = {
-            id: d.id,
-            afsc: d.afsc,
-            grade: d.grade,
-            aircraft: d.aircraft,
-            unit: d.unit,
-            location: d.location,
-            state: d.state,
-          }
-          return obj
-        }
 
-        // Create data for data table
         var vm = this
-        var itemDim = this.ndx.dimension(function(d) {return d})
-        vm.items = itemDim.top(Infinity).map((d)=>{return tableData(d)})
         // update rows in data table upon each chart being filtered 
-        dc.chartRegistry.list().forEach(function(chart) {
-            chart.on('filtered', function() {
-              vm.items = itemDim.top(Infinity).map((d)=>{return tableData(d)})
+        dc.chartRegistry.list().forEach((chart)=>{
+            chart.on('filtered',function(){
+              vm.setTableData()
             })
         })
 
@@ -375,6 +381,8 @@ export default{
             clearTimeout(temp)
             temp = setTimeout(dc.redrawAll(), 500)
         }
+
+        this.setTableData()
         dc.renderAll()
         dc.redrawAll()
       }
