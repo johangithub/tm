@@ -1,32 +1,39 @@
 <template>
+    <!--ONLY WORKS WITH ARRAYS PASSED TO VALUE PROP-->
     <div class="wrapper">
-        <label><slot></slot></label> 
+        <!--label gets default slot (any text not in slot tags but in child component instantiation goes here)-->
+        <!--stuff in names slot text goes here-->
+        <label><slot></slot></label>
         <br>
-        <input type="text"
-               v-for="string in readableArray"
-               :value="string"
-               disabled>
+        <slot name="text" 
+              v-for="element in value" 
+              :item="element">
+        </slot>
+        <!--fallback to display none if empty array-->
+        <slot name="fallback" v-if="value.length === 0">
+            <span>None</span>
+        </slot>
+        <!--create table for showing block codes, courses, any iterables that need to have column headers and good spacing (use text slot if headers/good spacing not needed)-->
+        <table v-if="table && value.length !== 0">
+            <thead>
+                <tr>
+                    <th v-for="header in headers">{{header}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="element in value">
+                    <slot name="row"
+                          :item="element">
+                    </slot>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['value', 'numProps'],
-        computed: {
-            readableArray: function() {
-                var outArray = []
-                for (var index in this.value) {
-                    var outString = ''
-                    var obj = this.value[index]
-                    for (let j = 0; j < this.numProps; j++) {
-                        outString += String(obj[Object.keys(obj)[j]]) + ' ' 
-                        console.log(obj[Object.keys(obj)[j]])
-                    }
-                    outArray.push(outString)
-                }
-                return outArray
-            }
-        }
+        props: ['value', 'table', 'headers']
     }
     
 </script>
@@ -42,7 +49,7 @@
     background-color: #F8F8F8;
 }
 label {
-    font-size: 8pt;
+    font-size: 9pt;
     color: #000000;
     opacity: 0.54;
     /* padding: top, right, bottom, left */
@@ -56,5 +63,32 @@ input {
     background-color: transparent;
     border: none;
     padding: 1px 0px 4px 14px;
+}
+span {
+    font-size: 12pt;
+    color: #000000;
+    opacity: 0.87;
+    background-color: transparent;
+    border: none;
+    padding: 1px 0px 4px 14px;
+    display: inline-block;
+}
+table {
+    padding: 8px 8px 4px 8px;
+    table-layout: fixed;
+}
+th {
+    font-size: 10pt;
+    color: #000000;
+    opacity: 0.80;
+    padding: 0px 15px 0px 15px;
+    word-wrap: break-word;
+}
+td {
+    font-size: 12pt;
+    color: #000000;
+    opacity: 0.87;
+    padding: 0px 15px 4px 15px;
+    word-wrap: break-word;
 }
 </style>

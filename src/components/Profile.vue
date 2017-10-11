@@ -35,7 +35,7 @@
                       <text-field :value="profileData.general.short_tour_num">Short Tour:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
+              <v-layout row wrap>
                   <v-flex>
                       <text-field :value="profileData.general.accounting_status">Accounting Status:</text-field>
                   </v-flex>
@@ -53,13 +53,13 @@
         <v-card>
           <v-card-text class="grey lighten-3">
               <v-layout row>
-                  <v-flex xs6>
+                  <v-flex xs5>
                       <text-field :value="profileData.duty.pas">PASCODE:</text-field>
                   </v-flex>
-                  <v-flex xs3>
+                  <v-flex d-flex>
                       <text-field :value="profileData.duty.dafsc">DAFSC:</text-field>
                   </v-flex>
-                  <v-flex xs3>
+                  <v-flex d-flex>
                       <text-field :value="profileData.duty.core_afsc">CAFSC:</text-field>
                   </v-flex>
               </v-layout>
@@ -93,7 +93,7 @@
       <v-expansion-panel-content>
         <div slot="header" class="title">Projected</div>
         <v-card>
-          <v-card-text v-if="profileData.projected.assignment.pas" class="grey lighten-3">
+          <v-card-text class="grey lighten-3">
               <v-layout row>
                   <v-flex xs6>
                       <text-field :value="profileData.projected.assignment.pas">PASCODE:</text-field>
@@ -116,19 +116,19 @@
                   </v-flex>
               </v-layout>
               <v-layout row>
-                  <v-flex xs5>
+                  <v-flex xs6>
                       <text-field :value="profileData.projected.duty.eff_date">Duty Effective Date:</text-field>
                   </v-flex>
-                  <v-flex xs5>
+                  <v-flex xs6>
                       <text-field :value="profileData.projected.duty.exp_date">Duty Expiration Date:</text-field>
-                  </v-flex>
-                  <v-flex xs2>
-                      <text-field :value="profileData.projected.duty.afsc_pending">Duty AFSC:</text-field>
                   </v-flex>
               </v-layout>
               <v-layout row>
-                  <v-flex xs12>
+                  <v-flex xs9>
                       <text-field :value="profileData.projected.duty.status">Duty Status:</text-field>
+                  </v-flex>
+                  <v-flex xs3>
+                      <text-field :value="profileData.projected.duty.afsc_pending">DAFSC:</text-field>
                   </v-flex>
               </v-layout>
               <v-layout row>
@@ -141,19 +141,19 @@
                       <text-field :value="profileData.projected.duty.cmd_lvl_pending">Organization Level:</text-field>
                   </v-flex>
               </v-layout>
+              <!--projected courses-->
               <v-layout row>
                   <v-flex xs12>
-                      <block-text-field :value="profileData.projected.course">Projected Courses</block-text-field> 
+                      <block-text-field :value="profileData.projected.course"
+                                        :table="true"
+                                        :headers="['Course']">
+                          Projected Courses 
+                          <template slot="row" scope="props">
+                              <td>{{props.item.course}}</td>
+                          </template>  
+                      </block-text-field> 
                   </v-flex>
               </v-layout>
-            <div>Projected Course
-            <div v-for="course in profileData.projected.course">
-                <span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span>:{{course.start_date}}--{{course.grad_date}}
-            </div>
-            </div>
-          </v-card-text>
-          <v-card-text v-else class="grey lighten-3">
-            No projected assignments 
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -162,26 +162,63 @@
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Assignment Codes</div>
+        <div slot="header" class="title">Assignment Codes</div>
         <v-card>
           <v-card-text class="grey lighten-3">
+          <!--block codes-->
           <v-layout row>
               <v-flex xs12>
-                  <block-text-field :value="profileData.asgn_code.block_code" :numProps="2">Assignment Codes</block-text-field> 
+                  <block-text-field :value="profileData.asgn_code.block_code"
+                                    :table="true"
+                                    :headers="['Code','Date']">
+                      Block Codes
+                      <template slot="row" scope="props">
+                          <td>
+                              <div v-tooltip:left="{ html: abcFormat(props.item.code) }">
+                                  {{props.item.code}}
+                              </div>
+                          </td>
+                          <td>{{props.item.date}}</td>
+                      </template>  
+                  </block-text-field> 
               </v-flex>
           </v-layout>
-          <div v-for="abc in profileData.asgn_code.block_code">
-            <div>Block code: 
-              <span v-tooltip:right="{ html: abcFormat(abc.code) }">{{abc.code}}</span> ({{abc.date}})</div>
-          </div>
-          <div v-for="aac in profileData.asgn_code.avail_code">
-            <div>Avail code: 
-              <span v-tooltip:right="{ html: aacFormat(aac.code) }">{{aac.code}}</span> ({{aac.date}})</div>
-          </div>
-          <div v-for="alc in profileData.asgn_code.limit_code">
-            <div>Limit code: 
-              <span v-tooltip:right="{ html: alcFormat(alc.code) }">{{alc.code}}</span> ({{alc.date}})</div>
-          </div>
+          <!--availability codes-->
+          <v-layout row>
+              <v-flex xs12>
+                  <block-text-field :value="profileData.asgn_code.avail_code"
+                                    :table="true"
+                                    :headers="['Code','Date']">
+                      Availability Codes
+                      <template slot="row" scope="props">
+                          <td>
+                              <div v-tooltip:left="{ html: aacFormat(props.item.code) }">
+                                  {{props.item.code}}
+                              </div>
+                          </td>
+                          <td>{{props.item.date}}</td>
+                      </template>  
+                  </block-text-field> 
+              </v-flex>
+          </v-layout>
+          <!--limitation codes-->
+          <v-layout row>
+              <v-flex xs12>
+                  <block-text-field :value="profileData.asgn_code.limit_code"
+                                    :table="true"
+                                    :headers="['Code','Date']">
+                      Limitation Codes
+                      <template slot="row" scope="props">
+                          <td>
+                              <div v-tooltip:left="{ html: alcFormat(props.item.code) }">
+                              {{props.item.code}}
+                              </div>
+                          </td>
+                          <td>{{props.item.date}}</td>
+                      </template>  
+                  </block-text-field> 
+              </v-flex>
+          </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -189,122 +226,312 @@
   </v-flex>
 </v-layout>
 <v-layout row wrap>
-  <v-flex xs12 sm6 md3>
+  <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Courses</div>
+        <div slot="header" class="title">Courses</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div v-for="course in profileData.courses">
-            <div><span v-tooltip:right="{ html: courseFormat(course.course) }">{{course.course}}</span> ({{course.date}})</div>
-          </div>
+          <!--courses-->
+          <v-layout row>
+              <v-flex xs12>
+                  <block-text-field :value="profileData.courses"
+                                    :table="true"
+                                    :headers="['Course','Date']">
+                      Courses
+                      <template slot="row" scope="props">
+                          <td>
+                              <div v-tooltip:right="{ html: courseFormat(props.item.course) }">
+                                  {{props.item.course}}
+                              </div>
+                          </td>
+                          <td>{{props.item.date}}</td>
+                      </template>  
+                  </block-text-field> 
+              </v-flex>
+          </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
-  <v-flex xs12 sm6 md3>
+  <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">Service Dates</div>
-        <v-data-table
-        :headers="service_dates_headers"
-        :items="service_dates_array"
-        hide-actions>
-          <template slot="items" scope="props">
-            <td>{{props.item.name}}</td>
-            <td>{{props.item.date}}</td>
-          </template>
-        </v-data-table>
+        <div slot="header" class="title">Service Dates</div>
+          <v-card>
+              <v-card-text class="grey lighten-3">
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.das">DAS:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.ddlds">DDLDS:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.duty_status_eff_date">Duty Status Eff. Date:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.odsd">ODSD:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.grade_eff_date">Grade Eff. Date:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.dor">DOR:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.strd">STRD:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.cc_date">CC Date:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.ead">EAD:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.pay_date">Pay Date:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.tafcsd">TAFCSD:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.tfcsd">TFCSD:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.tafmsd">TAFMSD:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.deros">DEROS:</text-field>
+                      </v-flex>
+                  </v-layout> 
+                  <v-layout row>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.dos">DOS:</text-field>
+                      </v-flex>
+                      <v-flex xs6>
+                          <text-field :value="profileData.service_dates.retsep_eff_date_proj">Ret/Sep Eff. Date Proj.:</text-field>
+                      </v-flex>
+                  </v-layout> 
+              </v-card-text>
+          </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 sm6 md3>
+    <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header">PME</div>
+        <div slot="header" class="title">PME</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <div>PME Highest: {{profileData.pme.pme_highest}}</div>
-          <div v-for="item in profileData.pme.history">{{item.level}} - {{item.course}} / {{item.method}} / {{item.date}}
-          </div>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.pme.pme_highest">PME Highest:</text-field>
+                  </v-flex>
+              </v-layout> 
+              <v-layout row>
+                  <v-flex xs12>
+                  <block-text-field :value="profileData.pme.history"
+                                    :table="true"
+                                    :headers="['Level','Course','Method','Date']">
+                      Courses
+                      <template slot="row" scope="props">
+                          <td>{{props.item.level || "None"}}</td>
+                          <td>{{props.item.course}}</td>
+                          <td>{{props.item.method}}</td>
+                          <td>{{props.item.date}}</td>
+                      </template>
+                  </block-text-field> 
+                  </v-flex>
+              </v-layout>
           </v-card-text>
         </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-flex>
-  <v-flex xs12 sm6 md3>
-    <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
-        <div slot="header">Joint</div>
-        <v-card>
-          <v-card-text class="grey lighten-3">
-          <div>JDA Flag: {{profileData.joint.jda_flag}}</div>
-          <div>JSO Code: {{profileData.joint.jso_code}}</div>
-          <div>JSO_NUM Status: {{profileData.joint.jso_jsonum_status}}</div>
-          <div v-for="tour in profileData.joint.history">
-          {{tour.type}}//{{tour.credit}}//{{tour.reason}}//{{tour.posn}}//{{tour.start_date}} - {{tour.stop_date}}
-          </div>
-          </v-card-text>
-        </v-card>
-
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-flex>
 </v-layout>
   <v-layout row wrap>
   <v-flex xs12 md6>
-  <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
-      <div slot="header">Degrees</div>
-      <v-card>
-        <v-card-text class="grey lighten-3">
-        <div v-for="deg in profileData.degree.history">
-          {{deg.degree_ct}}//{{deg.level}}//{{deg.method}}//{{deg.school}}//{{deg.date}}            
-        </div>
-        </v-card-text>
-      </v-card>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+    <v-expansion-panel class="mt-2">
+      <v-expansion-panel-content>
+        <div slot="header" class="title">Joint</div>
+        <v-card>
+          <v-card-text class="grey lighten-3">
+              <v-layout row>
+                  <v-flex xs4>
+                      <text-field :value="profileData.joint.jda_flag">JDA Flag:</text-field>
+                  </v-flex>
+                  <v-flex xs4>
+                      <text-field :value="profileData.joint.jso_code">JSO Code:</text-field>
+                  </v-flex>
+                  <v-flex xs4>
+                      <text-field :value="profileData.joint.jso_jsonum_status">JSO Status:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.joint.history"
+                                        :table="true"
+                                        :headers="['Type','Credit','Reason','Position','Start Date', 'Stop Date']">
+                          Tours 
+                          <template slot="row" scope="props">
+                              <td>{{props.item.type}}</td>
+                              <td>{{props.item.credit}}</td>
+                              <td>{{props.item.reason}}</td>
+                              <td style="width: 20%;">{{props.item.posn}}</td>
+                              <td style="width: 20%;">{{props.item.start_date}}</td>
+                              <td style="width: 20%;">{{props.item.stop_date}}</td>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </v-flex>
   <v-flex xs12 md6>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Language</div>
+      <div slot="header" class="title">Language</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div v-if="profileData.language.dlab_score">DLAB Score(Date): {{profileData.language.dlab_score}} ({{profileData.language.dlab_date}})</div>
-        <div v-for="lang in profileData.language.list">
-          {{lang.id}}//{{lang.listen}}//{{lang.read}}//{{lang.date}}
-        </div>
+            <v-layout row>
+                <v-flex xs6>
+                    <text-field :value="profileData.language.dlab_score">DLAB Score:</text-field> 
+                </v-flex>
+                <v-flex xs6>
+                    <text-field :value="profileData.language.dlab_date">DLAB Date:</text-field> 
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs12>
+                  <block-text-field :value="profileData.language.list"
+                                    :table="true"
+                                    :headers="['ID','Listen','Read','Date']">
+                      Language Proficiencies
+                      <template slot="row" scope="props">
+                          <td>{{props.item.id}}</td>
+                          <td>{{props.item.listen}}</td>
+                          <td>{{props.item.read}}</td>
+                          <td>{{props.item.date}}</td>
+                      </template>
+                  </block-text-field> 
+                </v-flex>
+            </v-layout>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
   </v-expansion-panel>
   </v-flex>
   </v-layout>
+  <v-layout row>
+      <v-flex xs12>
+      <v-expansion-panel class="mt-2">
+        <v-expansion-panel-content>
+          <div slot="header" class="title">Degrees</div>
+          <v-card>
+            <v-card-text class="grey lighten-3">
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.degree.history"
+                                        :table="true"
+                                        :headers="['Degree','Level','Method','School','Date Awarded']">
+                          Degrees 
+                          <template slot="row" scope="props">
+                              <td style="width: 40%;">{{props.item.degree_ct}}</td>
+                              <td>{{props.item.level}}</td>
+                              <td>{{props.item.method}}</td>
+                              <td>{{props.item.school}}</td>
+                              <td>{{props.item.date}}</td>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      </v-flex>
+  </v-layout>
   <v-layout row wrap>
   <v-flex xs12 sm12 md4>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Rated Data</div>
+      <div slot="header" class="title">Rated Data</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-          <div>Aero Rating: {{profileData.rated.aero_rating_ct}}</div>
-          <div>Flight Activity Code: {{profileData.rated.flt_activity_code}}</div>
-          <div>Gates Current: {{profileData.rated.gates_curr}}</div>
-          <div>Flight Hours(Combat): {{profileData.rated.flt_hrs_combat}}</div>
-          <div>Flight Hours(Inst): {{profileData.rated.flt_hrs_instr}}</div>
-          <div>Flight Hours(Total): {{profileData.rated.flt_hrs_total}}</div>
-          <div>Aviation Service Code: {{profileData.rated.avn_service_code_ct}}</div>
-          <div>RDTM: {{profileData.rated.rdtm}}</div>
-          <div>Aircrew Position ID: {{profileData.rated.aircrew_position_id}}</div>
-          <div>Aviation Service Date: {{profileData.rated.avn_service_date}}</div>
-          <div>Aero Rating Date: {{profileData.rated.aero_rating_date}}</div>
-          <div>Return To Fly Date: {{profileData.rated.return_to_fly_date}}</div>
-          <div>ACP Eligible Date: {{profileData.rated.acp_elig_date}}</div>
-          <div>ACP Effective Date: {{profileData.rated.acp_effective_date}}</div>
-          <div>ACP Stop Date: {{profileData.rated.acp_stop_date}}</div>
+            <v-layout row>
+                <v-flex xs6>
+                    <text-field :value="profileData.rated.aero_rating_ct">Aero Rating:</text-field>  
+                </v-flex>
+                <v-flex xs6>
+                    <text-field :value="profileData.rated.flt_activity_code">Flight Activity Code:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs6>
+                    <text-field :value="profileData.rated.gates_curr">Gates Current:</text-field>  
+                </v-flex>
+                <v-flex xs6>
+                    <text-field :value="Math.round(profileData.rated.flt_hrs_combat) || '0'">Combat Hours:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs6>
+                    <text-field :value="Math.round(profileData.rated.flt_hrs_instr)">Instructor Hours:</text-field>  
+                </v-flex>
+                <v-flex xs6>
+                    <text-field :value="Math.round(profileData.rated.flt_hrs_total)">Total Hours:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs12>
+                    <text-field :value="profileData.rated.avn_service_code_ct">Aviation Service Code:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.rdtm">RDTM:</text-field>  
+                </v-flex>
+                <v-flex xs6>
+                    <text-field :value="profileData.rated.aircrew_position_id">Aircrew Position ID:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.avn_service_date">Aviation Service Date:</text-field>  
+                </v-flex>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.aero_rating_date">Aero Rating Date:</text-field>  
+                </v-flex>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.return_to_fly_date">Return to Fly Date:</text-field>  
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.acp_elig_date">ACP Eligible Date:</text-field>  
+                </v-flex>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.acp_effective_date">ACP Effective Date:</text-field>  
+                </v-flex>
+                <v-flex xs4>
+                    <text-field :value="profileData.rated.acp_stop_date">ACP Stop Date:</text-field>  
+                </v-flex>
+            </v-layout>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
@@ -665,7 +892,7 @@ export default {
 </script>
 
 <style scoped>
-    .title {
-        font-size: 18px;
-    }
+.title {
+    font-size: 18px;
+}
 </style>
