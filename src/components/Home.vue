@@ -2,12 +2,12 @@
   <v-container id="home">
   <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>
   <v-layout row justify-center>
-  <v-flex xs6>
+  <!-- <v-flex xs6>
     <officer-card v-if="userRole=='officer'"></officer-card>
     <billet-owner-card v-if="userRole=='billet_owner'"></billet-owner-card>
     <admin-card v-if="userRole=='admin'"></admin-card>
     <losing-commander-card v-if="userRole=='losing_commander'"></losing-commander-card>
-  </v-flex>
+  </v-flex> -->
   </v-layout>
   </v-container>
 </template>

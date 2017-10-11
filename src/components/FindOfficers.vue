@@ -166,6 +166,14 @@ export default{
   components:{
     'off-dialog-card': OfficerDialogCard 
   },
+  props: ['step'],
+  watch: {
+    step: function(){
+      if (this.step=='4'){
+        dc.redrawAll()
+      }
+    }
+  },
   computed: {
     ...mapGetters([
         'faveOfficers',
@@ -254,6 +262,8 @@ export default{
         gradeConfig.margins = {top: 10, left: 10, right: 20, bottom: 20}
         gradeConfig.colors = d3.scale.category20()
         var gradeChart = dchelpers.getRowChart(gradeConfig)
+        gradeChart
+        .ordering(function(d){return d.key})
 
         //RTG
         var rtgConfig = {}

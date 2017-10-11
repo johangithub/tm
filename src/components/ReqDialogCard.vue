@@ -108,8 +108,5 @@
 <script>
 export default{
   props: ['dialogData'],
-  mounted: function(){
-    console.log(this.dialogData)
-  }
 }
 </script>

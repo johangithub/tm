@@ -10,6 +10,7 @@
 - [ ] intro.js or shepherd.js for the instruction
 - [ ] Practice brief. Keep in under 10 min
 - [ ] Check Screen Resolution
+
 ---
 
 - [ ] Export Format Table to client side into /src/format
@@ -78,10 +79,10 @@
 ---
 
 - [ ] Losing commander view
+- [ ] Have visibility on members' preference and comments
 - [ ] Timestamp/username for vectoring
 - [ ] Tie in command hierarchy
 - [ ] Get request when navigating
 - [ ] Put request on submit
-
 ---
 

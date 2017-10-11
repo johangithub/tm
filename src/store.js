@@ -179,6 +179,10 @@ export const store = new Vuex.Store({
       window.axios.defaults.headers.common.Authorization = null
       commit("LOGOUT")
     },
+    updateFavoriteBillets({commit, state, dispatch}, payload){
+      //faveorite billet comes in a form of array of AFPCIDs
+      commit("SET_FAV_BILLETS", payload)
+    },
     addBillet ({ commit, state, dispatch },payload) {
       commit("ADD_BILLET",payload)
       //save favorited billets to localStorage (retains during refresh)
@@ -207,8 +211,6 @@ export const store = new Vuex.Store({
         window.axios.get('/officers')
            .then(response => {
                 var profileData = response.data.data
-                console.log('store axios officer get')
-                console.log(profileData)
                 dispatch('save',{'name': 'profileData', 'value': JSON.stringify(profileData)})
            }) 
            .catch(console.error)

@@ -69,9 +69,9 @@ export default{
     headerList(){
       if (this.userRole == 'officer'){
         return [
-          {name: "My Profile", link: "profile"},
-          {name: "Find Billets", link: "find_billets"},
-          {name: "Rank Billets", link: "rank_billets"},
+          // {name: "My Profile", link: "profile"},
+          // {name: "Find Billets", link: "find_billets"},
+          // {name: "Rank Billets", link: "rank_billets"},
         ]
       }
       else if (this.userRole == 'billet_owner'){

@@ -14,34 +14,12 @@
               </v-alert>
           </v-flex>
       </v-layout>
-      <v-layout row v-else>
-          <v-flex class="pt-1 text-xs-right" xs1 offset-md1 md1>
-              <!--rank to left of drag and drop area, could find better way-->
-              <b>Rank</b> 
-          </v-flex>
-          <v-flex xs10 md8 class="pb-1 text-xs-center">
-              <!--need to make header better, quick hack for now-->
-              <table style="width: 100%">
-                  <thead>
-                  <tr>
-                      <th style="width:13%">ID</th>
-                      <th style="width:10%">AFSC</th>
-                      <th style="width:10%">Grade</th>
-                      <th style="width:10%">MWS</th>
-                      <th style="width:35%">UNIT</th>
-                      <th style="width:10%">State</th>
-                      <th style="width:12%"></th>
-                  </tr>
-                  </thead>
-              </table>
-          </v-flex>
-      </v-layout>
       <v-layout row v-if="faveBillets.length!==0">
           <v-flex xs12>
               <!--drag and drop tiles for ranking billets, possibly style better later-->
               <draggable v-model="rankBillets" class="list-group" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
               <transition-group type="transition" :name="'flip-list'">
-                  <v-layout row v-for="(billet,index) in rankBillets" class="list-group-item" :key="billet.id">
+                  <v-layout row v-for="(billet,index) in rankBillets" class="list-group-item" :key="billet">
                       <v-flex class="pt-3 text-xs-right" xs1 offset-md1 md1>
                           {{index+1}}. 
                       </v-flex>
@@ -50,13 +28,8 @@
                               <table style="width: 100%">
                                   <tr>
                                       <td style="width 10%">
-                                      <v-btn flat primary dark :id="billet.id" @click="showReqMethod($event)" @click.native.stop="showReq = true" >
-                                      {{billet.id}}</v-btn></td>
-                                      <td style="width:10%">{{billet.api}}</td>
-                                      <td style="width:10%">{{billet.grade}}</td>
-                                      <td style="width:10%">{{billet.aircraft}}</td>
-                                      <td style="width:35%">{{billet.unit}}</td>
-                                      <td style="width:10%">{{billet.state}}</td>
+                                      <v-btn flat primary dark :id="billet" @click="showReqMethod($event)" @click.native.stop="showReq = true" >
+                                      {{billet}}</v-btn></td>
                                       <!--payload for removeBillet mutation is object with index as property-->
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeBillet',{'index': index})">Remove</v-btn></td>
                                   </tr>
@@ -67,15 +40,6 @@
                   </v-layout>
               </transition-group>
               </draggable>
-          </v-flex>
-
-
-
-            </v-layout>
-      <!-- <req-sheet :value="showReq" :item="dialogData"></req-sheet> -->
-      <v-layout row>
-          <v-flex offset-xs3 xs6 offset-md4 md4 class="mt-5 text-xs-center">
-              <v-btn primary large block v-if="faveBillets.length!==0" @click.prevent="submit">Submit</v-btn>  
           </v-flex>
       </v-layout>
     <v-dialog v-model="showReq" width="600px">
@@ -111,7 +75,7 @@ export default {
     rankBillets: {
         //need getter to be faveBillets to get from vuex state
         get: function () {
-            return this.faveBillets 
+            return this.faveBillets
         },  
         //need setter to dispatch ranked billets to the store so 
         //vuex state 'faveBillets' always has most recent rank - 
@@ -137,29 +101,27 @@ export default {
         const draggedElement = draggedContext.element;
         return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
     },
-      showReqMethod: function(event){
-        //shows req and updates (allows dialog to dynamically update values) 
-        var id = event.currentTarget.id
-        var billet = this.faveBillets.filter((d)=>{return d.id == id})[0]
-        this.dialogData = billet
-        // this.dialogData['id']=billet.id
-        // this.dialogData['api']=billet.api
-        // this.dialogData['state']=billet.state
-        // this.dialogData['unit']=billet.unit
-        // this.dialogData['aircraft']=billet.aircraft
-        // this.dialogData['afsc']=billet.afsc
-        // this.dialogData['grade']=billet.grade
-        //save clicked id to prevent lots of req-sheets from being loaded in the DOM (sluggish behavior)
-        this.clickedId = id
-      },
-      submit: function () {
-        window.axios.post('/billets_fave', {
-            rankedBillets: JSON.stringify(this.faveBillets)
-        }).then(response => {
-            console.log('information sent')
-            this.submitted = true; 
-        }).catch(console.error)
-      }
+    showReqMethod: function(event){
+      //shows req and updates (allows dialog to dynamically update values) 
+      var id = event.currentTarget.id
+      var billet = this.faveBillets.filter((d)=>{return d == id})[0]
+      this.dialogData.id = billet
+      // this.dialogData['id']=billet.id
+      // this.dialogData['api']=billet.api
+      // this.dialogData['state']=billet.state
+      // this.dialogData['unit']=billet.unit
+      // this.dialogData['aircraft']=billet.aircraft
+      // this.dialogData['afsc']=billet.afsc
+      // this.dialogData['grade']=billet.grade
+    },
+    submit: function () {
+      window.axios.post('/billets_fave', {
+          rankedBillets: JSON.stringify(this.faveBillets)
+      }).then(response => {
+          console.log('information sent')
+          this.submitted = true; 
+      }).catch(console.error)
+    }
   },
   watch: {
     isDragging (newValue) {
