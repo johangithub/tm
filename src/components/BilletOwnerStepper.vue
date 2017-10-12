@@ -20,14 +20,14 @@
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <billet-list @next="step += 1"></billet-list>
+        <billet-list :myBillets="myBillets" @next="step += 1"></billet-list>
         <v-layout row>
         <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
         <v-spacer></v-spacer>
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="3">
-        <div>Update AFPCID {{this.$store.getters.reqId}}</div>
+        <billet :myBillet="myBillet" :id="reqId"></billet>
         <v-layout row>
         <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
         <v-spacer></v-spacer>
@@ -55,17 +55,27 @@
 </template>
 <script>
 import Home from '@/components/Home'
+import Billet from '@/components/Billet'
 import BilletList from '@/components/BilletList'
 import FindOfficers from '@/components/FindOfficers'
 import RankOfficers from '@/components/RankOfficers'
+import { mapGetters } from 'vuex'
 export default{
   data(){
     return {
-      step: 1
+      step: 1,
+      myBillets: []
+    }
+  },
+  computed: {
+    ...mapGetters(['reqId']),
+    myBillet(){
+      return this.myBillets.filter(d=>{return d.id == this.reqId})[0]
     }
   },
   components:{
     'home': Home,
+    'billet': Billet,
     'billet-list': BilletList,
     'find-officers': FindOfficers,
     'rank-officers': RankOfficers
@@ -79,6 +89,10 @@ export default{
         this.step = this.step <= 1 ? 1 : this.step - 1
       }
     })
+    //Retrieve only the billets I own
+    window.axios.get('/billet_view').then(response => {
+        this.myBillets = response.data.data.slice(0,10)
+    }).catch(console.error)
   }
 }
 </script>

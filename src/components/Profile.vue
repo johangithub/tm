@@ -884,6 +884,7 @@ export default {
     'block-text-field': BlockTextField
   },
   mounted: function(){
+
   }
 }
 </script>

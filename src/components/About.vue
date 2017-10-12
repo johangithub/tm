@@ -20,7 +20,7 @@
           (123)456-7890
           </p>
           <p>
-          Maj Dutch Cude (AFPC/Cheif F-16 Assignments)<br>
+          Maj Dutch Cude (AFPC/Chief F-16 Assignments)<br>
           craig.cude@mail.mil<br>
           (123)456-7890
           </p>

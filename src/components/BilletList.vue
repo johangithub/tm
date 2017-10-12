@@ -28,6 +28,7 @@
 <script>
 import ReqDialogCard from '@/components/ReqDialogCard'
 export default{
+  props: ['myBillets'],
   components: {
     'req-dialog-card': ReqDialogCard
   },
@@ -53,7 +54,6 @@ export default{
       ],
       items: [],
       search: '',
-      myBillets: [],
       dialogData: {},
       isDragging: false,
       delayedDragging: false,
@@ -84,10 +84,7 @@ export default{
     }
   },
   mounted: function(){
-    //Retrieve only the billets I own
-    window.axios.get('/billet_view').then(response => {
-        this.myBillets = response.data.data.slice(0,10)
-    }).catch(console.error)
+
   }
 }
   
