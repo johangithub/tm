@@ -83,6 +83,13 @@ export const store = new Vuex.Store({
         //index of 0)
         state.faveBillets = payload
     },
+    SET_FAV_OFFICERS (state,payload) {
+        //payload is the array of ranked billets
+        //note: when billets are ranked, the rank of each billet is denoted by
+        //the index of each billet in an array (ie - first ranked billet has 
+        //index of 0)
+        state.faveOfficers = payload
+    },
     ADD_OFFICER (state, payload) {
       if (state.curFaveOfficers == []){
         state.curFaveOfficers.push(payload)
@@ -95,8 +102,8 @@ export const store = new Vuex.Store({
     },
     REMOVE_OFFICER (state, payload) {
         //payload is object and index property is index of officer to remove
-        var removeIndex = state.curFaveOfficers.findIndex(function(d) {
-          return d.ID === payload.ID})
+        // var removeIndex = state.curFaveOfficers.findIndex(function(d) {
+          // return d.ID === payload.ID})
         state.curFaveOfficers.splice(removeIndex,1)
     },
     SET_CUR_FAV_OFFICERS (state,payload) {
@@ -177,6 +184,7 @@ export const store = new Vuex.Store({
       localStorage.removeItem("role")
       localStorage.removeItem("id")
       localStorage.removeItem("rankedBillets")
+      localStorage.removeItem("rankedOfficers")
       //since profileData is sensitive, we may need to be better about removing the profile data - maybe use sessionStorage? 
       localStorage.removeItem("profileData")
       window.axios.defaults.headers.common.Authorization = null
@@ -185,6 +193,10 @@ export const store = new Vuex.Store({
     updateFavoriteBillets({commit, state, dispatch}, payload){
       //faveorite billet comes in a form of array of AFPCIDs
       commit("SET_FAV_BILLETS", payload)
+    },
+    updateFavoriteOfficers({commit, state, dispatch}, payload){
+      //faveorite billet comes in a form of array of AFPCIDs
+      commit("SET_FAV_OFFICERS", payload)
     },
     addBillet ({ commit, state, dispatch },payload) {
       commit("ADD_BILLET",payload)

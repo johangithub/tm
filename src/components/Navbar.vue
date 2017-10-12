@@ -76,9 +76,9 @@ export default{
       }
       else if (this.userRole == 'billet_owner'){
         return [
-          {name: "My Billets", link: "find_billets"},
-          {name: "Find Officers", link: "find_officers"},
-          {name: "Rank Officers", link: "rank_officers"},
+          // {name: "My Billets", link: "find_billets"},
+          // {name: "Find Officers", link: "find_officers"},
+          // {name: "Rank Officers", link: "rank_officers"},
         ]
       }
       else if (this.userRole == 'losing_commander'){

@@ -10,7 +10,7 @@
         <v-divider></v-divider>
         <v-stepper-step step="4" :complete="step > 4">Find officers</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="5">Rank your officers</v-stepper-step>
+        <v-stepper-step step="5" :complete="step > 5">Rank your officers</v-stepper-step>
       </v-stepper-header>
       <v-stepper-content step="1">
         <home></home>
@@ -47,7 +47,15 @@
         <v-layout row>
           <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
           <v-spacer></v-spacer>
-          <v-btn primary @click.native="step = 2">Submit</v-btn>
+          <v-btn primary @click.native="step += 1">Submit</v-btn>
+        </v-layout>
+      </v-stepper-content>
+      <v-stepper-content step="6">
+        <thanks></thanks>
+        <v-layout row>
+          <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn primary @click.native="step = 2">Billet List</v-btn>
         </v-layout>
       </v-stepper-content>
     </v-stepper>
@@ -59,6 +67,7 @@ import Billet from '@/components/Billet'
 import BilletList from '@/components/BilletList'
 import FindOfficers from '@/components/FindOfficers'
 import RankOfficers from '@/components/RankOfficers'
+import Thanks from '@/components/Thanks'
 import { mapGetters } from 'vuex'
 export default{
   data(){
@@ -78,7 +87,8 @@ export default{
     'billet': Billet,
     'billet-list': BilletList,
     'find-officers': FindOfficers,
-    'rank-officers': RankOfficers
+    'rank-officers': RankOfficers,
+    'thanks': Thanks
   },
   mounted: function(){
     window.addEventListener('keydown', (e)=>{

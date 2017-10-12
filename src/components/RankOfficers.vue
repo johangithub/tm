@@ -2,22 +2,24 @@
   <v-container fluid>
       <v-layout row>
           <v-flex xs12>
-              <v-snackbar top v-model="saved">
-                  <div style="color: LimeGreen;">Saved!</div>
-                  <v-btn dark flat error @click.native="saved = false">Close</v-btn>
-              </v-snackbar>
               <v-snackbar top v-model="submitted">
                   <div style="color: DeepSkyBlue">Submitted!</div>
                   <v-btn dark flat error @click.native="submitted = false">Close</v-btn>
               </v-snackbar>
           </v-flex>
       </v-layout>
+      <v-layout row v-if="faveOfficers.length===0">
+          <v-flex xs12>
+              <v-alert warning value="true">Please favorite some officers!
+              </v-alert>
+          </v-flex>
+      </v-layout>
       <v-layout row v-if="faveOfficers.length!==0">
           <v-flex xs12>
-              <!--drag and drop tiles for ranking officers, possibly style better later-->
+              <!--drag and drop tiles for ranking billets, possibly style better later-->
               <draggable v-model="rankOfficers" class="list-group" :options="dragOptions" :move="onMove" @start="isDragging=true" @end="isDragging=false">
               <transition-group type="transition" :name="'flip-list'">
-                  <v-layout row v-for="(officer,index) in rankOfficers" class="list-group-item" :key="officer.ID">
+                  <v-layout row v-for="(officer,index) in rankOfficers" class="list-group-item" :key="officer">
                       <v-flex class="pt-3 text-xs-right" xs1 offset-md1 md1>
                           {{index+1}}. 
                       </v-flex>
@@ -26,15 +28,10 @@
                               <table style="width: 100%">
                                   <tr>
                                       <td style="width 10%">
-                                        <v-btn :id="officer.ID" flat primary dark @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{officer.ID}}</v-btn>
-                                      </td>
-                                      <td style="width:16%">{{officer.grade}}</td>
-                                      <td style="width:16%">{{officer.adjYG}}</td>
-                                      <td style="width:16%">{{officer.RTG}}</td>
-                                      <td style="width:16%">{{officer.rdtm}}</td>
-                                      <td style="width:16%">{{Math.round(officer.flt_hrs_total)}}</td>
-                                      <!--payload for removeOfficer mutation is object with index as property-->
-                                      <td style="width:10%"><v-btn flat error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
+                                      <v-btn flat primary dark :id="officer" @click="showOffMethod($event)" @click.native.stop="showOff = true" >
+                                      {{officer}}</v-btn></td>
+                                      <!--payload for removeBillet mutation is object with index as property-->
+                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
                                   </tr>
                               </table>
                           </v-card>
@@ -45,6 +42,9 @@
               </draggable>
           </v-flex>
       </v-layout>
+    <v-dialog v-model="showOff" width="600px">
+        <off-dialog-card v-if="showOff" :dialogData="dialogData" @offClose="showOff = false"></off-dialog-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -52,37 +52,36 @@
 import draggable from 'vuedraggable'
 import OfficerDialogCard from '@/components/OfficerDialogCard'
 import { mapGetters } from 'vuex'
+import { store } from '@/store'
 
 export default {
-  name: 'officer',
+  name: 'billet',
   data () {
     return {
-      title: 'officer page',
+      title: 'billet page',
       dialogData: {},
       showOff: false,
       editable: true,
       isDragging: false,
       delayedDragging: false,
-      saved: false,
       submitted: false,
+      clickedId: null
     }
   },
   computed: {
     ...mapGetters([
-        'curFaveOfficers',
-        'faveOfficers',
-        'reqId'
+        'faveOfficers'
     ]),
     rankOfficers: {
         //need getter to be faveOfficers to get from vuex state
-        get: function (reqId) {
-            return this.curFaveOfficers
-        },
-        //need setter to dispatch ranked officers to the store so 
+        get: function () {
+            return this.faveOfficers
+        },  
+        //need setter to dispatch ranked billets to the store so 
         //vuex state 'faveOfficers' always has most recent rank - 
-        //remember, index of each officer in array tells rank
+        //remember, index of each billet in array tells rank
         set: function (rankedArray) {
-            this.$store.commit('SET_CUR_FAV_OFFICERS',rankedArray)
+            this.$store.dispatch('rankOfficers',rankedArray) 
         }
     },
     dragOptions () {
@@ -104,28 +103,17 @@ export default {
     },
     showOffMethod: function(event){
       //shows req and updates (allows dialog to dynamically update values) 
-      var id = event.target.id
-      var officer = this.curFaveOfficers.filter((d)=>{return d.ID == id})[0]
-      this.dialogData['id']=officer.ID
-      this.dialogData['grade']=officer.grade
-      this.dialogData['adjYG']=officer.adjYG
-      this.dialogData['RTG']=officer.RTG
-      this.dialogData['rdtm']=officer.rdtm
-      this.dialogData['flt_hrs_total']=Math.round(officer.flt_hrs_total)
-      this.showOff = true
-    },
-    save: function () {
-      //store vuex state 'faveOfficers' (array of officers) to local storage
-      //(faveOfficers will be ranked officers if officer ranked officers due to
-      //setter on rankedOfficers)
-      var payload = {'name': 'rankedOfficers', 'value': JSON.stringify(this.curFaveOfficers)}
-      //save action accepts a payload object where name property is the name of the localstorage item and value contains the value to be saved
-      this.$store.dispatch('save',payload)
-      this.saved = true; 
+      var id = event.currentTarget.id
+      var officer = this.faveOfficers.filter((d)=>{return d == id})[0]
+      this.dialogData.id = officer
     },
     submit: function () {
-      //TODO: need to add axios call
-      this.submitted = true; 
+      window.axios.post('/billets_fave', {
+          rankedBillets: JSON.stringify(this.faveOfficers)
+      }).then(response => {
+          console.log('information sent')
+          this.submitted = true; 
+      }).catch(console.error)
     }
   },
   watch: {
@@ -142,7 +130,7 @@ export default {
   },
   components: {
     'draggable': draggable,
-    'off-dialog-card': OfficerDialogCard 
+    'off-dialog-card': OfficerDialogCard
   }
 }
 </script>

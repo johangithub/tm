@@ -38,7 +38,13 @@
         <v-layout row>
           <v-btn class="ml-3" warning @click.native="step -= 1">Back</v-btn>
           <v-spacer></v-spacer>
-          <v-btn primary>Submit</v-btn>
+          <v-btn primary @click.native="step += 1">Submit</v-btn>
+        </v-layout>
+      </v-stepper-content>
+      <v-stepper-content step="5">
+        <thanks></thanks>
+        <v-layout row>
+          <v-btn class="ml-3" warning @click.native="step -= 1">Back</v-btn>
         </v-layout>
       </v-stepper-content>
     </v-stepper>
@@ -49,6 +55,7 @@ import Home from '@/components/Home'
 import Profile from '@/components/Profile'
 import FindBillets from '@/components/FindBillets'
 import RankBillets from '@/components/RankBillets'
+import Thanks from '@/components/Thanks'
 export default{
   data(){
     return {
@@ -60,12 +67,13 @@ export default{
     'home': Home,
     'profile': Profile,
     'find-billets': FindBillets,
-    'rank-billets': RankBillets
+    'rank-billets': RankBillets,
+    'thanks': Thanks
   },
   mounted: function(){
     window.addEventListener('keydown', (e)=>{
       if(e.keyCode==39){
-        this.step = this.step >= 4 ? 4 : this.step + 1
+        this.step = this.step >= 5 ? 5 : this.step + 1
       }
       else if(e.keyCode==37){
         this.step = this.step <= 1 ? 1 : this.step - 1

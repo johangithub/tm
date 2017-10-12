@@ -181,9 +181,13 @@ export default{
     itemDim(){
       return this.ndx.dimension(function(d){return d})
     },
-    ...mapGetters([
-        'faveBillets'
-    ]),
+    faveBillets(){
+      var curFave = this.$store.getters.faveBillets
+      return curFave
+    }
+    // ...mapGetters([
+        // 'faveBillets'
+    // ]),
   },
   methods: {
     setTableData: function(){

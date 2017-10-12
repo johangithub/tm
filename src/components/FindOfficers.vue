@@ -85,8 +85,8 @@
                     <td class="text-xs-left">{{props.item.rdtm}}</td>
                     <td class="text-xs-left">{{props.item.dafsc}}</td>
                     <td class="text-xs-center">
-                        <v-icon :warning="props.selected" 
-                                @click="toggleFavorite(props)" 
+                        <v-icon :warning="props.item.favorited" 
+                                @click="toggleFavorite(props.item)" 
                                 style="cursor: pointer;">star</v-icon></td>
                 </template> 
             </v-data-table>
@@ -188,8 +188,22 @@ export default{
     }
   },
   methods: {
-    toggleFavorite: function(props) {
-      console.log('Favorite Toggled')
+    toggleFavorite: function(officer) {
+      officer.favorited = !officer.favorited
+      var off = this.data.filter(d=>{
+        return d.dod_id == officer.dod_id
+      })[0]
+      off.favorited = officer.favorited
+      this.idDim.filter(officer.dod_id)
+      this.ndx.remove()
+      this.idDim.filterAll()
+      this.ndx.add([off])
+      dc.redrawAll()
+
+      //Dispatch to Vuex
+      var favorited = this.data.filter(d=>{return d.favorited}).map(d=>{return d.dod_id})
+      this.$store.dispatch('updateFavoriteOfficers', favorited)
+
     },
     showOffMethod: function(event){
         //shows officer view and updates values in dialog (needed to make dialog dynamic)
@@ -323,7 +337,8 @@ export default{
             adjYG: d.general.adjYG,
             rating: d.duty.core_group,
             rdtm: rdtm[d.rated.rdtm],
-            dafsc: d.duty.dafsc
+            dafsc: d.duty.dafsc,
+            favorited: d.favorited
           }
           return obj
         }
