@@ -36,7 +36,7 @@
     box-sizing: border-box;
     /* margin: top, right, bottom, left */
     margin: 4px 1px 4px 1px;
-    background-color: #F8F8F8;
+    background-color: white;
 }
 label {
     font-size: 9pt;

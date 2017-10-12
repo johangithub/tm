@@ -75,6 +75,11 @@
               </v-layout>
               <v-layout row>
                   <v-flex xs12>
+                      <text-field :value="profileData.duty.location">Base:</text-field>
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
                       <text-field :value="profileData.duty.unit">Unit:</text-field>
                   </v-flex>
               </v-layout>
@@ -565,20 +570,53 @@
   <v-flex xs12 sm6 md4>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Exp Identifier</div>
+      <div slot="header" class="title">Exp Identifier</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div>{{profileData.special_experience}}</div>
-        <div>Nuclear Experience</div>
-        <div v-for="item in profileData.special_experience.nuclear">
-        {{item.nei}}//{{item.start_date}}//{{item.stop_date}}
-        </div>
-        <div>SEI</div>
-        <div v-for="item in profileData.special_experience.sei">
-        {{item.sei}}
-        </div>
-        <div>Acquisition</div>
-        <div>{{profileData.special_experience.acquisitions}}</div>
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.special_experience.nuclear"
+                                        :table="true"
+                                        :headers="['NEI','Start Date', 'Stop Date']">
+                          Nuclear
+                          <template slot="row" scope="props">
+                              <td>{{props.item.nei}}</td>
+                              <td>{{props.item.start_date}}</td>
+                              <td>{{props.item.stop_date}}</td>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <!--only expect one column with SEI, don't show in table-->
+                      <block-text-field :value="profileData.special_experience.sei">
+                          SEI 
+                          <template slot="text" scope="props">
+                              <span>{{props.item.sei}}</span>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.special_experience.acquisitions"
+                                        :table="true"
+                                        :headers="['Career Level','Position Type', 'Position Category']">
+                          Acquisitions 
+                          <template slot="row" scope="props">
+                              <td>{{props.item.career_level}}</td>
+                              <td>{{props.item.posn_type}}</td>
+                              <td>{{props.item.posn_cat}}</td>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.special_experience.WIC">WIC</text-field>
+                  </v-flex>
+              </v-layout>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
@@ -587,38 +625,47 @@
   </v-layout>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Duty History</div>
-            <v-data-table
-          :headers="duty_history_headers"
-          :items="profileData.duty.history"
-          hide-actions>
-          <template slot="items" scope="props">
-            <td>{{props.item.duty_title}}</td>
-            <td>{{props.item.unit}}</td>
-            <td>{{ajh4Format(props.item.location) }}</td>
-            <td>{{props.item.org_majcom}}</td>
-            <td>{{props.item.command_level}}</td>
-            <td>{{props.item.dafsc}}</td>
-            <td>{{props.item.eff_date}}</td>
-          </template>
-  </v-data-table>
+      <div slot="header" class="title">Duty History</div>
+      <v-layout row>
+          <v-flex xs12>
+              <v-card>
+                  <v-card-text class="grey lighten-3">
+                    <v-data-table
+                      :headers="duty_history_headers"
+                      :items="profileData.duty.history"
+                      class="data-table"
+                      hide-actions>
+                      <template slot="items" scope="props">
+                        <td>{{props.item.duty_title}}</td>
+                        <td>{{props.item.unit}}</td>
+                        <td>{{ajh4Format(props.item.location) }}</td>
+                        <td>{{props.item.org_majcom}}</td>
+                        <td>{{props.item.command_level}}</td>
+                        <td>{{props.item.dafsc}}</td>
+                        <td>{{props.item.eff_date}}</td>
+                      </template>
+                    </v-data-table>
+                  </v-card-text>
+              </v-card>
+          </v-flex>
+      </v-layout>
     </v-expansion-panel-content>
   </v-expansion-panel>
 
 
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Self Advertise</div>
+      <div slot="header" class="title">Self Advertise</div>
       <v-card class="grey lighten-3">
-<!--           <v-layout row class="pr-2 pt-2">
-              <v-spacer></v-spacer>
-              <v-btn small success @click.native="save">Save</v-btn>
-              <v-snackbar
-                :timeout="1000"
-                :top="true"
-                v-model="snackbarSave"
-              >Saved!<v-btn flat class="green--text" @click.native="snackbarSave = false">Close</v-btn></v-snackbar>
-         </v-layout> -->
+           <!--<v-layout row class="pr-2 pt-2">-->
+              <!--<v-spacer></v-spacer>-->
+              <!--<v-btn small success @click.native="save">Save</v-btn>-->
+              <!--<v-snackbar-->
+                <!--:timeout="1000"-->
+                <!--:top="true"-->
+                <!--v-model="snackbarSave"-->
+              <!--Saved!<v-btn flat class="green--text" @click.native="snackbarSave = false">Close</v-btn></v-snackbar>-->
+         <!--</v-layout> -->
         <v-card-text class="grey lighten-3">
         <v-layout row>
         <v-flex xs3>
@@ -899,5 +946,12 @@ export default {
 <style scoped>
 .title {
     font-size: 18px;
+}
+.data-table {
+    border-radius: 4px; 
+    box-shadow: 0px 1px 4px 0px #888;
+    box-sizing: border-box;
+    margin: 4px 1px 4px 1px;
+    font-family: Arial;
 }
 </style>
