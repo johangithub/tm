@@ -230,7 +230,9 @@ export default{
       this.setTableData()
       dc.redrawAll()
     },
-    resetAll: (event)=>{
+    resetAll: function(event){
+      this.showFavorite = 'Show All'
+      this.toggleShowFavorite()
       dc.filterAll()
       dc.redrawAll()
     },
@@ -303,10 +305,15 @@ export default{
            .root().select('svg').attr('width',newWidth).attr('height',newHeight)
         })
 
+        var locationCount = {}
+        this.data.map(d=>{return d.location}).forEach(d=>{
+          locationCount[d] = locationCount[d] ? locationCount[d] + 1 : 1 
+        })
+
         //Location
         var locationConfig = {}
         locationConfig.id = 'location'
-        locationConfig.dim = this.ndx.dimension(function(d){return d.location ? d.location : 'NONE'})
+        locationConfig.dim = this.ndx.dimension(function(d){return d.location ? locationCount[d.location]>1 ? d.location : 'OTHER' : 'NONE'})
         locationConfig.group = locationConfig.dim.group()
         locationConfig.minHeight = 300
         locationConfig.aspectRatio = 5

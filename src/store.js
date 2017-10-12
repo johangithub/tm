@@ -149,13 +149,16 @@ export const store = new Vuex.Store({
                     localStorage.setItem("id", token_decoded.id)
                     //get favorite billets if officer is logging in
                     dispatch('getCycleDates')
-                    if (token_decoded.role === "officer") {
-                       dispatch('loadOfficerProfile')
-                       dispatch('loadFaveBillets') 
-                    }
                     commit("SET_ROLE", token_decoded.role)
-                    commit("LOGIN_SUCCESS")
-                    resolve()
+                    if (token_decoded.role === "officer") {
+                      dispatch('loadFaveBillets') 
+                      dispatch('loadOfficerProfile').then(()=>{
+                      resolve()
+                      })
+                    } else {
+                      commit("LOGIN_SUCCESS")
+                      resolve()
+                    }
             }, 1000)
           })
           .catch((e) => {
@@ -207,13 +210,16 @@ export const store = new Vuex.Store({
             .catch(console.error)
     },
     //load favorite Billets in store, but submit fave billets in RankBillets component
-    loadOfficerProfile({ dispatch }) {
-        window.axios.get('/officers')
+    loadOfficerProfile({ commit, dispatch }) {
+        return new Promise((resolve, reject)=>{window.axios.get('/officers')
            .then(response => {
                 var profileData = response.data.data
                 dispatch('save',{'name': 'profileData', 'value': JSON.stringify(profileData)})
-           }) 
-           .catch(console.error)
+           }).then(()=>{
+                commit("LOGIN_SUCCESS")
+                resolve()
+           })
+           .catch(console.error)})
     },
     loadFaveBillets({ commit, state, dispatch }) {
         window.axios.get('/billets_fave')

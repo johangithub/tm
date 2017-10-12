@@ -88,10 +88,10 @@ export default{
       }
       else if (this.userRole == 'assignment_officer'){
         return [
-          {name: "My Profile", link: "profile"},
-          {name: "AO Dashboard", link: "#"},
-          {name: "Manage Officers", link: "find_officers"},
-          {name: "Manage Billets", link: "find_billets"},
+          // {name: "My Profile", link: "profile"},
+          {name: "CFM Dashboard", link: "cfm_dashboard"},
+          // {name: "Manage Officers", link: "find_officers"},
+          // {name: "Manage Billets", link: "find_billets"},
         ]
       }
       else{
