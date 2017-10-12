@@ -10,7 +10,7 @@
       </v-layout>
       <v-layout row v-if="faveBillets.length===0">
           <v-flex xs12>
-              <v-alert warning value="true">Please favorite some billets!
+              <v-alert warning value="true">Please favorite some Billets!
               </v-alert>
           </v-flex>
       </v-layout>
@@ -75,16 +75,7 @@ export default {
     rankBillets: {
         //need getter to be faveBillets to get from vuex state
         get: function () {
-            var tempArray = []
-            window.axios.get('/billet_view').then(response=>{
-              response.data.data.forEach(d=>{
-                if (this.faveBillets.indexOf(d.id)>=0){
-                  tempArray.push(d)
-                }
-              })
-            })
-            console.log(tempArray)
-            return tempArray
+            return this.faveBillets
         },  
         //need setter to dispatch ranked billets to the store so 
         //vuex state 'faveBillets' always has most recent rank - 
@@ -113,10 +104,11 @@ export default {
     showReqMethod: function(event){
       //shows req and updates (allows dialog to dynamically update values) 
       var id = event.currentTarget.id
-      // var billet = this.faveBillets.filter((d)=>{return d == id})[0]
+      var billet = this.faveBillets.filter((d)=>{return d == id})[0]
       window.axios.get('/billet_view').then(response=>{
-        this.dialogData = response.data.data.filter(d=> {return d.id == id})[0]
+        this.dialogData = response.data.data.filter(d=>{return d.id == id})[0]
       })
+
     },
     submit: function () {
       window.axios.post('/billets_fave', {

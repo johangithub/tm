@@ -104,8 +104,9 @@ export default {
     showOffMethod: function(event){
       //shows req and updates (allows dialog to dynamically update values) 
       var id = event.currentTarget.id
-      var officer = this.faveOfficers.filter((d)=>{return d == id})[0]
-      this.dialogData.id = officer
+      window.axios.get('/officer_view').then(response=>{
+        this.dialogData = response.data.data.filter(d=>{return d.ID == id})[0]
+      })
     },
     submit: function () {
       window.axios.post('/billets_fave', {

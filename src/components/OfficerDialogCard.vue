@@ -1,9 +1,9 @@
 <template>
       <v-card>
         <v-card-title class="headline"><v-spacer></v-spacer>
-          <v-btn fab primary small flat @click.native.stop="close"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+          <v-btn fab primary small flat @click.native="$emit('offClose')"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
-            ID: {{dialogData.id}} <br>
+            ID: {{dialogData.ID}} <br>
             Grade: {{dialogData.grade}} <br>
             Adjusted Year Group: {{dialogData.adjYG}} <br>
             Rating: {{dialogData.RTG}} <br>
