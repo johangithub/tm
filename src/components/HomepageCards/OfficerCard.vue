@@ -1,5 +1,5 @@
 <template>
-    <v-card style="border-radius: 4px;" elevation-10>
+    <v-card>
         <v-card-media
                   class="headline"
                   height="200px"
