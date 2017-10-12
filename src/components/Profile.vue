@@ -540,15 +540,23 @@
   <v-flex xs12 sm6 md4>
   <v-expansion-panel class="mt-2">
     <v-expansion-panel-content>
-      <div slot="header">Aircraft Data</div>
+      <div slot="header" class="title">Aircraft Data</div>
       <v-card>
         <v-card-text class="grey lighten-3">
-        <div>Aircraft // Hours // Date Last Flown</div>
-        <div v-for="ac in profileData.rated.aircraft_history">
-        {{ ac.aircraft }} //
-        {{ ac.hours }} //
-        {{ ac.aircraft_date_flown }}
-        </div>
+              <v-layout row>
+                  <v-flex xs12>
+                      <block-text-field :value="profileData.rated.aircraft_history"
+                                        :table="true"
+                                        :headers="['Aircraft','Hours','Date Last Flown']">
+                          Aircraft 
+                          <template slot="row" scope="props">
+                              <td>{{props.item.aircraft}}</td>
+                              <td>{{Math.round(props.item.hours)}}</td>
+                              <td>{{props.item.aircraft_date_flown}}</td>
+                          </template>
+                      </block-text-field> 
+                  </v-flex>
+              </v-layout>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
