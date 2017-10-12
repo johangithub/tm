@@ -610,7 +610,7 @@
     <v-expansion-panel-content>
       <div slot="header">Self Advertise</div>
       <v-card class="grey lighten-3">
-          <v-layout row class="pr-2 pt-2">
+<!--           <v-layout row class="pr-2 pt-2">
               <v-spacer></v-spacer>
               <v-btn small success @click.native="save">Save</v-btn>
               <v-snackbar
@@ -618,7 +618,7 @@
                 :top="true"
                 v-model="snackbarSave"
               >Saved!<v-btn flat class="green--text" @click.native="snackbarSave = false">Close</v-btn></v-snackbar>
-         </v-layout>
+         </v-layout> -->
         <v-card-text class="grey lighten-3">
         <v-layout row>
         <v-flex xs3>
@@ -723,7 +723,7 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
   </div>
-  <v-layout row class="mt-2">
+<!--   <v-layout row class="mt-2">
       <v-flex xs12 offset-sm3 sm6 offset-md4 md4 class="text-xs-center">
       <v-btn block large primary @click.native="submit">Submit</v-btn>
       <v-snackbar
@@ -732,7 +732,7 @@
         v-model="snackbar"
       >Submitted!<v-btn flat class="blue--text" @click.native="snackbar = false">Close</v-btn></v-snackbar>
       </v-flex>
-  </v-layout>
+  </v-layout> -->
   </v-container>
 </template>
 
@@ -747,12 +747,11 @@ var aac = require('@/format/aac')
 var alc = require('@/format/alc')
 var course = require('@/format/course')
 export default {
-  props: ['id', 'value'],
+  props: ['id', 'value', 'profileData'],
   data(){
     return {
       snackbar: false,
       snackbarSave: false,
-      profileData: JSON.parse(localStorage.getItem("profileData")),
       qualList:[
       'SEFE',
       'WIC',
@@ -828,30 +827,30 @@ export default {
     ajh4Format(value){
       return ajh4[value]
     },
-    save() {
-        localStorage.setItem("profileData", JSON.stringify(this.profileData))
-        this.snackbarSave = true
+    // save() {
+    //     localStorage.setItem("profileData", JSON.stringify(this.profileData))
+    //     this.snackbarSave = true
         
-    },
-    submit() {
-        //must stringify profileData before setting to localStorage
-        localStorage.setItem("profileData", JSON.stringify(this.profileData))
-        window.axios.post('/officers', {
-            comment: this.profileData.comment,
-            desiredDepartureDate: this.profileData.desiredDepartureDate,
-            desiredRNLTD: this.profileData.desiredRNLTD,
-            qualifications: this.profileData.qualifications,
-            interests: this.profileData.interests
-        }) 
-        .then((response)=>{
-            console.log('information sent')
-            this.snackbar = true
-        })
-        .catch((err)=>{
-            console.log(err)
-            this.snackbar = false
-        })
-    }
+    // },
+    // submit() {
+    //     //must stringify profileData before setting to localStorage
+    //     localStorage.setItem("profileData", JSON.stringify(this.profileData))
+    //     window.axios.post('/officers', {
+    //         comment: this.profileData.comment,
+    //         desiredDepartureDate: this.profileData.desiredDepartureDate,
+    //         desiredRNLTD: this.profileData.desiredRNLTD,
+    //         qualifications: this.profileData.qualifications,
+    //         interests: this.profileData.interests
+    //     }) 
+    //     .then((response)=>{
+    //         console.log('information sent')
+    //         this.snackbar = true
+    //     })
+    //     .catch((err)=>{
+    //         console.log(err)
+    //         this.snackbar = false
+    //     })
+    // }
   },
   computed: {
     ...mapGetters([
@@ -862,14 +861,14 @@ export default {
     profileId(){
       return this.id ? this.id : store.getters.userId
     },
-    prettyData(){
-      if (this.profileData){
-        return JSON.stringify(this.profileData, null, 2);
-      }
-      else{
-        return ""
-      }
-    },
+    // prettyData(){
+    //   if (this.profileData){
+    //     return JSON.stringify(this.profileData, null, 2);
+    //   }
+    //   else{
+    //     return ""
+    //   }
+    // },
     rank(){
       var rank_obj = {
         "01": "2LT",
@@ -893,8 +892,6 @@ export default {
     'block-text-field': BlockTextField
   },
   mounted: function(){
-      console.log('mounted profile')
-      console.log(this.profileData)
   }
 }
 </script>

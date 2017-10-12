@@ -14,11 +14,11 @@
         <home></home>
         <v-layout row>
         <v-spacer></v-spacer>
-        <v-btn primary @keyup.@click.native="step += 1">Continue</v-btn>
+        <v-btn primary @click.native="step += 1">Continue</v-btn>
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <profile :value="step"></profile>
+        <profile :profileData="profileData" :value="step"></profile>
         <v-layout row>
         <v-btn class="ml-3" warning @click.native="step -= 1">Back</v-btn>
         <v-spacer></v-spacer>
@@ -52,7 +52,8 @@ import RankBillets from '@/components/RankBillets'
 export default{
   data(){
     return {
-      step: 1
+      step: 1,
+      profileData: JSON.parse(localStorage.getItem("profileData")),
     }
   },
   components:{
@@ -64,7 +65,7 @@ export default{
   mounted: function(){
     window.addEventListener('keydown', (e)=>{
       if(e.keyCode==39){
-        this.step = this.step >= 5 ? 5 : this.step + 1
+        this.step = this.step >= 4 ? 4 : this.step + 1
       }
       else if(e.keyCode==37){
         this.step = this.step <= 1 ? 1 : this.step - 1

@@ -11,10 +11,11 @@
       <td class="text-xs-left">
         <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
       </td>
+      <td>{{props.item.actual_duty_title}}</td>
       <td>{{props.item.unit}}</td>
       <td>{{props.item.state}}</td>
       <td><v-icon class="red--text text--darken-2">thumb_down</v-icon></td>
-      <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Current Bids</v-btn></td>
+      <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Bids</v-btn></td>
       <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
   </template>
   </v-data-table> 
@@ -36,6 +37,9 @@ export default{
       headers: [
         {
             text: '', value: 'id', align: 'center', sortable: false
+        },
+        {
+            text: 'Title', value: 'title', align: 'left'
         },
         {
             text: 'Unit', value: 'unit', align: 'left'
