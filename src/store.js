@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
     //if user saved their ranked billets, pull them from local storage, 
     //else start with empty array TODO: need to get from server first
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
-    faveOfficers: localStorage.getItem('rankedOfficers') ? JSON.parse(localStorage.getItem('rankedOfficers')) : {},
+    faveOfficers: localStorage.getItem('rankedOfficers') ? JSON.parse(localStorage.getItem('rankedOfficers')) : [],
     curFaveOfficers: [],
     //dates for cycle
     startCycle:  localStorage.getItem("startCycle"),
@@ -91,20 +91,12 @@ export const store = new Vuex.Store({
         state.faveOfficers = payload
     },
     ADD_OFFICER (state, payload) {
-      if (state.curFaveOfficers == []){
-        state.curFaveOfficers.push(payload)
-      }
-      else if (state.curFaveOfficers.some(function(d) {d.ID === payload.ID})) {
-        return
-      } else {
-        state.curFaveOfficers.push(payload)    
-      }
+      state.faveOfficers.push(payload)
     },
     REMOVE_OFFICER (state, payload) {
-        //payload is object and index property is index of officer to remove
-        // var removeIndex = state.curFaveOfficers.findIndex(function(d) {
-          // return d.ID === payload.ID})
-        state.curFaveOfficers.splice(removeIndex,1)
+      //payload is object and index property is index of officer to remove
+      var ind = state.faveOfficers.indexOf(payload)
+      state.faveOfficers.splice(ind,1)
     },
     SET_CUR_FAV_OFFICERS (state,payload) {
         //payload is the array of ranked officers 

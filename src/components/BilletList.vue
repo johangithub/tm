@@ -14,7 +14,10 @@
       <td>{{props.item.actual_duty_title}}</td>
       <td>{{props.item.unit}}</td>
       <td>{{props.item.state}}</td>
-      <td><v-icon class="red--text text--darken-2">thumb_down</v-icon></td>
+      <td>
+        <v-icon v-if="isComplete(props.item.id)" class="green--text text--darken-2">thumb_up</v-icon>
+        <v-icon v-else class="red--text text--darken-2">thumb_down</v-icon>
+      </td>
       <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Bids</v-btn></td>
       <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
   </template>
@@ -28,7 +31,7 @@
 <script>
 import ReqDialogCard from '@/components/ReqDialogCard'
 export default{
-  props: ['myBillets'],
+  props: ['myBillets', 'completedBillets'],
   components: {
     'req-dialog-card': ReqDialogCard
   },
@@ -81,6 +84,9 @@ export default{
 
       var id = event.currentTarget.id
       console.log('View Bids for ',id)
+    },
+    isComplete: function(id){
+      return this.completedBillets.some(d=>{return d==id}) ? true : false
     }
   },
   mounted: function(){

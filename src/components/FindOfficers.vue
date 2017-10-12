@@ -2,7 +2,7 @@
   <v-container fluid>
   <v-layout row>
   <v-spacer></v-spacer>
-  <v-flex xs4 class="dc-data-count text-xs-right">
+  <v-flex xs6 class="dc-data-count text-xs-right">
     <span class="filter-count"></span>
     selected out of
     <span class="total-count"></span>
@@ -85,7 +85,7 @@
                     <td class="text-xs-left">{{props.item.rdtm}}</td>
                     <td class="text-xs-left">{{props.item.dafsc}}</td>
                     <td class="text-xs-center">
-                        <v-icon :warning="props.item.favorited" 
+                        <v-icon :warning="faveOfficers.some(d=>{return d==props.item.dod_id})" 
                                 @click="toggleFavorite(props.item)" 
                                 style="cursor: pointer;">star</v-icon></td>
                 </template> 
@@ -172,14 +172,16 @@ export default{
       if (this.step=='4'){
         dc.redrawAll()
       }
-    }
+    },
   },
   computed: {
     ...mapGetters([
-        'faveOfficers',
         'curFaveOfficers',
         'reqId'
     ]),
+    faveOfficers(){
+      return this.$store.getters.faveOfficers
+    },
     ndx(){
       return crossfilter(this.data)
     },
@@ -189,21 +191,27 @@ export default{
   },
   methods: {
     toggleFavorite: function(officer) {
-      officer.favorited = !officer.favorited
-      var off = this.data.filter(d=>{
-        return d.dod_id == officer.dod_id
-      })[0]
-      off.favorited = officer.favorited
-      this.idDim.filter(officer.dod_id)
-      this.ndx.remove()
-      this.idDim.filterAll()
-      this.ndx.add([off])
-      dc.redrawAll()
+      console.log(this.faveOfficers, officer.dod_id)
+      if (this.faveOfficers.some(d=>{return d==officer.dod_id})){
+        this.$store.dispatch('removeOfficer', officer.dod_id)
+      }
+      else {
+        this.$store.dispatch('addOfficer', officer.dod_id)
+      }
+      // officer.favorited = !officer.favorited
+      // var off = this.data.filter(d=>{
+      //   return d.dod_id == officer.dod_id
+      // })[0]
+      // off.favorited = officer.favorited
+      // this.idDim.filter(officer.dod_id)
+      // this.ndx.remove()
+      // this.idDim.filterAll()
+      // this.ndx.add([off])
+      // dc.redrawAll()
 
       //Dispatch to Vuex
-      var favorited = this.data.filter(d=>{return d.favorited}).map(d=>{return d.dod_id})
-      this.$store.dispatch('updateFavoriteOfficers', favorited)
-
+      // var favorited = this.data.filter(d=>{return d.favorited}).map(d=>{return d.dod_id})
+      // this.$store.dispatch('updateFavoriteOfficers', favorited)
     },
     showOffMethod: function(event){
         //shows officer view and updates values in dialog (needed to make dialog dynamic)

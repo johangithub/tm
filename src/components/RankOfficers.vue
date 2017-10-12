@@ -31,7 +31,7 @@
                                       <v-btn flat primary dark :id="officer" @click="showOffMethod($event)" @click.native.stop="showOff = true" >
                                       {{officer}}</v-btn></td>
                                       <!--payload for removeBillet mutation is object with index as property-->
-                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',{'index': index})">Remove</v-btn></td>
+                                      <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',officer)">Remove</v-btn></td>
                                   </tr>
                               </table>
                           </v-card>
@@ -55,7 +55,6 @@ import { mapGetters } from 'vuex'
 import { store } from '@/store'
 
 export default {
-  name: 'billet',
   data () {
     return {
       title: 'billet page',
@@ -75,13 +74,13 @@ export default {
     rankOfficers: {
         //need getter to be faveOfficers to get from vuex state
         get: function () {
-            return this.faveOfficers
+          return this.faveOfficers
         },  
         //need setter to dispatch ranked billets to the store so 
         //vuex state 'faveOfficers' always has most recent rank - 
         //remember, index of each billet in array tells rank
         set: function (rankedArray) {
-            this.$store.dispatch('rankOfficers',rankedArray) 
+          this.$store.dispatch('rankOfficers',rankedArray) 
         }
     },
     dragOptions () {

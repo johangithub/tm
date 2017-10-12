@@ -20,7 +20,7 @@
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="2">
-        <billet-list :myBillets="myBillets" @next="step += 1"></billet-list>
+        <billet-list :myBillets="myBillets" :completedBillets="completedBillets" @next="step += 1"></billet-list>
         <v-layout row>
         <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
         <v-spacer></v-spacer>
@@ -47,7 +47,7 @@
         <v-layout row>
           <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
           <v-spacer></v-spacer>
-          <v-btn primary @click.native="step += 1">Submit</v-btn>
+          <v-btn primary :disabled="faveOfficers.length==0" @click.native="submit">Submit</v-btn>
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="6">
@@ -73,13 +73,14 @@ export default{
   data(){
     return {
       step: 1,
-      myBillets: []
+      myBillets: [],
+      completedBillets: []
     }
   },
   computed: {
-    ...mapGetters(['reqId']),
+    ...mapGetters(['reqId','faveOfficers']),
     myBillet(){
-      return this.myBillets.filter(d=>{return d.id == this.reqId})[0]
+      return this.myBillets.filter(d=>{return d.id == this.reqId})[0] || {}
     }
   },
   components:{
@@ -89,6 +90,13 @@ export default{
     'find-officers': FindOfficers,
     'rank-officers': RankOfficers,
     'thanks': Thanks
+  },
+  methods: {
+    submit(){
+      this.completedBillets.push(this.reqId)
+      this.step += 1
+      console.log(this.completedBillets)
+    }
   },
   mounted: function(){
     window.addEventListener('keydown', (e)=>{
@@ -101,7 +109,7 @@ export default{
     })
     //Retrieve only the billets I own
     window.axios.get('/billet_view').then(response => {
-        this.myBillets = response.data.data.slice(0,10)
+        this.myBillets = response.data.data.filter(d=>{return d.state=='TX'}).slice(0,10)
     }).catch(console.error)
   }
 }

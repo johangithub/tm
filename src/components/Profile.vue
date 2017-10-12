@@ -53,13 +53,15 @@
         <v-card>
           <v-card-text class="grey lighten-3">
               <v-layout row>
-                  <v-flex xs5>
+                  <v-flex xs12>
                       <text-field :value="profileData.duty.pas">PASCODE:</text-field>
                   </v-flex>
-                  <v-flex d-flex>
+                </v-layout>
+                <v-layout>
+                  <v-flex xs6>
                       <text-field :value="profileData.duty.dafsc">DAFSC:</text-field>
                   </v-flex>
-                  <v-flex d-flex>
+                  <v-flex xs6>
                       <text-field :value="profileData.duty.core_afsc">CAFSC:</text-field>
                   </v-flex>
               </v-layout>
@@ -99,49 +101,49 @@
         <div slot="header" class="title">Projected</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-              <v-layout row>
-                  <v-flex xs6>
+              <v-layout row wrap>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.assignment.pas">PASCODE:</text-field>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.assignment.afsc">Projected AFSC:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
-                  <v-flex xs6>
+              <v-layout row wrap>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.assignment.asd">Assignment Selection Date:</text-field>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.assignment.pdd">PDD:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
-                  <v-flex xs6>
+              <v-layout row wrap>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.assignment.rnltd">RNLTD:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
-                  <v-flex xs6>
+              <v-layout row wrap>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.duty.eff_date">Duty Effective Date:</text-field>
                   </v-flex>
-                  <v-flex xs6>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.duty.exp_date">Duty Expiration Date:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
-                  <v-flex xs9>
+              <v-layout row wrap>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.duty.status">Duty Status:</text-field>
                   </v-flex>
-                  <v-flex xs3>
+                  <v-flex xs12>
                       <text-field :value="profileData.projected.duty.afsc_pending">DAFSC:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
+              <v-layout row wrap>
                   <v-flex xs12>
                       <text-field :value="profileData.projected.duty.title_pending">Duty Title:</text-field>
                   </v-flex>
               </v-layout>
-              <v-layout row>
+              <v-layout row wrap>
                   <v-flex xs12>
                       <text-field :value="profileData.projected.duty.cmd_lvl_pending">Organization Level:</text-field>
                   </v-flex>
@@ -231,30 +233,32 @@
   </v-flex>
 </v-layout>
 <v-layout row wrap>
-  <v-flex xs12 md4>
+    <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header" class="title">Courses</div>
+        <div slot="header" class="title">PME</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-          <!--courses-->
-          <v-layout row>
-              <v-flex xs12>
-                  <block-text-field :value="profileData.courses"
+              <v-layout row>
+                  <v-flex xs12>
+                      <text-field :value="profileData.pme.pme_highest">PME Highest:</text-field>
+                  </v-flex>
+              </v-layout> 
+              <v-layout row>
+                  <v-flex xs12>
+                  <block-text-field :value="profileData.pme.history"
                                     :table="true"
-                                    :headers="['Course','Date']">
+                                    :headers="['Level','Course','Date']">
                       Courses
                       <template slot="row" scope="props">
-                          <td>
-                              <div v-tooltip:right="{ html: courseFormat(props.item.course) }">
-                                  {{props.item.course}}
-                              </div>
-                          </td>
+                          <td>{{props.item.level || "None"}}</td>
+                          <td>{{props.item.course}}</td>
+                          <!-- <td>{{props.item.method}}</td> -->
                           <td>{{props.item.date}}</td>
-                      </template>  
+                      </template>
                   </block-text-field> 
-              </v-flex>
-          </v-layout>
+                  </v-flex>
+              </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>
@@ -335,32 +339,31 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     </v-flex>
-    <v-flex xs12 md4>
+
+  <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content>
-        <div slot="header" class="title">PME</div>
+        <div slot="header" class="title">Courses</div>
         <v-card>
           <v-card-text class="grey lighten-3">
-              <v-layout row>
-                  <v-flex xs12>
-                      <text-field :value="profileData.pme.pme_highest">PME Highest:</text-field>
-                  </v-flex>
-              </v-layout> 
-              <v-layout row>
-                  <v-flex xs12>
-                  <block-text-field :value="profileData.pme.history"
+          <!--courses-->
+          <v-layout row>
+              <v-flex xs12>
+                  <block-text-field :value="profileData.courses"
                                     :table="true"
-                                    :headers="['Level','Course','Method','Date']">
+                                    :headers="['Course','Date']">
                       Courses
                       <template slot="row" scope="props">
-                          <td>{{props.item.level || "None"}}</td>
-                          <td>{{props.item.course}}</td>
-                          <td>{{props.item.method}}</td>
+                          <td>
+                              <div v-tooltip:left="{ html: courseFormat(props.item.course) }">
+                                  {{props.item.course}}
+                              </div>
+                          </td>
                           <td>{{props.item.date}}</td>
-                      </template>
+                      </template>  
                   </block-text-field> 
-                  </v-flex>
-              </v-layout>
+              </v-flex>
+          </v-layout>
           </v-card-text>
         </v-card>
       </v-expansion-panel-content>

@@ -7,7 +7,7 @@
     </v-layout>
       <v-card class="elevation-0">
       <v-card-text>
-      <h2 class="text-xs-center">We're all set!</h2>
+      <h2 class="text-xs-center">Success!</h2>
       </v-card-text>
       </v-card>
   </v-container>

@@ -151,27 +151,8 @@
             </v-data-table>
         </v-card>
     </v-flex>
-    <v-dialog v-model="showOff" width="600px" lazy absolute>
-      <v-card>
-        <v-card-title class="headline">Officer<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showOff = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
-        <v-card-text>
-            <v-container fluid grid-list-xs>
-                <v-layout row>
-                    <v-flex flexbox v-for="(property,key) in dialogData" :key="key">
-                            <v-text-field
-                                :label="key"
-                                :value="property"
-                                readonly 
-                                ></v-text-field>
-                    </v-flex>
-                </v-layout> 
-            </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat="flat" @click.native="showOff = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
+    <v-dialog v-model="showOff" width="600px">
+        <off-dialog-card v-if="showOff" :dialogData="dialogData" @offClose="showOff = false"></off-dialog-card>
     </v-dialog>
     </v-layout>
   </v-container>
