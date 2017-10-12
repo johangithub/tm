@@ -1,13 +1,25 @@
 <template>
   <v-container id="home">
-  <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>
-  <v-layout row justify-center>
-  <!-- <v-flex xs6>
-    <officer-card v-if="userRole=='officer'"></officer-card>
-    <billet-owner-card v-if="userRole=='billet_owner'"></billet-owner-card>
-    <admin-card v-if="userRole=='admin'"></admin-card>
-    <losing-commander-card v-if="userRole=='losing_commander'"></losing-commander-card>
-  </v-flex> -->
+      <v-layout row>
+          <v-flex xs12 class="text-xs-center">
+              <v-card>
+                
+              </v-card>
+              <h3>Welcome to the Air Force's Talent Marketplace!</h3>
+          </v-flex>
+      </v-layout>
+      <v-layout row>
+          <v-flex xs12>
+              <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>
+          </v-flex>
+      </v-layout>
+  <v-layout row wrap>
+   <v-flex xs4 v-for="role in testRoles" :key="role" class="pb-3">
+    <officer-card v-if="role=='officer'"></officer-card>
+    <billet-owner-card v-if="role=='billet_owner'"></billet-owner-card>
+    <losing-commander-card v-if="role=='losing_commander'"></losing-commander-card>
+    <admin-card v-if="role=='admin'"></admin-card>
+  </v-flex> 
   </v-layout>
   </v-container>
 </template>
@@ -21,7 +33,8 @@ export default {
   name: 'home',
   data () {
     return {
-      title: 'Air Foce Talent Marketplace Home Page'
+      title: 'Air Force Talent Marketplace Home Page',
+      testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin']
     }
   },
   computed:{

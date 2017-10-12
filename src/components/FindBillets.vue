@@ -163,7 +163,7 @@ export default{
   },
   watch: {
     step: function(){
-      if (this.step==3){
+      if (this.step==2){
         dc.redrawAll()
       }
     },
@@ -242,6 +242,7 @@ export default{
     },
   },
   mounted: function(){
+      console.log('findbillets mounted')
     window.axios.get('/billet_view').then(response => {
         this.data = response.data.data
         window.billet = this.data[0]

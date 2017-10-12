@@ -2,23 +2,31 @@
 <v-card>
     <v-card-media
               class="headline"
-              height="300px"
+              height="200px"
               src="/static/iron-eagle.jpg"
             >
     </v-card-media>
-    <v-card-title>
-      <div class="headline">Billet Owners: Update your billets</div>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut veritatis, repellat saepe sapiente natus. Eos beatae tenetur eligendi doloribus magnam sit quaerat nihil vitae ipsam, enim quam ipsum, quas accusamus. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi optio consectetur explicabo facere molestias cumque pariatur expedita minus totam repellendus tempora, repudiandae sequi magni numquam atque. Quod aperiam dicta delectus.
+    <v-card-title class="pt-2 pb-0">
+      <div class="headline">
+          Billet Owners
+      </div>
     </v-card-title>
-    <v-divider></v-divider>
-    <v-card-title>
-      <div class="headline">Find officers you're interested in.</div>
-    The Find a officer tool lets you quickly filter down to billets you'd like to fill. Thanks to the participation by billet owners, you'll see a lot more data then you would in AMS. Feel free to reach out to billet POCs who have made their contact information public!
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-card-title>
-      <div class="headline">Submit your preference.</div>
-      Once you've found officers that you want, fill out your dream sheet by 3 March 2017.
-    </v-card-title>
+    <v-card-text class="pt-0 pb-2">
+        <div class="item">Advertise Your Billet</div>
+        <div class="item">Find Officers</div>
+        <div class="item">Rank Officers</div>
+    </v-card-text>
+    <v-card-actions class="pt-0">
+        <v-btn flat primary to="/stepper_billetowner" router>Begin</v-btn>  
+    </v-card-actions>
 </v-card>
 </template>
+
+<script></script>
+
+<style scoped>
+.item {
+    font-size: 13pt;
+    opacity: 0.84;
+}
+</style>

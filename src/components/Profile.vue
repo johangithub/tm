@@ -797,9 +797,10 @@ var aac = require('@/format/aac')
 var alc = require('@/format/alc')
 var course = require('@/format/course')
 export default {
-  props: ['id', 'value', 'profileData'],
+  props: ['id', 'value'],
   data(){
     return {
+      profileData: JSON.parse(localStorage.getItem("profileData")) || {},
       snackbar: false,
       snackbarSave: false,
       qualList:[
