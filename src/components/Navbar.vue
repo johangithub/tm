@@ -67,34 +67,22 @@ export default{
       return this.$store.getters.isLoggedIn
     },
     headerList(){
-      if (this.userRole == 'officer'){
-        return [
-          // {name: "My Profile", link: "profile"},
-          // {name: "Find Billets", link: "find_billets"},
-          // {name: "Rank Billets", link: "rank_billets"},
-        ]
+      console.log(this.userRoles)
+      var headers = []
+      this.userRoles.forEach(role=>{
+
+      if (role == 'officer'){
       }
-      else if (this.userRole == 'billet_owner'){
-        return [
-          // {name: "My Billets", link: "find_billets"},
-          // {name: "Find Officers", link: "find_officers"},
-          // {name: "Rank Officers", link: "rank_officers"},
-        ]
+      else if (role == 'billet_owner'){
       }
-      else if (this.userRole == 'losing_commander'){
-        return [
-          {name: "Commander Input", link:"losing_commander"}
-        ]
+      else if (role == 'losing_commander'){
       }
-      else if (this.userRole == 'assignment_officer'){
+      else if (role == 'assignment_officer'){
         return [
-          // {name: "My Profile", link: "profile"},
           {name: "CFM Dashboard", link: "cfm_dashboard"},
-          // {name: "Manage Officers", link: "find_officers"},
-          // {name: "Manage Billets", link: "find_billets"},
         ]
       }
-      else{
+      else if (role == 'admin'){
         return [
           {name: "My Profile", link: "profile"},
           {name: "Find Billets", link: "find_billets"},
@@ -107,9 +95,10 @@ export default{
           {name: "Diagrams", link: "diagrams"},
         ]
       }
+      })
     },
-    userRole(){
-      return this.$store.getters.userRole
+    userRoles(){
+      return this.$store.getters.userRole.split(',')
     }
   },
 }

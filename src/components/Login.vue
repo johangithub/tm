@@ -77,9 +77,10 @@ export default{
             }).then(() => {
                 if(localStorage.getItem("role")=='officer'){
                   this.$router.push({path: "/stepper_officer"})
-                }
-                else if(localStorage.getItem("role")=='billet_owner'){
+                } else if(localStorage.getItem("role")=='billet_owner'){
                   this.$router.push({path: "/stepper_billetowner"})
+                } else if (localStorage.getItem("role")=='commander'){
+                  this.$router.push({path: "/stepper_losingcommander"})
                 }
                 else{
                   this.$router.push({path: "/"})
