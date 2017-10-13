@@ -169,7 +169,7 @@ export default{
   props: ['step'],
   watch: {
     step: function(){
-      if (this.step=='4'){
+      if (this.step=='3'){
         dc.redrawAll()
       }
     },

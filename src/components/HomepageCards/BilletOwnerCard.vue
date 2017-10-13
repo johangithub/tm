@@ -1,5 +1,5 @@
 <template>
-<v-card>
+<v-card class="elevation-8">
     <v-card-media
               class="headline"
               height="200px"
@@ -8,7 +8,7 @@
     </v-card-media>
     <v-card-title class="pt-2 pb-0">
       <div class="headline">
-          Billet Owners
+          Billet Owner
       </div>
     </v-card-title>
     <v-card-text class="pt-0 pb-2">

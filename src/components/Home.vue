@@ -1,24 +1,53 @@
 <template>
   <v-container id="home">
-      <v-layout row>
-          <v-flex xs12 class="text-xs-center">
-              <v-card>
-                
-              </v-card>
-              <h3>Welcome to the Air Force's Talent Marketplace!</h3>
-          </v-flex>
-      </v-layout>
-      <v-layout row>
+      <v-layout row class="pb-3">
           <v-flex xs12>
-              <p>Congratulations! As an active participant on the FY18 Summer VML cycle, you have been chosen to help shape the future Air Force assignment system.</p>
+              <v-card class="elevation-8">
+                  <v-card-media
+                      height="350px"
+                      src="/static/welcome_tight.jpg">
+                      <v-container fill-height fluid>
+                          <v-layout fill-height>
+                              <v-flex xs12 align-end flexbox>
+                                  <span class="headline white--text">Welcome!</span>
+                              </v-flex>
+                          </v-layout>
+                      </v-container>
+                  </v-card-media>
+              </v-card>
           </v-flex>
       </v-layout>
-  <v-layout row wrap>
+      <v-layout row class="pb-3">
+          <v-flex xs3>
+              <v-card height="200px" class="elevation-8">
+                  <v-card-media
+                      height="200px">
+                      <iframe width="100%" height="200"
+                              src="https://www.youtube.com/embed/I8i8hVrkF0o"
+                              frameborder="0"
+                              allowfullscreen></iframe>
+                  </v-card-media>
+              </v-card>      
+          </v-flex>
+          <v-flex xs9>
+              <v-card height="200px" class="elevation-8">
+                  <v-card-title class="headline">
+                      Tutorial
+                  </v-card-title>
+                  <v-card-text>
+                      Watch the video to see a F-15 video (Talent Marketplace demo in the works)!
+                  </v-card-text>
+              </v-card>
+          </v-flex>
+      </v-layout>
+  <v-layout row justify-space-around wrap>
    <v-flex xs4 v-for="role in testRoles" :key="role" class="pb-3">
     <officer-card v-if="role=='officer'"></officer-card>
     <billet-owner-card v-if="role=='billet_owner'"></billet-owner-card>
     <losing-commander-card v-if="role=='losing_commander'"></losing-commander-card>
-    <admin-card v-if="role=='admin'"></admin-card>
+    <majcom-card v-if="role=='majcom'"></majcom-card>
+    <afpc-card v-if="role=='afpc'"></afpc-card>
+    <!--<admin-card v-if="role=='admin'"></admin-card>-->
   </v-flex> 
   </v-layout>
   </v-container>
@@ -27,14 +56,17 @@
 <script>
 import OfficerCard from './HomepageCards/OfficerCard'
 import BilletOwnerCard from './HomepageCards/BilletOwnerCard'
-import AdminCard from './HomepageCards/AdminCard'
 import LosingCommanderCard from './HomepageCards/LosingCommanderCard'
+import MajcomCard from './HomepageCards/MajcomCard'
+import AfpcCard from './HomepageCards/AfpcCard'
+import AdminCard from './HomepageCards/AdminCard'
 export default {
   name: 'home',
   data () {
     return {
       title: 'Air Force Talent Marketplace Home Page',
-      testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin']
+      testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
+      newRoles: ['officer','billet_owner']
     }
   },
   computed:{
@@ -47,7 +79,15 @@ export default {
     'officer-card': OfficerCard,
     'billet-owner-card': BilletOwnerCard,
     'admin-card': AdminCard,
-    'losing-commander-card': LosingCommanderCard
+    'losing-commander-card': LosingCommanderCard,
+    'afpc-card': AfpcCard,
+    'majcom-card': MajcomCard,
   }
 }
 </script>
+
+<style scoped>
+.banner {
+    
+}
+</style>

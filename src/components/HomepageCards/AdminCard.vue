@@ -2,7 +2,7 @@
 <v-card>
     <v-card-media
               class="headline"
-              height="400px"
+              height="200px"
               src="/static/always_be_coding.jpg"
             >
     </v-card-media>
