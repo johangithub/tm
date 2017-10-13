@@ -85,7 +85,7 @@
                     <td class="text-xs-left">{{props.item.rdtm}}</td>
                     <td class="text-xs-left">{{props.item.dafsc}}</td>
                     <td class="text-xs-center">
-                        <v-icon :warning="faveOfficers.some(d=>{return d==props.item.dod_id})" 
+                        <v-icon :warning="faveOfficers.includes(props.item.dod_id)" 
                                 @click="toggleFavorite(props.item)" 
                                 style="cursor: pointer;">star</v-icon></td>
                 </template> 
@@ -192,7 +192,7 @@ export default{
   methods: {
     toggleFavorite: function(officer) {
       console.log(this.faveOfficers, officer.dod_id)
-      if (this.faveOfficers.some(d=>{return d==officer.dod_id})){
+      if (this.faveOfficers.includes(officer.dod_id)){
         this.$store.dispatch('removeOfficer', officer.dod_id)
       }
       else {

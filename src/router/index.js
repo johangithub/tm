@@ -17,6 +17,7 @@ import CFMDashboard from '@/components/CFMDashboard'
 import OfficerStepper from '@/components/OfficerStepper'
 import BilletOwnerStepper from '@/components/BilletOwnerStepper'
 import MajcomOwnerStepper from '@/components/MajcomOwnerStepper'
+import LosingCommanderStepper from '@/components/LosingCommanderStepper'
 import { store } from '@/store.js'
 Vue.use(Router)
 export const router = new Router({
@@ -136,6 +137,14 @@ export const router = new Router({
       }
     },
     {
+      path: '/stepper_losingcommander',
+      name: 'LosingCommanderStepper',
+      component: LosingCommanderStepper,
+      meta: {
+        authRequired: true
+      }
+    },
+    {
       path: '/stepper_billetowner',
       name: 'BilletOwnerStepper',
       component: BilletOwnerStepper,
@@ -159,31 +168,33 @@ export const router = new Router({
 router.beforeEach((to, from, next) => {
   const authed = store.getters.isLoggedIn
   const authRequired = to.meta.authRequired
-  const profileViewRequired = to.meta.profileViewRequired
-  const id = store.getters.userId
-  const role = store.getters.role
-
-  //if authentication is required and not logged in, then send to login page 
+  // const profileViewRequired = to.meta.profileViewRequired
+  // const id = store.getters.userId
+  // const role = store.getters.role
+  // if authentication is required and not logged in, then send to login page 
   if (to.path=='/activate'){
     next()
   }
   else if (authRequired && !authed){
     next('/login')
   }
-  //If visiting profile, check the authority and automatically reroute to his profile id
-  //Differentiate between officer who can only view his profile and someone who can view anyone'someone
-  else if (/\/profile\/\d+/.test(to.path)){
-    //Only let admin through for other profile view
-    if (role == 'admin'){
-      next()
-    }
-    //if role is not sufficient, forward to his own profile
-    else{
-      next('/profile')
-    }
-  }
-  else {
+  else{
     next()
   }
+  // //If visiting profile, check the authority and automatically reroute to his profile id
+  // //Differentiate between officer who can only view his profile and someone who can view anyone'someone
+  // else if (/\/profile\/\d+/.test(to.path)){
+  //   //Only let admin through for other profile view
+  //   if (role == 'admin'){
+  //     next()
+  //   }
+  //   //if role is not sufficient, forward to his own profile
+  //   else{
+  //     next('/profile')
+  //   }
+  // }
+  // else {
+  //   next()
+  // }
 })
 

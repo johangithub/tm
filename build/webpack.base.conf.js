@@ -75,7 +75,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       d3: 'd3',
       crossfilter: 'crossfilter2',
-      dc: 'dc'
+      dc: 'dc',
+      _: 'lodash'
     })
   ]
 }

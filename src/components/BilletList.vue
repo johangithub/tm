@@ -83,10 +83,10 @@ export default{
       console.log(event)
 
       var id = event.currentTarget.id
-      console.log('View Bids for ',id)
+      console.log('View Bids for ', id)
     },
     isComplete: function(id){
-      return this.completedBillets.some(d=>{return d==id}) ? true : false
+      return this.completedBillets.includes(id)
     }
   },
   mounted: function(){

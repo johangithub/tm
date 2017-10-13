@@ -141,10 +141,11 @@ export const store = new Vuex.Store({
                       return JSON.parse(window.atob(base64));
                     }
                     var token_decoded = parseJwt(token)
+                    var roles = token_decoded.role.split(',')
+                    localStorage.setItem("role", token_decoded.role)
                     //add token to axios
                     localStorage.setItem("token", token)
                     window.axios.defaults.headers.common.Authorization = token
-                    localStorage.setItem("role", token_decoded.role)
                     localStorage.setItem("id", token_decoded.id)
                     //get favorite billets if officer is logging in
                     dispatch('getCycleDates')
