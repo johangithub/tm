@@ -6,7 +6,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="isLoggedIn" class="hidden-sm-and-down">
-        <v-btn class="white--text" flat v-for="item in headerList" :to="'/'+item.link" :key="item.name" router>{{item.name}}</v-btn>
+        <v-btn class="white--text" flat to="Home" router>Home</v-btn>
         <v-btn class="white--text" flat @click.native.stop="dialog = true">About</v-btn><my-about v-model="dialog"></my-about>
         <v-btn class="white--text" flat @click="logout">LOG OUT</v-btn>
     </v-toolbar-items>
@@ -20,14 +20,7 @@
 </v-toolbar>
 <v-navigation-drawer temporary dark right v-model="sideNav" class="hidden-md-and-up">
   <v-list>
-      <v-list-tile 
-          v-for="item in headerList" 
-          :key="item.name"
-          router
-          :to="'/'+item.link"
-          >
-          <v-list-tile-content>{{item.name}}</v-list-tile-content>
-      </v-list-tile>
+      <v-list-tile to="Home" router>Home</v-list-tile>
       <v-list-tile @click.native.stop="showAboutSide">About<my-about v-model="dialog"></my-about></v-list-tile>
       <v-list-tile v-if="isLoggedIn" @click="logout">Log out</v-list-tile>
       <v-list-tile v-if="!isLoggedIn" router to="/login"></v-list-tile>

@@ -2,13 +2,30 @@
 <v-card>
     <v-card-media
               class="headline"
-              height="300px"
+              height="200px"
               src="/static/iron-eagle.jpg"
             >
     </v-card-media>
-    <v-card-title>
-      <div class="headline">Commanders: Vector your Officers</div>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia perferendis quidem distinctio laudantium aspernatur rem incidunt. Veritatis quos quae ducimus voluptatum sapiente eaque rem nemo nobis, architecto dicta exercitationem delectus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed ut voluptate, et, est, quam dolorum iste ipsum tempore facere fuga fugit assumenda quis dolore qui! Esse voluptatibus, distinctio facilis odit!
+    <v-card-title class="pt-2 pb-0">
+      <div class="headline">Losing Commanders</div>
     </v-card-title>
+    <v-card-text class="pt-0 pb-2">
+        <div class="item">Rank Your Officers</div>
+        <div class="item">Vector your Officers</div>
+        <div class="item">Provide Comments</div>
+    </v-card-text>
+    <v-card-actions class="pt-0">
+        <v-btn flat primary to="/losing_commander" router>Begin</v-btn>  
+    </v-card-actions>
 </v-card>
 </template>
+
+<script></script>
+
+<style scoped>
+.item {
+    font-size: 13pt;
+    opacity: 0.84;
+}
+    
+</style>
