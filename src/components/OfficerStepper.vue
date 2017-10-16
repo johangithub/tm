@@ -28,7 +28,7 @@
         <v-layout row>
           <v-btn class="ml-3" warning @click.native="step -= 1">Back</v-btn>
           <v-spacer></v-spacer>
-          <v-btn primary @click.native="step += 1">Submit</v-btn>
+          <v-btn primary :disabled="!readyToSubmit" @click.native="step += 1">Submit</v-btn>
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="4">
@@ -46,11 +46,17 @@ import Profile from '@/components/Profile'
 import FindBillets from '@/components/FindBillets'
 import RankBillets from '@/components/RankBillets'
 import Thanks from '@/components/Thanks'
-import {store} from 'vuex'
+import {store, mapGetters} from 'vuex'
 export default{
   data(){
     return {
       step: 1,
+    }
+  },
+  computed: {
+    ...mapGetters(['faveBillets']),
+    readyToSubmit(){
+      return this.faveBillets.length != 0
     }
   },
   components:{
@@ -61,14 +67,14 @@ export default{
     'thanks': Thanks
   },
   mounted: function(){
-    window.addEventListener('keydown', (e)=>{
-      if(e.keyCode==39){
-        this.step = this.step >= 4 ? 4 : this.step + 1
-      }
-      else if(e.keyCode==37){
-        this.step = this.step <= 1 ? 1 : this.step - 1
-      }
-    })
+    // window.addEventListener('keydown', (e)=>{
+    //   if(e.keyCode==39 || (this.step == 3 && this.readyToSubmit)){
+    //     this.step = this.step >= 4 ? 4 : this.step + 1
+    //   }
+    //   else if(e.keyCode==37){
+    //     this.step = this.step <= 1 ? 1 : this.step - 1
+    //   }
+    // })
   }
 }
 </script>

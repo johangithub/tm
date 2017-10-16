@@ -15,11 +15,11 @@
       <td>{{props.item.unit}}</td>
       <td>{{props.item.state}}</td>
       <td>
-        <v-icon v-if="isComplete(props.item.id)" class="green--text text--darken-2">thumb_up</v-icon>
-        <v-icon v-else class="red--text text--darken-2">thumb_down</v-icon>
+        <v-icon v-if="isComplete(props.item.id)" class="blue--text text--darken-2">check_circle</v-icon>
+        <v-icon v-else class="yellow--text text--darken-2">remove_circle</v-icon>
       </td>
       <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Bids</v-btn></td>
-      <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Bid Officers</v-btn></td>
+      <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Find Officers</v-btn></td>
   </template>
   </v-data-table> 
   <v-dialog v-model="showReq" width="600px">
@@ -40,7 +40,7 @@ export default{
       selected: [],
       headers: [
         {
-            text: '', value: 'id', align: 'center', sortable: false
+            text: 'AFPCID', value: 'id', align: 'left', sortable: false
         },
         {
             text: 'Title', value: 'title', align: 'left'
@@ -86,7 +86,7 @@ export default{
       console.log('View Bids for ', id)
     },
     isComplete: function(id){
-      return this.completedBillets.includes(id)
+      return this.completedBillets.includes(id.toString())
     }
   },
   mounted: function(){

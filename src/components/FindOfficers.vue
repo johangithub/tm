@@ -169,7 +169,7 @@ export default{
   props: ['step'],
   watch: {
     step: function(){
-      if (this.step=='3'){
+      if (this.step=='2'){
         dc.redrawAll()
       }
     },
@@ -191,27 +191,13 @@ export default{
   },
   methods: {
     toggleFavorite: function(officer) {
-      console.log(this.faveOfficers, officer.dod_id)
       if (this.faveOfficers.includes(officer.dod_id)){
         this.$store.dispatch('removeOfficer', officer.dod_id)
       }
       else {
         this.$store.dispatch('addOfficer', officer.dod_id)
       }
-      // officer.favorited = !officer.favorited
-      // var off = this.data.filter(d=>{
-      //   return d.dod_id == officer.dod_id
-      // })[0]
-      // off.favorited = officer.favorited
-      // this.idDim.filter(officer.dod_id)
-      // this.ndx.remove()
-      // this.idDim.filterAll()
-      // this.ndx.add([off])
-      // dc.redrawAll()
-
-      //Dispatch to Vuex
-      // var favorited = this.data.filter(d=>{return d.favorited}).map(d=>{return d.dod_id})
-      // this.$store.dispatch('updateFavoriteOfficers', favorited)
+      console.log(this.faveOfficers)
     },
     showOffMethod: function(event){
         //shows officer view and updates values in dialog (needed to make dialog dynamic)

@@ -739,7 +739,7 @@
         </v-menu>
         </v-flex>
         <v-flex xs3>
-        <div>Quals</div>
+        <div>Qualifications</div>
         <v-select
           :items="qualList"
           v-model="profileData.qualifications"
@@ -815,9 +815,7 @@ export default {
       ],
       interestList: [
       'ALO Assignment',
-      'Palace Chase',
-      'Separate',
-      'Squadron Snacko'      
+      'Remote 365'
       ],
       showDDD: false,
       showRNLTD: false,

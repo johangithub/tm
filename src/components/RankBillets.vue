@@ -30,6 +30,9 @@
                                       <td style="width 10%">
                                       <v-btn flat primary dark :id="billet" @click="showReqMethod($event)" @click.native.stop="showReq = true" >
                                       {{billet}}</v-btn></td>
+                                      <td>{{billetInfo(billet).actual_duty_title}}</td>
+                                      <td>{{billetInfo(billet).unit}}</td>
+                                      <td>{{billetInfo(billet).location}}</td>
                                       <!--payload for removeBillet mutation is object with index as property-->
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeBillet',{'index': index})">Remove</v-btn></td>
                                   </tr>
@@ -65,22 +68,23 @@ export default {
       isDragging: false,
       delayedDragging: false,
       submitted: false,
-      clickedId: null
+      clickedId: null,
+      billetData: [],
     }
   },
   computed: {
-    ...mapGetters([
-        'faveBillets'
-    ]),
+    ...mapGetters(['faveBillets']),
     rankBillets: {
-        //need getter to be faveBillets to get from vuex state
+        // need getter to be faveBillets to get from vuex state
         get: function () {
+          // console.log(this.faveBillets.length)
             return this.faveBillets
         },  
-        //need setter to dispatch ranked billets to the store so 
-        //vuex state 'faveBillets' always has most recent rank - 
-        //remember, index of each billet in array tells rank
+        // need setter to dispatch ranked billets to the store so 
+        // vuex state 'faveBillets' always has most recent rank - 
+        // remember, index of each billet in array tells rank
         set: function (rankedArray) {
+          // console.log(rankedArray.map(d=>{return d.id}))
             this.$store.dispatch('rankBillets',rankedArray) 
         }
     },
@@ -104,7 +108,7 @@ export default {
     showReqMethod: function(event){
       //shows req and updates (allows dialog to dynamically update values) 
       var id = event.currentTarget.id
-      var billet = this.faveBillets.filter((d)=>{return d == id})[0]
+      // var billet = this.faveBillets.filter((d)=>{return d == id})[0]
       window.axios.get('/billet_view').then(response=>{
         this.dialogData = response.data.data.filter(d=>{return d.id == id})[0]
       })
@@ -112,11 +116,14 @@ export default {
     },
     submit: function () {
       window.axios.post('/billets_fave', {
-          rankedBillets: JSON.stringify(this.faveBillets)
+          rankBillets: JSON.stringify(this.faveBillets)
       }).then(response => {
           console.log('information sent')
           this.submitted = true; 
       }).catch(console.error)
+    },
+    billetInfo: function(id){
+      return this.billetData.filter(d=>{return d.id == id})[0]
     }
   },
   watch: {
@@ -134,9 +141,14 @@ export default {
   components: {
     'draggable': draggable,
     'req-dialog-card': ReqDialogCard
+  },
+  mounted: function(){
+    window.axios.get('/billet_view').then(response=>{
+      this.billetData = response.data.data
+    })
   }
 }
-</script>
+</script>billetData
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

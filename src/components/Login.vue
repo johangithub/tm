@@ -107,6 +107,11 @@ export default{
   },
   mounted: function(){
     console.log('login mounted')
+    window.addEventListener('keyup', (e)=>{
+      if (!this.agreed && e.keyCode == 13){
+        this.agreed = true
+      }
+    })
   }
 }
 </script>

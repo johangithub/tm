@@ -30,6 +30,10 @@
                                       <td style="width 10%">
                                       <v-btn flat primary dark :id="officer" @click="showOffMethod($event)" @click.native.stop="showOff = true" >
                                       {{officer}}</v-btn></td>
+                                      <td>{{grade[officerInfo(officer).general.grade]}}</td>
+                                      <td>{{officerInfo(officer).general.firstName}}</td>
+                                      <td>{{officerInfo(officer).general.lastName}}</td>
+                                      <td>{{rdtm[officerInfo(officer).rated.rdtm]}}</td>
                                       <!--payload for removeBillet mutation is object with index as property-->
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',officer)">Remove</v-btn></td>
                                   </tr>
@@ -53,7 +57,7 @@ import draggable from 'vuedraggable'
 import OfficerDialogCard from '@/components/OfficerDialogCard'
 import { mapGetters } from 'vuex'
 import { store } from '@/store'
-
+import rdtm from '@/format/rdtm'
 export default {
   data () {
     return {
@@ -64,7 +68,16 @@ export default {
       isDragging: false,
       delayedDragging: false,
       submitted: false,
-      clickedId: null
+      clickedId: null,
+      officerData: [],
+      rdtm: rdtm,
+      grade: {
+        '01': '2LT',
+        '02': '1LT',
+        '03': 'CPT',
+        '04': 'MAJ',
+        '05': 'LTC'
+      }
     }
   },
   computed: {
@@ -103,9 +116,7 @@ export default {
     showOffMethod: function(event){
       //shows req and updates (allows dialog to dynamically update values) 
       var id = event.currentTarget.id
-      window.axios.get('/officer_view').then(response=>{
-        this.dialogData = response.data.data.filter(d=>{return d.ID == id})[0]
-      })
+      this.dialogData = this.officerData.filter(d=>{return d.dod_id == id})[0]
     },
     submit: function () {
       window.axios.post('/billets_fave', {
@@ -114,6 +125,9 @@ export default {
           console.log('information sent')
           this.submitted = true; 
       }).catch(console.error)
+    },
+    officerInfo: function(id){
+      return this.officerData.filter(d=>{return d.dod_id == id})[0]
     }
   },
   watch: {
@@ -123,7 +137,7 @@ export default {
             this.delayedDragging = true
             return
         }
-        this.$nextTick( () => {
+        this.$nextTick(() => {
             this.delayedDragging = false
         })
     }
@@ -131,6 +145,11 @@ export default {
   components: {
     'draggable': draggable,
     'off-dialog-card': OfficerDialogCard
+  },
+  mounted: function(){
+    window.axios.get('/ao_dashboard_view').then(response=>{
+      this.officerData = response.data.data
+    })
   }
 }
 </script>

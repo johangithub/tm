@@ -88,7 +88,7 @@
             :items="items" 
             :search="search"
             selected-key="id"
-            :rows-per-page-items="[5,10,25,{text: 'All', value: -1}]">
+            :rows-per-page-items="[10,25,{text: 'All', value: -1}]">
             <template slot="items" scope="props">
               <!--TODO: edit for IE11 support (see vuetify docs)-->
               <td class="text-xs-left">
