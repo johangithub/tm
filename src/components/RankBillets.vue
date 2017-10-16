@@ -8,6 +8,20 @@
               </v-snackbar>
           </v-flex>
       </v-layout>
+      <v-layout row class="pb-3">
+          <v-flex xs6>
+                <v-card>
+                    <v-card-title>
+                        <v-layout row>
+                            <v-flex>
+                                <h5>Rank Billets</h5>
+                                <p>Use this page to rank your favorite billets. Drag and drop each billet's entry in order to rank the billets. Each billet's rank is denoted by the number to the left of the billet's information.</p>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-title>
+                </v-card>
+            </v-flex>
+      </v-layout>
       <v-layout row v-if="faveBillets.length===0">
           <v-flex xs12>
               <v-alert warning value="true">Please favorite some Billets!

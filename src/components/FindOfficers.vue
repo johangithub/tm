@@ -1,6 +1,18 @@
 <template>
   <v-container fluid>
   <v-layout row>
+      <v-flex xs6>
+            <v-card>
+                <v-card-title>
+                    <h5>Billet #{{reqId}}</h5>
+                    <v-layout row>
+                        <v-flex>
+                            <p>Use this page to search through the pool of all officers on the VML. You may use the interactive charts to filter the officers. Favorite officers by clicking the star on an officer's entry in the table at the bottom of this page.</p>
+                        </v-flex>
+                    </v-layout>
+                </v-card-title>
+            </v-card>
+        </v-flex>
   <v-spacer></v-spacer>
   <v-flex xs6 class="dc-data-count text-xs-right">
     <span class="filter-count"></span>

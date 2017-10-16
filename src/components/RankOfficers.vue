@@ -8,6 +8,21 @@
               </v-snackbar>
           </v-flex>
       </v-layout>
+      <v-layout row class="pb-3">
+          <v-flex xs6>
+                <v-card>
+                    <v-card-title>
+                        <h5>Billet #{{reqId}}</h5>
+                        <v-layout row>
+                            <v-flex>
+                                <p>Use this page to rank your favorite officers. Drag and drop each officer's entry in order to rank the officers. Each officer's rank is denoted by the number to the left of the officer's information.</p>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-title>
+                </v-card>
+            </v-flex>
+        
+      </v-layout>
       <v-layout row v-if="faveOfficers.length===0">
           <v-flex xs12>
               <v-alert warning value="true">Please favorite some officers!
@@ -69,7 +84,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'faveOfficers'
+        'faveOfficers',
+        'reqId'
     ]),
     rankOfficers: {
         //need getter to be faveOfficers to get from vuex state

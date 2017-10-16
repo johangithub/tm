@@ -2,13 +2,13 @@
   <v-container fluid class='pa-0' >
     <v-stepper v-model="step">
       <v-stepper-header>
-        <v-stepper-step step="1" :complete="step > 1">Review all your billets</v-stepper-step>
+      <v-stepper-step step="1" :complete="step > 1"><v-btn small flat @click="step=1">Review all your billets</v-btn></v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2" :complete="step > 2">Update your billets</v-stepper-step>
+        <v-stepper-step step="2" :complete="step > 2"><v-btn small flat @click="step=2">Update your billets</v-btn></v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="3" :complete="step > 3">Find officers</v-stepper-step>
+        <v-stepper-step step="3" :complete="step > 3"><v-btn small flat @click="step=3">Find officers</v-btn></v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="4" :complete="step > 4">Rank your officers</v-stepper-step>
+        <v-stepper-step step="4" :complete="step > 4"><v-btn small flat @click="step=4">Rank your officers</v-btn></v-stepper-step>
       </v-stepper-header>
       <v-stepper-content step="1">
         <billet-list :myBillets="myBillets" :completedBillets="completedBillets" @next="step += 1"></billet-list>
@@ -62,7 +62,7 @@ import { mapGetters } from 'vuex'
 export default{
   data(){
     return {
-      step: 1,
+      step: Number(localStorage.getItem('billetStep')) || 1,
       myBillets: [],
       completedBillets: []
     }
@@ -72,6 +72,11 @@ export default{
     myBillet(){
       return this.myBillets.filter(d=>{return d.id == this.reqId})[0] || {}
     }
+  },
+  watch: {
+    step: function() {
+        localStorage.setItem('billetStep', this.step)
+    },
   },
   components:{
     'home': Home,

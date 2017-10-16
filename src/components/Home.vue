@@ -41,7 +41,7 @@
           </v-flex>
       </v-layout>
   <v-layout row justify-space-around wrap>
-   <v-flex xs4 v-for="role in testRoles" :key="role" class="pb-3">
+   <v-flex xs4 v-for="role in userRoles" :key="role" class="pb-3">
     <officer-card v-if="role=='officer'"></officer-card>
     <billet-owner-card v-if="role=='billet_owner'"></billet-owner-card>
     <losing-commander-card v-if="role=='losing_commander'"></losing-commander-card>
@@ -65,16 +65,18 @@ export default {
   data () {
     return {
       title: 'Air Force Talent Marketplace Home Page',
-      testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
-      newRoles: ['officer','billet_owner']
+      //testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
+      //shouldn't need computed, just get from local storage
+      userRoles: typeof localStorage.getItem("role") == "string" ? localStorage.getItem("role").split(',') : [],
     }
   },
-  computed:{
-    userRole(){
-      console.log(this.$store.getters.userRole)
-      return this.$store.getters.userRole
-    }
-  },
+  //computed doesnt work, (have to refresh to get roles right), not using now
+  //computed:{
+  //  userRole(){
+  //    console.log(this.$store.getters.userRole)
+  //    return this.$store.getters.userRole
+  //  }
+  //},
   components:{
     'officer-card': OfficerCard,
     'billet-owner-card': BilletOwnerCard,

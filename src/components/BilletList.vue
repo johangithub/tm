@@ -9,8 +9,9 @@
     <template slot="items" scope="props">
       <!--TODO: edit for IE11 support (see vuetify docs)-->
       <td class="text-xs-left">
-        <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+        <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >View</v-btn>
       </td>
+      <td>{{props.item.id}}</td>
       <td>{{props.item.actual_duty_title}}</td>
       <td>{{props.item.unit}}</td>
       <td>{{props.item.state}}</td>
@@ -40,7 +41,10 @@ export default{
       selected: [],
       headers: [
         {
-            text: '', value: 'id', align: 'center', sortable: false
+            text: 'Description', align: 'center', sortable: false
+        },
+        {
+            text: 'AFPC ID', value: 'id', align: 'left'
         },
         {
             text: 'Title', value: 'title', align: 'left'
