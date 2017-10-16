@@ -46,7 +46,7 @@
     <billet-owner-card v-if="role=='billet_owner'"></billet-owner-card>
     <losing-commander-card v-if="role=='losing_commander'"></losing-commander-card>
     <majcom-card v-if="role=='majcom'"></majcom-card>
-    <afpc-card v-if="role=='afpc'"></afpc-card>
+    <afpc-card v-if="role=='assignment_officer'"></afpc-card>
     <!--<admin-card v-if="role=='admin'"></admin-card>-->
   </v-flex> 
   </v-layout>
@@ -67,7 +67,7 @@ export default {
       title: 'Air Force Talent Marketplace Home Page',
       //testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
       //shouldn't need computed, just get from local storage
-      userRoles: typeof localStorage.getItem("role") == "string" ? localStorage.getItem("role").split(',') : [],
+      userRoles: typeof localStorage.getItem("role") == "string" ? localStorage.getItem("role").split(',') == "admin" ? ['officer', 'billet_owner', 'losing_commander', 'majcom', 'assignment_officer'] : localStorage.getItem("role").split(',') : [],
     }
   },
   //computed doesnt work, (have to refresh to get roles right), not using now
