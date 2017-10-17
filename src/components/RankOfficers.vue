@@ -40,15 +40,21 @@
                       </v-flex>
                       <v-flex xs10 md8 class="text-xs-center">
                           <v-card class="pa-1">
-                              <table style="width: 100%">
+                              <table>
                                   <tr>
-                                      <td style="width 10%">
-                                      <v-btn flat primary dark :id="officer" @click="showOffMethod($event)" @click.native.stop="showOff = true" >
-                                      {{officer}}</v-btn></td>
-                                      <td>{{grade[officerInfo(officer).general.grade]}}</td>
-                                      <td>{{officerInfo(officer).general.firstName}}</td>
-                                      <td>{{officerInfo(officer).general.lastName}}</td>
-                                      <td>{{rdtm[officerInfo(officer).rated.rdtm]}}</td>
+                                      <td style="width: 25%">
+                                          <v-btn flat primary dark large
+                                             :id="officer" 
+                                             @click="showOffMethod($event)" 
+                                             @click.native.stop="showOff = true">
+                                             {{officerInfo(officer).general.lastName}}, <br>
+                                             {{officerInfo(officer).general.firstName}} 
+                                         </v-btn>
+                                      </td>
+                                      <td style="width: 10%">{{grade[officerInfo(officer).general.grade]}}</td>
+                                      <td style="width: 10%">{{officerInfo(officer).general.adjYG}}</td>
+                                      <td style="width: 10%">{{rdtm[officerInfo(officer).rated.rdtm]}}</td>
+                                      <td style="width: 25%">{{officerInfo(officer).duty.title}}</td>
                                       <!--payload for removeBillet mutation is object with index as property-->
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeOfficer',officer)">Remove</v-btn></td>
                                   </tr>

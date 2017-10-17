@@ -89,14 +89,14 @@
                           :rows-per-page-items="[10,25,{text: 'All', value: -1}]">
                 <template slot="items" scope="props">
                     <td class="text-xs-left" style="width 10%">
-                      <v-btn :id="props.item.dod_id" flat primary dark right small block @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.name}}</v-btn>
+                        <v-btn :id="props.item.dod_id" flat primary dark small @click="showOffMethod($event)" @click.native.stop="showOff = true">{{props.item.lastName}}, {{props.item.firstName}}</v-btn>
                                           </td>
                     <!-- <td class="text-xs-left">{{props.item.name}}</td> -->
                     <td class="text-xs-left">{{props.item.grade}}</td>
                     <td class="text-xs-left">{{props.item.adjYG}}</td>
                     <td class="text-xs-left">{{props.item.rating}}</td>
                     <td class="text-xs-left">{{props.item.rdtm}}</td>
-                    <td class="text-xs-left">{{props.item.dafsc}}</td>
+                    <td class="text-xs-left">{{props.item.title}}</td>
                     <td class="text-xs-center">
                         <v-icon :warning="faveOfficers.includes(props.item.dod_id)" 
                                 @click="toggleFavorite(props.item)" 
@@ -152,7 +152,7 @@ export default{
         //     text: 'ID', align: 'center', sortable: false
         // },
         {
-            text: 'Name', value: 'name', align: 'center' 
+            text: 'Name', value: 'name', align: 'left' 
         },
         {
             text: 'Grade', value: 'grade', align: 'left' 
@@ -167,7 +167,7 @@ export default{
             text: 'Aircraft', value: 'rdtm', align: 'left'
         },
         {
-            text: 'DAFSC', value: 'dafsc', align: 'left'
+            text: 'Current Duty Title', value: 'title', align: 'left'
         },
         {
             text: 'Favorite', align: 'left', sortable: false
@@ -339,11 +339,14 @@ export default{
           var obj = {
             dod_id: d.dod_id,
             name: d.general.firstName + ' ' + d.general.lastName,
+            firstName: d.general.firstName,
+            lastName: d.general.lastName,
             location: d.duty.location,
             grade: d.general.grade,
             adjYG: d.general.adjYG,
             rating: d.duty.core_group,
             rdtm: rdtm[d.rated.rdtm],
+            title: d.duty.title,
             dafsc: d.duty.dafsc,
             favorited: d.favorited
           }

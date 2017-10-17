@@ -4,18 +4,16 @@
         <label><slot></slot></label> 
         <br>
         <!--was originally trying input, but I think span is better-->
-        <input type="text"
-                             :value="value"
-                             
-                             v-if="value">
-                      <!-- [>fallback to display none if empty<] -->
-                      <input type="text"
-                             :value="'None'"
-
-                             v-else>       
+        <!--<input type="text"-->
+             <!--:value="value"-->
+             <!--v-if="value">-->
+                      <!--[> [>fallback to display none if empty<] <]-->
+          <!--<input type="text"-->
+                 <!--:value="'None'"-->
+                 <!--v-else>       -->
        <!--span allows words to wrap, so more resilient to weird configurations than input-->
-       <!-- <span v-if="value">{{value}}</span> -->
-       <!-- <span v-else>None</span> -->
+        <span v-if="value">{{value}}</span> 
+        <span v-else>None</span> 
     </div>
 </template>
 

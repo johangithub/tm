@@ -39,14 +39,14 @@
                       </v-flex>
                       <v-flex xs10 md8 class="text-xs-center">
                           <v-card class="pa-1">
-                              <table style="width: 100%">
+                              <table>
                                   <tr>
                                       <td style="width 10%">
                                       <v-btn flat primary dark :id="billet" @click="showReqMethod($event)" @click.native.stop="showReq = true" >
                                       {{billet}}</v-btn></td>
-                                      <td>{{billetInfo(billet).actual_duty_title}}</td>
-                                      <td>{{billetInfo(billet).unit}}</td>
-                                      <td>{{billetInfo(billet).location}}</td>
+                                      <td style="width:40%">{{billetInfo(billet).actual_duty_title}}</td>
+                                      <td style="width:20%">{{billetInfo(billet).unit}}</td>
+                                      <td style="width:20%">{{billetInfo(billet).location}}</td>
                                       <!--payload for removeBillet mutation is object with index as property-->
                                       <td style="width:10%"><v-btn error small @click="$store.dispatch('removeBillet',{'index': index})">Remove</v-btn></td>
                                   </tr>
