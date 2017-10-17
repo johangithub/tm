@@ -231,7 +231,7 @@ export default{
       //shows officer view and updates values in dialog (needed to make dialog dynamic)
       var id = event.currentTarget.id
       var officer = this.data.filter((d)=>{return d.dod_id == id})[0]
-      this.dialogData = officer.general
+      this.dialogData = officer
     },
     resetAll: (event)=>{
       dc.filterAll()

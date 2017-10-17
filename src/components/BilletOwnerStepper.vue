@@ -76,6 +76,7 @@ export default{
   watch: {
     step: function() {
         localStorage.setItem('billetStep', this.step)
+
     },
   },
   components:{

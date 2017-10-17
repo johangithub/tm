@@ -47,6 +47,7 @@ import FindBillets from '@/components/FindBillets'
 import RankBillets from '@/components/RankBillets'
 import Thanks from '@/components/Thanks'
 import {store, mapGetters} from 'vuex'
+
 export default{
   data(){
     return {
@@ -69,17 +70,11 @@ export default{
   watch: {
     step: function() {
         localStorage.setItem('officerStep', this.step)
+
     },
   },
   mounted: function(){
-    // window.addEventListener('keydown', (e)=>{
-    //   if(e.keyCode==39 || (this.step == 3 && this.readyToSubmit)){
-    //     this.step = this.step >= 4 ? 4 : this.step + 1
-    //   }
-    //   else if(e.keyCode==37){
-    //     this.step = this.step <= 1 ? 1 : this.step - 1
-    //   }
-    // })
+
   }
 }
 </script>
