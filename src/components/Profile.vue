@@ -6,6 +6,124 @@
       <v-btn @click="toggle" warning>Toggle</v-btn>
   </v-layout>
 <v-layout row wrap>
+  <v-expansion-panel class="mt-2">
+    <v-expansion-panel-content :value="show.advertise">
+      <div slot="header" class="title">Resume</div>
+      <v-card class="grey lighten-3">
+        <v-card-text class="grey lighten-3">
+        <v-layout row>
+        <v-flex xs3>
+        <div>Desired Departure Date</div>
+        <v-menu
+                  lazy
+                  :close-on-content-click="true"
+                  v-model="showDDD"
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  :nudge-left="40"
+                  max-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="Select a date"
+                    v-model="profileData.desiredDepartureDate"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker 
+                    :value="profileData.desiredDepartureDate"
+                    @input="updateDates($event)"
+                  no-title
+                  scrollable
+                  actions
+                  :allowed-dates="allowedDepartureDates">
+                    <template scope="{ cancel }">
+                      <v-card-actions>
+                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+        </v-menu>
+        </v-flex>
+        <v-flex xs3>
+        <div>Desired RNLTD</div>
+        <v-menu
+                  lazy
+                  :close-on-content-click="true"
+                  v-model="showRNLTD"
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  :nudge-left="40"
+                  max-width="290px"
+                >
+                  <v-text-field
+                    slot="activator"
+                    label="Select a date"
+                    v-model="profileData.desiredRNLTD"
+                    prepend-icon="event"
+                    readonly
+                  ></v-text-field>
+                  <v-date-picker 
+                    v-model="profileData.desiredRNLTD"
+                  no-title
+                  scrollable
+                  actions
+                  :allowed-dates="allowedRNLTD">
+                    <template scope="{ cancel }">
+                      <v-card-actions>
+                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                      </v-card-actions>
+                    </template>
+                  </v-date-picker>
+        </v-menu>
+        </v-flex>
+        <v-flex xs3>
+        <v-select
+          :items="qualList"
+          v-model="profileData.qualifications"
+          label="Qualifications"
+          multiple
+          single-line
+          bottom
+        ></v-select>
+        </v-flex>
+        <v-flex xs3>
+        <v-select
+          :items="interestList"
+          v-model="profileData.interests"
+          label="Volunteer"
+          single-line
+          multiple
+          bottom
+        ></v-select>
+        </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex xs6>
+          <v-select
+            :items="assignment_intent"
+            v-model="assignment_wish"
+            label="Assignments"
+            single-line
+            bottom
+          ></v-select>
+          </v-flex>
+        </v-layout>
+        <div>Comments</div>
+        <v-text-field
+              name="officer-comment"
+              label="Insert comment"
+              v-model="profileData.comment"
+              textarea
+        ></v-text-field>
+        </v-card-text>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
+</v-layout>
+<v-layout row wrap>
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
       <v-expansion-panel-content :value="show.general">
@@ -656,124 +774,6 @@
     </v-expansion-panel-content>
   </v-expansion-panel>
 
-
-  <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content :value="show.advertise">
-      <div slot="header" class="title">Self Advertise</div>
-      <v-card class="grey lighten-3">
-           <!--<v-layout row class="pr-2 pt-2">-->
-              <!--<v-spacer></v-spacer>-->
-              <!--<v-btn small success @click.native="save">Save</v-btn>-->
-              <!--<v-snackbar-->
-                <!--:timeout="1000"-->
-                <!--:top="true"-->
-                <!--v-model="snackbarSave"-->
-              <!--Saved!<v-btn flat class="green--text" @click.native="snackbarSave = false">Close</v-btn></v-snackbar>-->
-         <!--</v-layout> -->
-        <v-card-text class="grey lighten-3">
-        <v-layout row>
-        <v-flex xs3>
-        <div>Desired Departure Date</div>
-        <v-menu
-                  lazy
-                  :close-on-content-click="true"
-                  v-model="showDDD"
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  :nudge-left="40"
-                  max-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    label="Select a date"
-                    v-model="profileData.desiredDepartureDate"
-                    prepend-icon="event"
-                    readonly
-                  ></v-text-field>
-                  <v-date-picker 
-                    :value="profileData.desiredDepartureDate"
-                    @input="updateDates($event)"
-                  no-title
-                  scrollable
-                  actions
-                  :allowed-dates="allowedDepartureDates">
-                    <template scope="{ cancel }">
-                      <v-card-actions>
-                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                      </v-card-actions>
-                    </template>
-                  </v-date-picker>
-        </v-menu>
-        </v-flex>
-        <v-flex xs3>
-        <div>Desired RNLTD</div>
-        <v-menu
-                  lazy
-                  :close-on-content-click="true"
-                  v-model="showRNLTD"
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  :nudge-left="40"
-                  max-width="290px"
-                >
-                  <v-text-field
-                    slot="activator"
-                    label="Select a date"
-                    v-model="profileData.desiredRNLTD"
-                    prepend-icon="event"
-                    readonly
-                  ></v-text-field>
-                  <v-date-picker 
-                    v-model="profileData.desiredRNLTD"
-                  no-title
-                  scrollable
-                  actions
-                  :allowed-dates="allowedRNLTD">
-                    <template scope="{ cancel }">
-                      <v-card-actions>
-                        <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                      </v-card-actions>
-                    </template>
-                  </v-date-picker>
-        </v-menu>
-        </v-flex>
-        <v-flex xs3>
-        <div>Qualifications</div>
-        <v-select
-          :items="qualList"
-          v-model="profileData.qualifications"
-          label="Qualifications"
-          multiple
-          single-line
-          bottom
-        ></v-select>
-        </v-flex>
-        <v-flex xs3>
-        <div>Interest</div>
-        <v-select
-          :items="interestList"
-          v-model="profileData.interests"
-          label="Interests"
-          multiple
-          single-line
-          bottom
-        ></v-select>
-        </v-flex>
-        </v-layout>
-        <div>Comments</div>
-        <v-text-field
-              name="officer-comment"
-              label="Insert comment"
-              v-model="profileData.comment"
-              textarea
-        ></v-text-field>
-        </v-card-text>
-      </v-card>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
-  </div>
 <!--   <v-layout row class="mt-2">
       <v-flex xs12 offset-sm3 sm6 offset-md4 md4 class="text-xs-center">
       <v-btn block large primary @click.native="submit">Submit</v-btn>
@@ -805,6 +805,7 @@ export default {
       snackbar: false,
       snackbarSave: false,
       show: {
+        'advertise': true,
         'general': false,
         'current': false,
         'projected': false,
@@ -819,7 +820,6 @@ export default {
         'aircraft': false,
         'expId': false,
         'duty': false,
-        'advertise': false
       },
       qualList:[
       'SEFE',
@@ -833,7 +833,9 @@ export default {
       ],
       interestList: [
       'ALO Assignment',
-      'Remote 365'
+      'Overseas Long Tour',
+      'Overseas Short Tour (Flying)',
+      'Overseas Short Tour (Non-Flying)',
       ],
       showDDD: false,
       showRNLTD: false,
@@ -850,13 +852,17 @@ export default {
         {text: 'Name', value: 'name', align: 'left', sortable: false },
         {text: 'Title', value: 'date', align: 'left', sortable: false },
       ],
+      assignment_intent: ['I will accept an assignment consistent with my listed preferences','I do not wish an assignment at this time', 'I have a Separation / Retirement application in the system'],
+      assignment_wish: 'I will accept an assignment consistent with my listed preferences',
+      overseas_intent: ['I am a Volunteer for Overseas Long tour','I am a Volunteer for Overseas Long tour'],
+      overseas_wish: 'I am a Volunteer for Overseas Long tour',
     }
   },
   methods: {
       toggle() {
           for (var property in this.show) {
-            this.show[property] = ! this.show[property]
-          } 
+            this.show[property] = !this.show[property]
+          }
       },
       //make selectable departure dates dynamic: force departure date to always be less than desired RNLTD
       allowedDepartureDates: function(date){
@@ -964,7 +970,6 @@ export default {
     'block-text-field': BlockTextField
   },
   mounted: function(){
-
   }
 }
 </script>

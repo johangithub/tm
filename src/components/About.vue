@@ -16,7 +16,7 @@
           </p>
           <p>
           Maj Snuff Anthony (AFPC/A-10/F-22/F-35 Assignments)<br>
-          craig.cude@mail.mil<br>
+          snuff.anthony@mail.mil<br>
           (123)456-7890
           </p>
           <p>
@@ -26,7 +26,7 @@
           </p>
           <p>
           Maj DATS Jansta (AFPC/F-15 Assignments)<br>
-          john.jansta@mail.mil<br>
+          dats.jansta@mail.mil<br>
           (123)456-7890
           </p>
         </v-card-text>
