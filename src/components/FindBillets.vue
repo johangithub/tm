@@ -1,6 +1,18 @@
 <template>
   <v-container fluid>
-  <v-layout row>
+  <v-layout row class="pb-3">
+      <v-flex xs6>
+            <v-card>
+                <v-card-title>
+                    <v-layout row>
+                        <v-flex>
+                            <h5>Find Billets</h5>
+                            <p>Use this page to search through the pool of billet postings. You may use the interactive charts to filter the billets. Favorite billets by clicking the star on a billet's entry in the table at the bottom of this page.</p>
+                        </v-flex>
+                    </v-layout>
+                </v-card-title>
+            </v-card>
+        </v-flex>
   <v-spacer></v-spacer>
   <v-flex xs6 class="dc-data-count text-xs-right mt-0">
     <span class="filter-count"></span>
@@ -92,7 +104,7 @@
             <template slot="items" scope="props">
               <!--TODO: edit for IE11 support (see vuetify docs)-->
               <td class="text-xs-left">
-                <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+                <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >View</v-btn>
               </td>
               <td class="text-xs-left">{{props.item.afsc}}</td>
               <td class="text-xs-left">{{props.item.grade}}</td>
@@ -135,7 +147,7 @@ export default{
       selected: [],
       headers: [
         {
-            text: '', value: 'id', align: 'center', sortable: false
+            text: 'Description', align: 'center', sortable: false
         },
         {
             text: 'AFSC', value: 'afsc', align: 'left'

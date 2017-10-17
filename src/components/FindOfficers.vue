@@ -1,6 +1,18 @@
 <template>
   <v-container fluid>
   <v-layout row>
+      <v-flex xs6>
+            <v-card>
+                <v-card-title>
+                    <h5>Billet #{{reqId}}</h5>
+                    <v-layout row>
+                        <v-flex>
+                            <p>Use this page to search through the pool of all officers on the VML. You may use the interactive charts to filter the officers. Favorite officers by clicking the star on an officer's entry in the table at the bottom of this page.</p>
+                        </v-flex>
+                    </v-layout>
+                </v-card-title>
+            </v-card>
+        </v-flex>
   <v-spacer></v-spacer>
   <v-flex xs6 class="dc-data-count text-xs-right">
     <span class="filter-count"></span>
@@ -73,12 +85,13 @@
                           :headers="headers" 
                           :items="items" 
                           :search="search"
-                          selected-key="dod_id">
+                          selected-key="dod_id"
+                          :rows-per-page-items="[10,25,{text: 'All', value: -1}]">
                 <template slot="items" scope="props">
                     <td class="text-xs-left" style="width 10%">
-                      <v-btn :id="props.item.dod_id" flat primary dark right small block @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.dod_id}}</v-btn>
-                    </td>
-                    <td class="text-xs-left">{{props.item.name}}</td>
+                      <v-btn :id="props.item.dod_id" flat primary dark right small block @click="showOffMethod($event)" @click.native.stop="showOff = true" >{{props.item.name}}</v-btn>
+                                          </td>
+                    <!-- <td class="text-xs-left">{{props.item.name}}</td> -->
                     <td class="text-xs-left">{{props.item.grade}}</td>
                     <td class="text-xs-left">{{props.item.adjYG}}</td>
                     <td class="text-xs-left">{{props.item.rating}}</td>
@@ -94,7 +107,7 @@
     </v-flex>
     <v-dialog v-model="showOff" width="600px" lazy absolute>
       <v-card>
-        <v-card-title class="headline">Requisition<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showOff = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
+        <v-card-title class="headline">Officer<v-spacer></v-spacer><v-btn fab primary small flat @click.native="showOff = false"><v-icon dark >clear</v-icon></v-btn></v-card-title>
         <v-card-text>
             <v-container fluid grid-list-xs>
                 <v-layout row wrap>
@@ -135,11 +148,11 @@ export default{
       selected: [],
       search: '',
       headers: [
+        // {
+        //     text: 'ID', align: 'center', sortable: false
+        // },
         {
-            text: 'ID', align: 'center', sortable: false
-        },
-        {
-            text: 'Name', value: 'name', align: 'left' 
+            text: 'Name', value: 'name', align: 'center' 
         },
         {
             text: 'Grade', value: 'grade', align: 'left' 
@@ -169,7 +182,7 @@ export default{
   props: ['step'],
   watch: {
     step: function(){
-      if (this.step=='2'){
+      if (this.step==3){
         dc.redrawAll()
       }
     },

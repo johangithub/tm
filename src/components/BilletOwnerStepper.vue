@@ -2,30 +2,22 @@
   <v-container fluid class='pa-0' >
     <v-stepper v-model="step">
       <v-stepper-header>
-        <v-stepper-step step="1" :complete="step > 1">Review/Update your billets</v-stepper-step>
-        <!-- <v-divider></v-divider> -->
-        <!-- <v-stepper-step step="2" :complete="step > 2">Update your billets</v-stepper-step> -->
+      <v-stepper-step step="1" :complete="step > 1"><v-btn small flat @click="step=1">Review your billets</v-btn></v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2" :complete="step > 2">Find officers</v-stepper-step>
+        <v-stepper-step step="2" :complete="step > 2"><v-btn small flat @click="step=2">Update your billet</v-btn></v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="3" :complete="step > 3">Rank your officers</v-stepper-step>
+        <v-stepper-step step="3" :complete="step > 3"><v-btn small flat @click="step=3">Find officers</v-btn></v-stepper-step>
+        <v-divider></v-divider>
+        <v-stepper-step step="4" :complete="step > 4"><v-btn small flat @click="step=4">Rank your officers</v-btn></v-stepper-step>
       </v-stepper-header>
       <v-stepper-content step="1">
-        <billet-list :myBillets="myBillets" :completedBillets="completedBillets" @next="step += 1"></billet-list>
+        <billet-list :myBillets="myBillets" :completedBillets="completedBillets" @gotoRank="step = 4" @next="step += 1"></billet-list>
         <v-layout row>
         <v-spacer></v-spacer>
         </v-layout>
       </v-stepper-content>
-      <!-- <v-stepper-content step="2">
-        <billet :myBillet="myBillet" :id="reqId"></billet>
-        <v-layout row>
-        <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn primary @click.native="step += 1">Continue</v-btn>
-        </v-layout>
-      </v-stepper-content>
-       --><v-stepper-content step="2">
-        <find-officers :step="step"></find-officers>
+      <v-stepper-content step="2">
+        <billet :myBillet="myBillet" :step="step"></billet>
         <v-layout row>
         <v-btn warning class="ml-2" @click.native="step -= 1">Back</v-btn>
         <v-spacer></v-spacer>
@@ -33,6 +25,14 @@
         </v-layout>
       </v-stepper-content>
       <v-stepper-content step="3">
+        <find-officers :step="step"></find-officers>
+        <v-layout row>
+        <v-btn warning class="ml-2" @click.native="step -= 1">Back</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn primary @click.native="step += 1">Continue</v-btn>
+        </v-layout>
+      </v-stepper-content>
+      <v-stepper-content step="4">
         <rank-officers></rank-officers>
         <v-layout row>
           <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
@@ -40,7 +40,7 @@
           <v-btn primary :disabled="faveOfficers.length==0" @click.native="submit">Submit</v-btn>
         </v-layout>
       </v-stepper-content>
-      <v-stepper-content step="4">
+      <v-stepper-content step="5">
         <thanks></thanks>
         <v-layout row>
           <v-btn warning class="ml-3" @click.native="step -= 1">Back</v-btn>
@@ -62,7 +62,7 @@ import { mapGetters } from 'vuex'
 export default{
   data(){
     return {
-      step: 1,
+      step: Number(localStorage.getItem('billetStep')) || 1,
       myBillets: [],
       completedBillets: []
     }
@@ -72,6 +72,11 @@ export default{
     myBillet(){
       return this.myBillets.filter(d=>{return d.id == this.reqId})[0] || {}
     }
+  },
+  watch: {
+    step: function() {
+        localStorage.setItem('billetStep', this.step)
+    },
   },
   components:{
     'home': Home,
@@ -85,19 +90,9 @@ export default{
     submit(){
       this.completedBillets.push(this.reqId)
       this.step += 1
-      console.log(this.completedBillets)
     }
   },
   mounted: function(){
-    // window.addEventListener('keydown', (e)=>{
-    //   if(e.keyCode==39 && this.step != 1){
-    //     this.step = this.step >= 5 ? 5 : this.step + 1
-    //   }
-    //   else if(e.keyCode==37){
-    //     this.step = this.step <= 1 ? 1 : this.step - 1
-    //   }
-    // })
-    //Retrieve only the billets I own
     window.axios.get('/billet_view').then(response => {
         this.myBillets = response.data.data.filter(d=>{return d.state=='TX'}).slice(0,10)
     }).catch(console.error)

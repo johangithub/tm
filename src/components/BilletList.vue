@@ -9,8 +9,9 @@
     <template slot="items" scope="props">
       <!--TODO: edit for IE11 support (see vuetify docs)-->
       <td class="text-xs-left">
-        <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >{{props.item.id}}</v-btn>
+        <v-btn flat primary dark right small block @click="showReqMethod(props.item)" @click.native.stop="showReq = true" >View</v-btn>
       </td>
+      <td>{{props.item.id}}</td>
       <td>{{props.item.actual_duty_title}}</td>
       <td>{{props.item.unit}}</td>
       <td>{{props.item.state}}</td>
@@ -18,8 +19,8 @@
         <v-icon v-if="isComplete(props.item.id)" class="blue--text text--darken-2">check_circle</v-icon>
         <v-icon v-else class="yellow--text text--darken-2">remove_circle</v-icon>
       </td>
-      <td><v-btn primary flat small :id="props.item.id" @click="viewBids($event)">View Bids</v-btn></td>
-      <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Find Officers</v-btn></td>
+      <td><v-btn primary flat small :disabled="!isComplete(props.item.id)" :id="props.item.id" @click="$emit('gotoRank')">View Bids</v-btn></td>
+      <td><v-btn primary flat small :id="props.item.id" @click="bidOfficers($event)">Begin</v-btn></td>
   </template>
   </v-data-table> 
   <v-dialog v-model="showReq" width="600px">
@@ -40,7 +41,10 @@ export default{
       selected: [],
       headers: [
         {
-            text: 'AFPCID', value: 'id', align: 'left', sortable: false
+            text: '', align: 'center', sortable: false
+        },
+        {
+            text: 'AFPC ID', value: 'id', align: 'left'
         },
         {
             text: 'Title', value: 'title', align: 'left'

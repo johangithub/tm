@@ -8,7 +8,7 @@
       </v-card-media>
       <v-card-text>
     <!-- <v-layout row justify-space-between> -->
-      <h2 class="text-xs-center">Success!</h2>
+      <h5 class="text-xs-center">Congratulations! Your responses have been submitted to AFPC and are now visible to your chain of command.</h5>
     <!-- </v-layout> -->
       </v-card-text>
       </v-card>

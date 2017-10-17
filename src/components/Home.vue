@@ -1,7 +1,7 @@
 <template>
   <v-container id="home">
-      <v-layout row class="pb-3">
-          <v-flex xs12>
+      <v-layout justify-space-around row class="pb-3">
+          <v-flex xs12 lg10 xl10>
               <v-card class="elevation-8">
                   <v-card-media
                       height="350px"
@@ -18,7 +18,7 @@
           </v-flex>
       </v-layout>
       <v-layout row class="pb-3">
-          <v-flex xs3>
+          <v-flex offset-lg1 xs3 lg2 xl2>
               <v-card height="200px" class="elevation-8">
                   <v-card-media
                       height="200px">
@@ -29,7 +29,7 @@
                   </v-card-media>
               </v-card>      
           </v-flex>
-          <v-flex xs9>
+          <v-flex xs9 lg8 xl8>
               <v-card height="200px" class="elevation-8">
                   <v-card-title class="headline">
                       Tutorial
@@ -41,12 +41,12 @@
           </v-flex>
       </v-layout>
   <v-layout row justify-space-around wrap>
-   <v-flex xs4 v-for="role in testRoles" :key="role" class="pb-3">
+   <v-flex xs4 v-for="role in userRoles" :key="role" class="pb-3">
     <officer-card v-if="role=='officer'"></officer-card>
     <billet-owner-card v-if="role=='billet_owner'"></billet-owner-card>
     <losing-commander-card v-if="role=='losing_commander'"></losing-commander-card>
     <majcom-card v-if="role=='majcom'"></majcom-card>
-    <afpc-card v-if="role=='afpc'"></afpc-card>
+    <afpc-card v-if="role=='assignment_officer'"></afpc-card>
     <!--<admin-card v-if="role=='admin'"></admin-card>-->
   </v-flex> 
   </v-layout>
@@ -65,16 +65,18 @@ export default {
   data () {
     return {
       title: 'Air Force Talent Marketplace Home Page',
-      testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
-      newRoles: ['officer','billet_owner']
+      //testRoles: ['officer','billet_owner','losing_commander','majcom','afpc','admin'],
+      //shouldn't need computed, just get from local storage
+      userRoles: typeof localStorage.getItem("role") == "string" ? localStorage.getItem("role").split(',') == "admin" ? ['officer', 'billet_owner', 'losing_commander', 'majcom', 'assignment_officer'] : localStorage.getItem("role").split(',') : [],
     }
   },
-  computed:{
-    userRole(){
-      console.log(this.$store.getters.userRole)
-      return this.$store.getters.userRole
-    }
-  },
+  //computed doesnt work, (have to refresh to get roles right), not using now
+  //computed:{
+  //  userRole(){
+  //    console.log(this.$store.getters.userRole)
+  //    return this.$store.getters.userRole
+  //  }
+  //},
   components:{
     'officer-card': OfficerCard,
     'billet-owner-card': BilletOwnerCard,

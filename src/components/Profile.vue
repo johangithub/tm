@@ -2,12 +2,13 @@
   <v-container fluid id="profile">
   <v-layout row>
       <h4>{{rank}} {{profileData.firstName}} {{profileData.lastName}}</h4>
+      <v-spacer></v-spacer>
+      <v-btn @click="toggle" warning>Toggle</v-btn>
   </v-layout>
-
 <v-layout row wrap>
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.general">
         <div slot="header" class="title">General</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -47,7 +48,7 @@
   </v-flex>
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.current">
         <div slot="header" class="title">Current</div>
         <!--show CAFSC or PAFSC?-->
         <v-card>
@@ -97,7 +98,7 @@
   </v-flex>
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.projected">
         <div slot="header" class="title">Projected</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -168,7 +169,7 @@
   </v-flex>
   <v-flex xs12 sm6 md3>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.asgnCodes">
         <div slot="header" class="title">Assignment Codes</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -235,7 +236,7 @@
 <v-layout row wrap>
     <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.pme">
         <div slot="header" class="title">PME</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -266,7 +267,7 @@
   </v-flex>
   <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.serviceDates">
         <div slot="header" class="title">Service Dates</div>
           <v-card>
               <v-card-text class="grey lighten-3">
@@ -342,7 +343,7 @@
 
   <v-flex xs12 md4>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.courses">
         <div slot="header" class="title">Courses</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -373,7 +374,7 @@
   <v-layout row wrap>
   <v-flex xs12 md6>
     <v-expansion-panel class="mt-2">
-      <v-expansion-panel-content>
+      <v-expansion-panel-content :value="show.joint">
         <div slot="header" class="title">Joint</div>
         <v-card>
           <v-card-text class="grey lighten-3">
@@ -412,7 +413,7 @@
   </v-flex>
   <v-flex xs12 md6>
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.language">
       <div slot="header" class="title">Language</div>
       <v-card>
         <v-card-text class="grey lighten-3">
@@ -448,7 +449,7 @@
   <v-layout row>
       <v-flex xs12>
       <v-expansion-panel class="mt-2">
-        <v-expansion-panel-content>
+        <v-expansion-panel-content :value="show.degrees">
           <div slot="header" class="title">Degrees</div>
           <v-card>
             <v-card-text class="grey lighten-3">
@@ -477,7 +478,7 @@
   <v-layout row wrap>
   <v-flex xs12 sm12 md4>
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.rated">
       <div slot="header" class="title">Rated Data</div>
       <v-card>
         <v-card-text class="grey lighten-3">
@@ -547,7 +548,7 @@
   </v-flex>
   <v-flex xs12 sm6 md4>
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.aircraft">
       <div slot="header" class="title">Aircraft Data</div>
       <v-card>
         <v-card-text class="grey lighten-3">
@@ -572,7 +573,7 @@
   </v-flex>
   <v-flex xs12 sm6 md4>
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.expId">
       <div slot="header" class="title">Exp Identifier</div>
       <v-card>
         <v-card-text class="grey lighten-3">
@@ -627,7 +628,7 @@
   </v-flex>
   </v-layout>
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.duty">
       <div slot="header" class="title">Duty History</div>
       <v-layout row>
           <v-flex xs12>
@@ -657,7 +658,7 @@
 
 
   <v-expansion-panel class="mt-2">
-    <v-expansion-panel-content>
+    <v-expansion-panel-content :value="show.advertise">
       <div slot="header" class="title">Self Advertise</div>
       <v-card class="grey lighten-3">
            <!--<v-layout row class="pr-2 pt-2">-->
@@ -803,6 +804,23 @@ export default {
       profileData: JSON.parse(localStorage.getItem("profileData")) || {},
       snackbar: false,
       snackbarSave: false,
+      show: {
+        'general': false,
+        'current': false,
+        'projected': false,
+        'asgnCodes': false,
+        'pme': false,
+        'serviceDates': false,
+        'courses': false,
+        'joint': false,
+        'language': false,
+        'degrees': false,
+        'rated': false,
+        'aircraft': false,
+        'expId': false,
+        'duty': false,
+        'advertise': false
+      },
       qualList:[
       'SEFE',
       'WIC',
@@ -835,6 +853,11 @@ export default {
     }
   },
   methods: {
+      toggle() {
+          for (var property in this.show) {
+            this.show[property] = ! this.show[property]
+          } 
+      },
       //make selectable departure dates dynamic: force departure date to always be less than desired RNLTD
       allowedDepartureDates: function(date){
           var datePart = date.toISOString().split('T')[0]

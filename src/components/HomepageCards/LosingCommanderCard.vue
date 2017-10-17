@@ -2,7 +2,7 @@
 <v-card class="elevation-10">
     <v-card-media
               class="headline"
-              height="200px"
+              height="300px"
               src="/static/losing_commander.jpg"
             >
     </v-card-media>

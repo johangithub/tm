@@ -2,7 +2,7 @@
     <v-card class="elevation-8">
         <v-card-media
                   class="headline"
-                  height="200px"
+                  height="300px"
                   src="/static/f-15.jpg"
                 >
         </v-card-media>

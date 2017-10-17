@@ -1,6 +1,6 @@
 <template>
   <v-container id="losing-commander">
-  <h4>Welcome Col Thorson, Commander of 99 OG</h4>
+  <h4>Welcome Lt Col Thorson, Commander of 8th Fighter Squadron</h4>
   <v-layout row wrap>
   <v-flex xs12>
   <h6>FGO</h6>

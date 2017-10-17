@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
     reqId: '',
     //need to prevent these from pulling from localStorage, need to decode token
     userId: localStorage.getItem("id"),
-    userRole: localStorage.getItem("role"),
+    //userRole is string with every role separated by a comma, but needs to be array, so make it an array
+    userRoles: typeof localStorage.getItem("role") == "string" ? localStorage.getItem("role").split(',') : [],
     //if user saved their ranked billets, pull them from local storage, 
     //else start with empty array TODO: need to get from server first
     faveBillets: localStorage.getItem('rankedBillets') ? JSON.parse(localStorage.getItem('rankedBillets')) : [],
