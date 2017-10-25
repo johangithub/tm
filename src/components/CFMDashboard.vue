@@ -22,7 +22,7 @@
         </v-card-media>
       </v-card>
     </v-flex>
-    <v-flex xs4 md2 id="rtg">
+     <v-flex xs4 md2 id="rtg">
       <v-card>
       <v-card-title class="pb-0"><span>Rating</span></v-card-title>
         <v-card-media>
@@ -110,14 +110,12 @@
         </v-card-media>
       </v-card>
     </v-flex>
-  </v-layout>
-  <v-layout row class="mt-3" id="officers">
+  </v-layout> 
+ <v-layout row class="mt-3" id="officers">
     <v-flex xs12>
-        <!--doesn't have to be on card, but easier to add search bar with card-->
         <v-card elevation-3>
             <v-card-title class="pb-0"><h5>Officers</h5>
                 <v-spacer></v-spacer>
-                <!--search bar , remove append-icon for IE-->
                 <v-text-field
                     append-icon="search"
                     label="Search"

@@ -18,10 +18,16 @@ import OfficerStepper from '@/components/OfficerStepper'
 import BilletOwnerStepper from '@/components/BilletOwnerStepper'
 import MajcomOwnerStepper from '@/components/MajcomOwnerStepper'
 import LosingCommanderStepper from '@/components/LosingCommanderStepper'
+import dcjsDemo from '@/components/dcjsDemo'
 import { store } from '@/store.js'
 Vue.use(Router)
 export const router = new Router({
   routes: [
+    {
+      path: '/dcjs_demo',
+      name: 'dcjs_demo',
+      component: dcjsDemo,
+    },
     {
       path: '/login',
       name: 'Login',

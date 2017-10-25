@@ -110,6 +110,15 @@
             bottom
           ></v-select>
           </v-flex>
+          <v-flex xs4>
+            <v-select
+            v-model="join_spouse"
+            :items="['I wish a Join Spouse assignment', 'I do not wish a Join Spouse assignment']"
+            label="Join Spouse"
+            single-line
+            bottom
+            ></v-select>
+          </v-flex>
         </v-layout>
         <div>Comments</div>
         <v-text-field
@@ -856,6 +865,7 @@ export default {
       assignment_wish: 'I will accept an assignment consistent with my listed preferences',
       overseas_intent: ['I am a Volunteer for Overseas Long tour','I am a Volunteer for Overseas Long tour'],
       overseas_wish: 'I am a Volunteer for Overseas Long tour',
+      join_spouse: ''
     }
   },
   methods: {
@@ -969,8 +979,6 @@ export default {
     'text-field': TextField,
     'block-text-field': BlockTextField
   },
-  mounted: function(){
-  }
 }
 </script>
 
